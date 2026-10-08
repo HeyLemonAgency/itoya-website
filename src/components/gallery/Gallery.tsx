@@ -2,7 +2,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { useCallback, useState } from "react";
 import type { Photo } from "@/content/media";
 import { cx } from "@/lib/format";
@@ -27,9 +27,6 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
     [photos.length],
   );
 
-  // Varied proportions keep the grid editorial rather than uniform.
-  const frames = ["aspect-[3/4]", "aspect-[4/5]", "aspect-[3/4]", "aspect-[4/3]", "aspect-[3/4]", "aspect-[4/5]"];
-
   return (
     <>
       <ul className={cx("columns-2 gap-4 sm:gap-6 lg:columns-3 lg:gap-8", className)}>
@@ -43,21 +40,23 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
               }}
               className="group relative block w-full cursor-zoom-in overflow-hidden focus-visible:outline-offset-4"
             >
-              <ImageReveal
-                as="span"
-                className={cx("w-full", frames[i % frames.length])}
-                delay={(i % 3) * 0.08}
+              {/* Each photo keeps its own proportions (masonry), so nothing is cropped. */}
+              <span
+                className="block w-full"
+                style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
               >
-                <Image
-                  src={photo.src}
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 30vw, 50vw"
-                  quality={72}
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                  style={{ objectPosition: photo.position }}
-                />
-              </ImageReveal>
+                <ImageReveal as="span" className="h-full w-full" delay={(i % 3) * 0.08}>
+                  <Image
+                    src={photo.src}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 30vw, 50vw"
+                    quality={72}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                    style={{ objectPosition: photo.position }}
+                  />
+                </ImageReveal>
+              </span>
               <span className="sr-only">Agrandir : {photo.alt}</span>
             </button>
           </li>
@@ -69,7 +68,7 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
           {open ? (
             <Dialog.Portal forceMount>
               <Dialog.Overlay asChild forceMount>
-                <motion.div
+                <m.div
                   className="fixed inset-0 z-[80] bg-ink/95 backdrop-blur-sm"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -98,7 +97,7 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
 
                 <div className="relative flex min-h-0 flex-1 items-center justify-center px-[var(--gutter)]">
                   <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                    <motion.figure
+                    <m.figure
                       key={index}
                       custom={direction}
                       initial={{ opacity: 0, x: direction * 40 }}
@@ -114,13 +113,14 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
                           fill
                           sizes="100vw"
                           quality={82}
+                          loading="eager"
                           className="object-contain"
                         />
                       </div>
                       <figcaption className="mt-4 max-w-xl text-center text-[0.875rem] text-ivory/75">
                         {photos[index!].alt}
                       </figcaption>
-                    </motion.figure>
+                    </m.figure>
                   </AnimatePresence>
                 </div>
 

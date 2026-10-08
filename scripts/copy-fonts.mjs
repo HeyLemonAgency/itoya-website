@@ -10,10 +10,22 @@ const out = join(root, "src/app/fonts");
 mkdirSync(out, { recursive: true });
 
 const files = [
-  ["@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2", "cormorant-garamond-latin-500-normal.woff2"],
-  ["@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-italic.woff2", "cormorant-garamond-latin-500-italic.woff2"],
-  ["@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2", "cormorant-garamond-latin-600-normal.woff2"],
-  ["@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2", "manrope-latin-wght-normal.woff2"],
+  [
+    "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2",
+    "cormorant-garamond-latin-500-normal.woff2",
+  ],
+  [
+    "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-italic.woff2",
+    "cormorant-garamond-latin-500-italic.woff2",
+  ],
+  [
+    "@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2",
+    "cormorant-garamond-latin-600-normal.woff2",
+  ],
+  [
+    "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2",
+    "manrope-latin-wght-normal.woff2",
+  ],
 ];
 
 for (const [from, to] of files) {

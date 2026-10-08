@@ -5,7 +5,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { ArrowLink, ButtonLink } from "@/components/ui/Button";
 import { MenuBrowser } from "@/components/menu/MenuBrowser";
 import { DishPlate } from "@/components/motion/DishPlate";
-import { media } from "@/content/media";
+import { categoryPhotos, media } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "La carte",
@@ -48,7 +48,7 @@ export default function MenuPage() {
       </PageHero>
 
       <div className="bg-ivory">
-        <MenuBrowser menu={menu} />
+        <MenuBrowser menu={menu} categoryPhotos={categoryPhotos} />
         <div className="container-x pb-24 lg:pb-32">
           <p className="max-w-2xl border-t border-line pt-8 text-[0.875rem] text-muted">
             Prix en CHF. Les mentions « Végétarien » et « Végétalien » sont celles indiquées par le

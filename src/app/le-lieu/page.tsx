@@ -77,7 +77,10 @@ export default function PlacePage() {
       {/* ── Tatami rooms ───────────────────────────────────────────── */}
       <section aria-labelledby="tatami-title" className="relative bg-ink text-ivory">
         <div className="grid lg:grid-cols-2">
-          <Parallax amount={7} className="aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[44rem]">
+          <Parallax
+            amount={7}
+            className="aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[44rem]"
+          >
             <Image
               src={room.privateRoom.src}
               alt={room.privateRoom.alt}

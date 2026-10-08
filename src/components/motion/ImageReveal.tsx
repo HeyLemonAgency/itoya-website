@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 import { cx } from "@/lib/format";
 
@@ -38,9 +38,9 @@ export function ImageReveal({
   as = "div",
 }: ImageRevealProps) {
   const reduce = useReducedMotion();
-  const Outer = as === "span" ? motion.span : motion.div;
-  const Mid = as === "span" ? motion.span : motion.div;
-  const Inner = as === "span" ? motion.span : motion.div;
+  const Outer = as === "span" ? m.span : m.div;
+  const Mid = as === "span" ? m.span : m.div;
+  const Inner = as === "span" ? m.span : m.div;
 
   const curtain: Variants = {
     hidden: { clipPath: hidden[from] },

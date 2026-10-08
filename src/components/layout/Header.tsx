@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { m, useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
 import { navigation, site } from "@/content/site";
 import { cx } from "@/lib/format";
@@ -51,7 +51,7 @@ export function Header() {
           aria-label="Itoya, restaurant japonais — accueil"
         >
           <Logo
-            priority
+            preload
             className={cx(
               "transition-[width] duration-500 ease-out",
               scrolled ? "w-[78px]" : "w-[92px] lg:w-[112px]",
@@ -75,7 +75,7 @@ export function Header() {
                   >
                     {item.label}
                     {active ? (
-                      <motion.span
+                      <m.span
                         layoutId="nav-active"
                         aria-hidden
                         className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-sakura"

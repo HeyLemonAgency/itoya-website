@@ -1,0 +1,6 @@
+node_modules
+.next
+public
+docs/sources
+src/content/menu.ts
+package-lock.json

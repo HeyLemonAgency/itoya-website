@@ -193,12 +193,16 @@
    Runs in CSS from the first paint so the headline and the booking action
    never wait for JavaScript to hydrate. Motion takes over the scene itself.
    ───────────────────────────────────────────────────────────────────────── */
+/* Starts partly inside its mask and faintly visible, so the headline is
+   painted (and counted for LCP) on the very first frame. */
 @keyframes itoya-line-rise {
   from {
-    transform: translate3d(0, 108%, 0);
+    transform: translate3d(0, 62%, 0);
+    opacity: 0.02;
   }
   to {
     transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 }
 
@@ -266,6 +270,28 @@
   animation: itoya-fade 1.2s ease-out both;
 }
 
+/* Slow camera push into the canopy — transform only, runs on the compositor. */
+@keyframes itoya-drift {
+  from {
+    transform: scale(1.05) translate3d(-1.1%, 0.8%, 0);
+  }
+  to {
+    transform: scale(1.13) translate3d(1.1%, -0.8%, 0);
+  }
+}
+
+.hero-drift {
+  transform: scale(1.05) translate3d(-1.1%, 0.8%, 0);
+  animation:
+    itoya-fade 1.2s ease-out both,
+    itoya-drift 24s ease-in-out 0.6s infinite alternate;
+  will-change: transform;
+}
+
+[data-ambient="paused"] .hero-drift {
+  animation-play-state: running, paused;
+}
+
 .scroll-cue::after {
   content: "";
   position: absolute;
@@ -281,7 +307,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-line > span,
   .hero-fade,
-  .hero-media-in {
+  .hero-media-in,
+  .hero-drift {
     animation: none;
   }
   .scroll-cue::after {

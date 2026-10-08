@@ -25,10 +25,5 @@ export function cx(...parts: Array<string | false | null | undefined>): string {
 
 /** Lowercase, accent-free text for client-side menu search. */
 export function normalizeSearch(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[’']/g, " ")
-    .toLowerCase()
-    .trim();
+  return value.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[’']/g, " ").toLowerCase().trim();
 }

@@ -1,8 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { useDeferredValue, useEffect, useId, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import type { MenuCategory, MenuItem } from "@/content/types";
+import type { Photo } from "@/content/media";
 import { cx, normalizeSearch } from "@/lib/format";
 import { CloseIcon, SearchIcon } from "@/components/ui/Icons";
 import { Price, dishMeta } from "./Price";
@@ -81,7 +83,14 @@ function DishRow({ item }: { item: MenuItem }) {
   );
 }
 
-export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
+export function MenuBrowser({
+  menu,
+  categoryPhotos = {},
+}: {
+  menu: MenuCategory[];
+  /** Optional dish photo shown beside each category title. */
+  categoryPhotos?: Record<string, Photo>;
+}) {
   const [query, setQuery] = useState("");
   const deferred = useDeferredValue(query);
   const [active, setActive] = useState(menu[0]?.id);
@@ -166,7 +175,10 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
       <div className="sticky top-16 z-30 border-b border-line bg-ivory/95 backdrop-blur-md">
         <div className="container-x flex flex-col gap-0 py-2 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-3">
           <div className="flex items-center gap-2">
-            <nav aria-label="Catégories de la carte" className="-ml-[var(--gutter)] min-w-0 flex-1 lg:ml-0">
+            <nav
+              aria-label="Catégories de la carte"
+              className="-ml-[var(--gutter)] min-w-0 flex-1 lg:ml-0"
+            >
               <div
                 ref={navRef}
                 className="no-scrollbar flex gap-1 overflow-x-auto pl-[var(--gutter)] [mask-image:linear-gradient(to_right,black_85%,transparent)] lg:pl-0 lg:[mask-image:none]"
@@ -186,7 +198,7 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
                       )}
                     >
                       {isActive ? (
-                        <motion.span
+                        <m.span
                           layoutId="menu-cat"
                           aria-hidden
                           className="absolute inset-0 -z-10 rounded-full bg-ink"
@@ -219,7 +231,9 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
               )}
             >
               {searchShown ? <CloseIcon size={18} /> : <SearchIcon size={18} />}
-              <span className="sr-only">{searchShown ? "Fermer la recherche" : "Rechercher un plat"}</span>
+              <span className="sr-only">
+                {searchShown ? "Fermer la recherche" : "Rechercher un plat"}
+              </span>
             </button>
           </div>
 
@@ -279,7 +293,7 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
       <div className="container-x pb-24 lg:pb-32">
         <AnimatePresence initial={false}>
           {searching ? (
-            <motion.p
+            <m.p
               key="results"
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
@@ -289,7 +303,11 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
               {resultCount === 0 ? (
                 <>
                   Aucun plat ne correspond à « {query.trim()} ».{" "}
-                  <button type="button" onClick={() => setQuery("")} className="link-underline text-ink">
+                  <button
+                    type="button"
+                    onClick={() => setQuery("")}
+                    className="link-underline text-ink"
+                  >
                     Afficher toute la carte
                   </button>
                 </>
@@ -298,7 +316,7 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
                   {resultCount} plat{resultCount > 1 ? "s" : ""} pour « {query.trim()} »
                 </>
               )}
-            </motion.p>
+            </m.p>
           ) : null}
         </AnimatePresence>
 
@@ -309,13 +327,27 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
             aria-labelledby={`${category.id}-title`}
             className="scroll-mt-48 pt-16 lg:scroll-mt-40 lg:pt-24"
           >
-            <header className="grid gap-4 border-b border-ink pb-6 lg:grid-cols-12 lg:items-end">
-              <h2 id={`${category.id}-title`} className="display-lg text-ink lg:col-span-6">
-                {category.title}
-              </h2>
-              <p className="max-w-md text-muted lg:col-span-5 lg:col-start-8 lg:justify-self-end lg:text-right">
+            <header className="grid grid-cols-[1fr_auto] items-end gap-x-6 gap-y-3 border-b border-ink pb-6 lg:grid-cols-12">
+              <div className="lg:col-span-6">
+                <h2 id={`${category.id}-title`} className="display-lg text-ink">
+                  {category.title}
+                </h2>
+                <p className="mt-3 max-w-md text-muted lg:hidden">{category.intro}</p>
+              </div>
+              <p className="hidden max-w-sm text-right text-muted lg:col-span-4 lg:col-start-7 lg:block lg:justify-self-end">
                 {category.intro}
               </p>
+              {categoryPhotos[category.id] ? (
+                <Image
+                  src={categoryPhotos[category.id].src}
+                  alt=""
+                  width={categoryPhotos[category.id].width}
+                  height={categoryPhotos[category.id].height}
+                  sizes="(min-width: 1024px) 180px, 120px"
+                  quality={80}
+                  className="-mb-2 h-auto max-h-28 w-28 object-contain [filter:drop-shadow(0_16px_16px_rgba(58,47,34,0.22))] lg:col-span-2 lg:col-start-11 lg:max-h-36 lg:w-40 lg:justify-self-end"
+                />
+              ) : null}
             </header>
 
             <div className="mt-4 lg:columns-2 lg:gap-x-16">
@@ -324,7 +356,7 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
                   key={section.id}
                   id={`${category.id}-${section.id}`}
                   aria-labelledby={`${category.id}-${section.id}-title`}
-                  className="break-inside-avoid pt-10"
+                  className={cx("pt-10", category.sections.length > 1 && "break-inside-avoid")}
                 >
                   <div className="flex items-baseline justify-between gap-4">
                     <h3
@@ -337,7 +369,7 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
                       <p className="text-[0.8125rem] text-muted">{section.note}</p>
                     ) : null}
                   </div>
-                  <ul className="mt-2">
+                  <ul className="mt-2 [&>li]:break-inside-avoid">
                     {section.items.map((item) => (
                       <DishRow key={item.id} item={item} />
                     ))}

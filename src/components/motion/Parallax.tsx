@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef, type ReactNode } from "react";
 import { cx } from "@/lib/format";
 
@@ -28,7 +28,7 @@ export function Parallax({
 
   return (
     <div ref={ref} className={cx("relative overflow-hidden", className)}>
-      <motion.div
+      <m.div
         className="absolute inset-x-0"
         style={{
           top: `-${amount}%`,
@@ -37,7 +37,7 @@ export function Parallax({
         }}
       >
         {children}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

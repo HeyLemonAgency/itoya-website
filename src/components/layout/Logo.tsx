@@ -9,11 +9,11 @@ import { cx } from "@/lib/format";
 export function Logo({
   tone = "ivory",
   className,
-  priority = false,
+  preload = false,
 }: {
   tone?: "ivory" | "ink";
   className?: string;
-  priority?: boolean;
+  preload?: boolean;
 }) {
   return (
     <Image
@@ -21,7 +21,7 @@ export function Logo({
       alt="Itoya 伊藤屋"
       width={1340}
       height={650}
-      priority={priority}
+      preload={preload}
       unoptimized
       className={cx("h-auto select-none", className)}
     />

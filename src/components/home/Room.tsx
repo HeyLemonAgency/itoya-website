@@ -67,7 +67,9 @@ export function Room() {
           {details.map(({ photo, caption }, i) => (
             <li
               key={photo.src}
-              className={i === 2 ? "col-span-2 lg:col-span-1 lg:mt-24" : i === 1 ? "lg:mt-12" : undefined}
+              className={
+                i === 2 ? "col-span-2 lg:col-span-1 lg:mt-24" : i === 1 ? "lg:mt-12" : undefined
+              }
             >
               <figure>
                 <ImageReveal

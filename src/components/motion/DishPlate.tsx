@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import type { Photo } from "@/content/media";
 import { cx } from "@/lib/format";
@@ -50,7 +50,7 @@ export function DishPlate({
           contact,
         )}
       />
-      <motion.div
+      <m.div
         data-reveal=""
         className="relative"
         initial={{ opacity: 0, y: 36, rotate: -5, scale: 0.97 }}
@@ -58,7 +58,7 @@ export function DishPlate({
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 1.1, delay, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.div style={{ rotate: turnWithScroll && !reduce ? rotate : 0 }}>
+        <m.div style={{ rotate: turnWithScroll && !reduce ? rotate : 0 }}>
           <Image
             src={photo.src}
             alt={photo.alt}
@@ -71,8 +71,8 @@ export function DishPlate({
               imageClassName,
             )}
           />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </div>
   );
 }

@@ -27,25 +27,27 @@ export default function FormulasPage() {
         accent="le menu dégustation."
         aside={
           <div className="mx-auto flex w-[86%] items-end justify-between gap-6">
-            {[media.dishes.nigiriSaumon, media.dishes.temakiCalifornia, media.dishes.spicyTunaGunkan].map(
-              (photo, i) => (
-                <DishPlate
-                  key={photo.src}
-                  photo={photo}
-                  sizes="14vw"
-                  shadow="none"
-                  delay={i * 0.12}
-                  className="w-1/3"
-                  imageClassName="[filter:drop-shadow(0_26px_26px_rgba(0,0,0,0.6))]"
-                />
-              ),
-            )}
+            {[
+              media.dishes.nigiriSaumon,
+              media.dishes.temakiCalifornia,
+              media.dishes.spicyTunaGunkan,
+            ].map((photo, i) => (
+              <DishPlate
+                key={photo.src}
+                photo={photo}
+                sizes="14vw"
+                shadow="none"
+                delay={i * 0.12}
+                className="w-1/3"
+                imageClassName="[filter:drop-shadow(0_26px_26px_rgba(0,0,0,0.6))]"
+              />
+            ))}
           </div>
         }
         lede={
           <p>
-            Trois tours de plats japonais, commandés sur tablette directement à votre table, à quinze
-            minutes d’intervalle. Quatre plats par tour le midi, cinq le soir.
+            Trois tours de plats japonais, commandés sur tablette directement à votre table, à
+            quinze minutes d’intervalle. Quatre plats par tour le midi, cinq le soir.
           </p>
         }
       >
@@ -65,10 +67,15 @@ export default function FormulasPage() {
           <ol className="grid gap-10 sm:grid-cols-3 lg:col-span-7 lg:col-start-6">
             {tabletSteps.map((step, i) => (
               <Reveal as="li" key={step.title} index={i} className="border-t border-ink pt-5">
-                <p aria-hidden className="font-serif text-[2.5rem] leading-none text-sakura-deep tabular">
+                <p
+                  aria-hidden
+                  className="font-serif text-[2.5rem] leading-none text-sakura-deep tabular"
+                >
                   0{i + 1}
                 </p>
-                <h3 className="mt-4 font-serif text-[1.5rem] leading-tight text-ink">{step.title}</h3>
+                <h3 className="mt-4 font-serif text-[1.5rem] leading-tight text-ink">
+                  {step.title}
+                </h3>
                 <p className="mt-2 text-muted">{step.text}</p>
               </Reveal>
             ))}
@@ -100,9 +107,7 @@ export default function FormulasPage() {
 
               <div className="lg:col-span-7">
                 <Reveal>
-                  <h3 className="display-md">
-                    {formula.highlight ?? "Les plats au choix"}
-                  </h3>
+                  <h3 className="display-md">{formula.highlight ?? "Les plats au choix"}</h3>
                   <p className="mt-3 max-w-xl text-ivory/70">
                     {formula.partialList
                       ? `Une sélection de ${dishCount} plats proposés pour la formule du soir.`
@@ -119,7 +124,10 @@ export default function FormulasPage() {
                       <ul className="mt-4 space-y-1.5 text-[0.9375rem] text-ivory/85">
                         {group.dishes.map((dish) => (
                           <li key={dish} className="flex gap-3">
-                            <span aria-hidden className="mt-[0.75em] h-px w-2.5 shrink-0 bg-sakura/70" />
+                            <span
+                              aria-hidden
+                              className="mt-[0.75em] h-px w-2.5 shrink-0 bg-sakura/70"
+                            />
                             {dish}
                           </li>
                         ))}

@@ -2,7 +2,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import Link from "next/link";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { useState } from "react";
 import { fullAddress, navigation, site } from "@/content/site";
 import { cx, formatService } from "@/lib/format";
@@ -46,7 +46,7 @@ export function MobileMenu({ pathname }: { pathname: string }) {
         {open ? (
           <Dialog.Portal forceMount>
             <Dialog.Overlay asChild forceMount>
-              <motion.div
+              <m.div
                 className="fixed inset-0 z-[60] bg-ink/60 backdrop-blur-sm"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -55,7 +55,7 @@ export function MobileMenu({ pathname }: { pathname: string }) {
               />
             </Dialog.Overlay>
             <Dialog.Content asChild forceMount aria-describedby={undefined}>
-              <motion.div
+              <m.div
                 className="grain fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-ink text-ivory"
                 initial={{ opacity: 0, y: -16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -64,7 +64,12 @@ export function MobileMenu({ pathname }: { pathname: string }) {
               >
                 <Dialog.Title className="sr-only">Menu</Dialog.Title>
                 <div className="container-x flex h-[4.75rem] shrink-0 items-center justify-between">
-                  <Link href="/" onClick={() => setOpen(false)} aria-label="Accueil" className="-m-2 p-2">
+                  <Link
+                    href="/"
+                    onClick={() => setOpen(false)}
+                    aria-label="Accueil"
+                    className="-m-2 p-2"
+                  >
                     <Logo className="w-[92px]" />
                   </Link>
                   <Dialog.Close asChild>
@@ -78,12 +83,15 @@ export function MobileMenu({ pathname }: { pathname: string }) {
                   </Dialog.Close>
                 </div>
 
-                <nav aria-label="Navigation mobile" className="container-x relative z-10 flex-1 pt-6">
+                <nav
+                  aria-label="Navigation mobile"
+                  className="container-x relative z-10 flex-1 pt-6"
+                >
                   <ul className="border-t border-ivory/12">
                     {links.map((item, i) => {
                       const active = pathname === item.href;
                       return (
-                        <motion.li
+                        <m.li
                           key={item.href}
                           className="border-b border-ivory/12"
                           initial={{ opacity: 0, y: 14 }}
@@ -101,13 +109,13 @@ export function MobileMenu({ pathname }: { pathname: string }) {
                               0{i + 1}
                             </span>
                           </Link>
-                        </motion.li>
+                        </m.li>
                       );
                     })}
                   </ul>
                 </nav>
 
-                <motion.div
+                <m.div
                   className="container-x relative z-10 shrink-0 pb-[calc(1.75rem+env(safe-area-inset-bottom))] pt-8"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -131,7 +139,9 @@ export function MobileMenu({ pathname }: { pathname: string }) {
                   </div>
                   <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 text-[0.875rem] text-ivory/70">
                     <div>
-                      <dt className="eyebrow mb-1 text-[0.625rem] text-brass">{site.hours.summary}</dt>
+                      <dt className="eyebrow mb-1 text-[0.625rem] text-brass">
+                        {site.hours.summary}
+                      </dt>
                       {site.hours.services.map((s) => (
                         <dd key={s.label} className="tabular">
                           {formatService(s.open, s.close)}
@@ -161,8 +171,8 @@ export function MobileMenu({ pathname }: { pathname: string }) {
                       );
                     })}
                   </ul>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             </Dialog.Content>
           </Dialog.Portal>
         ) : null}

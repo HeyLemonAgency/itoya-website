@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { m, useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import { site } from "@/content/site";
 import { PhoneIcon } from "@/components/ui/Icons";
@@ -41,7 +41,7 @@ export function MobileBookingBar() {
   const visible = pastFold && !typing;
 
   return (
-    <motion.div
+    <m.div
       className="fixed inset-x-0 bottom-0 z-40 lg:hidden"
       initial={false}
       animate={{ y: visible ? "0%" : "110%", opacity: visible ? 1 : 0 }}
@@ -66,6 +66,6 @@ export function MobileBookingBar() {
           </Link>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

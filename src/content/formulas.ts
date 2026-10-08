@@ -242,8 +242,7 @@ export const formulas: Formula[] = [
   },
 ];
 
-export const formulaById = (id: Formula["id"]) =>
-  formulas.find((f) => f.id === id)!;
+export const formulaById = (id: Formula["id"]) => formulas.find((f) => f.id === id)!;
 
 /** Lowest and highest supplement, for compact summaries. */
 export const supplementRange = (f: Formula) => {

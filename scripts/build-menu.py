@@ -266,7 +266,7 @@ def main(path):
                 item["name"] = typo(fix.get("name", name.strip()))
                 if fix.get("japanese"):
                     item["japanese"] = fix["japanese"]
-                d = fix.get("description", desc.strip())
+                d = "" if fix.get("lines") else fix.get("description", desc.strip())
                 if d:
                     item["description"] = typo(d)
                 if fix.get("lines") or lines:

@@ -75,7 +75,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div aria-hidden className="pointer-events-none mt-20 flex justify-center opacity-[0.08] lg:mt-24">
+        <div
+          aria-hidden
+          className="pointer-events-none mt-20 flex justify-center opacity-[0.05] lg:mt-24"
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/brand/itoya-logo-ivory.svg"

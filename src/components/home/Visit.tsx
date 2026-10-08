@@ -1,7 +1,14 @@
 import { fullAddress, mailtoBooking, site } from "@/content/site";
 import { formatService } from "@/lib/format";
 import { ButtonLink } from "@/components/ui/Button";
-import { BusIcon, ClockIcon, MailIcon, ParkingIcon, PhoneIcon, PinIcon } from "@/components/ui/Icons";
+import {
+  BusIcon,
+  ClockIcon,
+  MailIcon,
+  ParkingIcon,
+  PhoneIcon,
+  PinIcon,
+} from "@/components/ui/Icons";
 import { Reveal } from "@/components/motion/Reveal";
 
 /** Practical information block, shared by the homepage and /contact. */
@@ -13,87 +20,81 @@ export function PracticalInfo({ tone = "light" }: { tone?: "light" | "dark" }) {
   const link = tone === "light" ? "hover:text-sakura-deep" : "hover:text-sakura-pale";
 
   return (
-    <dl className={`divide-y ${tone === "light" ? "divide-line" : "divide-ivory/12"} border-y ${rule}`}>
-      <div className="grid grid-cols-[1.75rem_1fr] gap-x-4 py-6">
-        <ClockIcon className={`mt-1 ${label}`} />
-        <div>
-          <dt className={`eyebrow text-[0.6875rem] ${label}`}>Horaires</dt>
-          <dd className={`mt-2 ${strong}`}>{site.hours.summary}</dd>
-          {site.hours.services.map((s) => (
-            <dd key={s.label} className={`flex justify-between gap-6 tabular ${muted}`}>
-              <span>{s.label}</span>
-              <span>{formatService(s.open, s.close)}</span>
-            </dd>
-          ))}
-        </div>
+    <dl
+      className={`divide-y ${tone === "light" ? "divide-line" : "divide-ivory/12"} border-y ${rule}`}
+    >
+      <div className="relative py-6 pl-11">
+        <ClockIcon className={`absolute top-7 left-0 ${label}`} />
+        <dt className={`eyebrow text-[0.6875rem] ${label}`}>Horaires</dt>
+        <dd className={`mt-2 ${strong}`}>{site.hours.summary}</dd>
+        {site.hours.services.map((s) => (
+          <dd key={s.label} className={`flex justify-between gap-6 tabular ${muted}`}>
+            <span>{s.label}</span>
+            <span>{formatService(s.open, s.close)}</span>
+          </dd>
+        ))}
       </div>
-      <div className="grid grid-cols-[1.75rem_1fr] gap-x-4 py-6">
-        <PinIcon className={`mt-1 ${label}`} />
-        <div>
-          <dt className={`eyebrow text-[0.6875rem] ${label}`}>Adresse</dt>
-          <dd className={`mt-2 ${strong}`}>
-            <address className="not-italic">
-              {site.address.street}
-              <br />
-              {site.address.postalCode} {site.address.locality}, {site.address.country}
-            </address>
-          </dd>
-          <dd className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-[0.875rem]">
-            <a
-              href={site.maps.directions}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`link-underline ${strong} ${link}`}
-            >
-              Itinéraire Google Maps
-              <span className="sr-only"> vers {fullAddress} (nouvel onglet)</span>
-            </a>
-            <a
-              href={site.maps.apple}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`link-underline ${strong} ${link}`}
-            >
-              Plans (Apple)
-              <span className="sr-only"> (nouvel onglet)</span>
-            </a>
-          </dd>
-        </div>
+      <div className="relative py-6 pl-11">
+        <PinIcon className={`absolute top-7 left-0 ${label}`} />
+        <dt className={`eyebrow text-[0.6875rem] ${label}`}>Adresse</dt>
+        <dd className={`mt-2 ${strong}`}>
+          <address className="not-italic">
+            {site.address.street}
+            <br />
+            {site.address.postalCode} {site.address.locality}, {site.address.country}
+          </address>
+        </dd>
+        <dd className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-[0.875rem]">
+          <a
+            href={site.maps.directions}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`link-underline ${strong} ${link}`}
+          >
+            Itinéraire Google Maps
+            <span className="sr-only"> vers {fullAddress} (nouvel onglet)</span>
+          </a>
+          <a
+            href={site.maps.apple}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`link-underline ${strong} ${link}`}
+          >
+            Plans (Apple)
+            <span className="sr-only"> (nouvel onglet)</span>
+          </a>
+        </dd>
       </div>
-      <div className="grid grid-cols-[1.75rem_1fr] gap-x-4 py-6">
-        <BusIcon className={`mt-1 ${label}`} />
-        <div>
-          <dt className={`eyebrow text-[0.6875rem] ${label}`}>Accès</dt>
-          <dd className={`mt-2 ${strong}`}>{site.access.bus}</dd>
-          <dd className={`mt-1 flex items-center gap-2 ${muted}`}>
-            <ParkingIcon size={16} className="shrink-0" />
-            {site.access.parking}
-            {site.access.showParkingConditions
-              ? ` — ${site.access.parkingFreeHours} h de parking gratuit`
-              : null}
-          </dd>
-        </div>
+      <div className="relative py-6 pl-11">
+        <BusIcon className={`absolute top-7 left-0 ${label}`} />
+        <dt className={`eyebrow text-[0.6875rem] ${label}`}>Accès</dt>
+        <dd className={`mt-2 ${strong}`}>{site.access.bus}</dd>
+        <dd className={`mt-1 flex items-center gap-2 ${muted}`}>
+          <ParkingIcon size={16} className="shrink-0" />
+          {site.access.parking}
+          {site.access.showParkingConditions
+            ? ` — ${site.access.parkingFreeHours} h de parking gratuit`
+            : null}
+        </dd>
       </div>
-      <div className="grid grid-cols-[1.75rem_1fr] gap-x-4 py-6">
-        <PhoneIcon className={`mt-1 ${label}`} />
-        <div>
-          <dt className={`eyebrow text-[0.6875rem] ${label}`}>Téléphone & e-mail</dt>
-          <dd className="mt-2">
-            <a href={site.phone.href} className={`link-quiet tabular ${strong}`}>
-              {site.phone.display}
-            </a>
-          </dd>
-          <dd>
-            <a href={site.mobile.href} className={`link-quiet tabular ${muted}`}>
-              {site.mobile.display}
-            </a>
-          </dd>
-          <dd className="mt-1">
-            <a href={`mailto:${site.email}`} className={`link-quiet ${muted}`}>
-              {site.email}
-            </a>
-          </dd>
-        </div>
+      <div className="relative py-6 pl-11">
+        <PhoneIcon className={`absolute top-7 left-0 ${label}`} />
+        <dt className={`eyebrow text-[0.6875rem] ${label}`}>Téléphone & e-mail</dt>
+        <dd className="mt-2">
+          <a href={site.phone.href} className={`link-quiet tabular ${strong}`}>
+            {site.phone.display}
+          </a>
+        </dd>
+        <dd>
+          <a href={site.mobile.href} className={`link-quiet tabular ${muted}`}>
+            {site.mobile.display}
+          </a>
+        </dd>
+        <dd className="mt-1">
+          <a href={`mailto:${site.email}`} className={`link-quiet ${muted}`}>
+            {site.email}
+          </a>
+        </dd>
       </div>
     </dl>
   );
@@ -138,7 +139,12 @@ export function Visit() {
           </Reveal>
           <Reveal index={4}>
             <div className="mt-10 flex flex-wrap gap-3">
-              <ButtonLink href={site.phone.href} variant="ink" size="lg" icon={<PhoneIcon size={16} />}>
+              <ButtonLink
+                href={site.phone.href}
+                variant="ink"
+                size="lg"
+                icon={<PhoneIcon size={16} />}
+              >
                 Réserver par téléphone
               </ButtonLink>
               <ButtonLink

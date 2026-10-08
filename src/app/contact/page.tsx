@@ -138,7 +138,12 @@ export default function ContactPage() {
             <ButtonLink href="/reservation" variant="ivory" size="lg">
               Réserver une table
             </ButtonLink>
-            <ButtonLink href={mailtoContact} variant="ghost-light" size="lg" icon={<MailIcon size={16} />}>
+            <ButtonLink
+              href={mailtoContact}
+              variant="ghost-light"
+              size="lg"
+              icon={<MailIcon size={16} />}
+            >
               Écrire un e-mail
             </ButtonLink>
           </div>

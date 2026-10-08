@@ -48,15 +48,7 @@ export const site = {
       { label: "Midi", open: "11:30", close: "15:00" },
       { label: "Soir", open: "18:00", close: "23:00" },
     ],
-    days: [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ],
+    days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     note: "Horaires des jours fériés : renseignez-vous par téléphone.",
   },
 

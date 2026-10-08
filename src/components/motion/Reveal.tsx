@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "motion/react";
+import { m, type HTMLMotionProps } from "motion/react";
 import type { ReactNode } from "react";
 
 type RevealProps = {
@@ -24,7 +24,7 @@ export function Reveal({
   className,
   ...rest
 }: RevealProps) {
-  const Component = motion[as] as typeof motion.div;
+  const Component = m[as] as typeof m.div;
   return (
     <Component
       data-reveal=""

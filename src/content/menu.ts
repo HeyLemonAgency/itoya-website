@@ -1179,7 +1179,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-10-vegetarien",
             "name": "Bento 10 · Végétarien",
-            "description": "Miso Soupe, salade, 3 raviolis au légume, Udon sauté au légume",
             "lines": [
               "Soupe miso",
               "Salade",
@@ -1195,7 +1194,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-11-tempura",
             "name": "Bento 11 · Tempura",
-            "description": "Miso soupe, tempura légumes, 12Maki, salade",
             "lines": [
               "Soupe miso",
               "Tempura de légumes",
@@ -1211,7 +1209,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-12-porc-frit",
             "name": "Bento 12 · Porc frit",
-            "description": "Miso soupe, salade, le riz sauté au bœuf, porc frit, fruits",
             "lines": [
               "Soupe miso",
               "Salade",
@@ -1225,7 +1222,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-13-udon-poulet",
             "name": "Bento 13 · Udon poulet",
-            "description": "Miso soupe, salade, 3 raviolis au poulet frits, Udon sauté au poulet",
             "lines": [
               "Soupe miso",
               "Salade",
@@ -1238,7 +1234,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-14-poulet-frit",
             "name": "Bento 14 · Poulet frit",
-            "description": "Miso soupe, salade, poulet frit, riz, fruits",
             "lines": [
               "Soupe miso",
               "Salade",
@@ -1252,7 +1247,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-15-canard-laque",
             "name": "Bento 15 · Canard laqué",
-            "description": "Miso soupe, salade, canard laqué, riz, fruit",
             "lines": [
               "Soupe miso",
               "Salade",
@@ -1266,7 +1260,6 @@ export const menu: MenuCategory[] = [
           {
             "id": "bento-16-poulet-croustillant",
             "name": "Bento 16 · Poulet croustillant",
-            "description": "1 Salade, Poulet Croustillant, Riz, Fruits",
             "lines": [
               "1 salade",
               "Poulet croustillant",

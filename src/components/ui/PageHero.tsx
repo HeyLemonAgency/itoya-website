@@ -39,12 +39,13 @@ export function PageHero({
       )}
     >
       {photo ? (
-        <div aria-hidden className="hero-media-in absolute inset-0 -z-10">
+        <div aria-hidden className="absolute inset-0 -z-10">
           <Image
             src={photo.src}
             alt=""
             fill
-            priority
+            preload
+            fetchPriority="high"
             sizes="100vw"
             quality={78}
             className="object-cover"

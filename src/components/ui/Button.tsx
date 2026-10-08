@@ -15,8 +15,7 @@ const variants: Record<Variant, string> = {
   // Primary on light surfaces
   ink: "bg-ink text-ivory hover:bg-forest",
   // Secondary on light surfaces
-  "ghost-dark":
-    "text-ink ring-1 ring-inset ring-ink/30 hover:ring-ink hover:bg-ink/[0.04]",
+  "ghost-dark": "text-ink ring-1 ring-inset ring-ink/30 hover:ring-ink hover:bg-ink/[0.04]",
 };
 
 type BaseProps = {
@@ -48,9 +47,7 @@ export function ButtonLink({
   const classes = cx(
     "group/btn relative inline-flex items-center justify-center gap-3 rounded-[2px] font-sans font-semibold uppercase tracking-[0.16em] whitespace-nowrap",
     "transition-[background-color,color,box-shadow] duration-200 ease-out",
-    size === "lg"
-      ? "min-h-14 px-7 text-[0.8125rem]"
-      : "min-h-12 px-5 text-[0.75rem]",
+    size === "lg" ? "min-h-14 px-7 text-[0.8125rem]" : "min-h-12 px-5 text-[0.75rem]",
     variants[variant],
     className,
   );

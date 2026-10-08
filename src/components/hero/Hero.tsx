@@ -2,15 +2,13 @@
 
 import { getImageProps } from "next/image";
 import {
-  animate,
-  motion,
+  m,
   useInView,
   useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
-  type AnimationPlaybackControls,
 } from "motion/react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { media } from "@/content/media";
@@ -29,7 +27,8 @@ const line = (i: number) => ({ "--i": i }) as CSSProperties;
  * pure CSS so nothing waits for hydration.
  *
  * Then Motion adds, in layers:
- *   1. a very slow push-in / drift through the blossom canopy (pausable),
+ *   1. a very slow push-in / drift through the blossom canopy (pausable;
+ *      compositor-only CSS, so it costs no main-thread work),
  *   2. a small pointer depth response on fine-pointer desktops,
  *   3. on scroll, the scene sinks behind the next section while the copy lifts.
  * All of it is disabled for reduced motion; the drift also stops when the hero
@@ -40,7 +39,6 @@ const line = (i: number) => ({ "--i": i }) as CSSProperties;
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const driftControls = useRef<AnimationPlaybackControls | null>(null);
   const reduce = useReducedMotion();
 
   const [paused, setPaused] = useState(false);
@@ -61,33 +59,11 @@ export function Hero() {
   const copyOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const veil = useTransform(scrollYProgress, [0, 1], [0, 0.65]);
 
-  /* ── Ambient drift (slow camera push into the canopy) ───────────────── */
-  const drift = useMotionValue(0);
-  const driftScale = useTransform(drift, [0, 1], [1.05, 1.13]);
-  const driftX = useTransform(drift, [0, 1], ["-1.1%", "1.1%"]);
-  const driftY = useTransform(drift, [0, 1], ["0.8%", "-0.8%"]);
-
-  useEffect(() => {
-    if (reduce) return;
-    const controls = animate(drift, [0, 1], {
-      duration: 24,
-      ease: "easeInOut",
-      repeat: Infinity,
-      repeatType: "mirror",
-    });
-    driftControls.current = controls;
-    return () => {
-      controls.stop();
-      driftControls.current = null;
-    };
-  }, [reduce, drift]);
-
-  useEffect(() => {
-    const controls = driftControls.current;
-    if (!controls) return;
-    if (running) controls.play();
-    else controls.pause();
-  }, [running]);
+  /* ── Ambient drift ───────────────────────────────────────────────────
+     The slow push into the canopy is a compositor-only CSS animation
+     (.hero-drift in globals.css). It pauses through data-ambient below —
+     pause button, hero off screen, tab hidden — and is off for reduced
+     motion. No JavaScript runs per frame for it.                         */
 
   /* ── Pointer depth (fine pointers only) ─────────────────────────────── */
   const pointerX = useMotionValue(0);
@@ -124,7 +100,8 @@ export function Hero() {
   const video = media.hero.video;
   useEffect(() => {
     if (!video || reduce) return;
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
     if (connection?.saveData) return;
     if (!window.matchMedia("(min-width: 768px)").matches) return;
     // Let the poster and the rest of the page settle first.
@@ -169,15 +146,12 @@ export function Hero() {
       className="relative isolate flex min-h-[max(100svh,38rem)] flex-col overflow-hidden bg-ink text-ivory"
     >
       {/* ── Scene ─────────────────────────────────────────────────────── */}
-      <motion.div
+      <m.div
         className="absolute inset-0 -z-20 origin-top"
         style={{ y: reduce ? 0 : sceneY, scale: reduce ? 1 : sceneScale }}
       >
-        <motion.div className="absolute -inset-[3%]" style={{ x: springX, y: springY }}>
-          <motion.div
-            className="hero-media-in absolute inset-0"
-            style={{ scale: driftScale, x: driftX, y: driftY }}
-          >
+        <m.div className="absolute -inset-[3%]" style={{ x: springX, y: springY }}>
+          <div className="hero-drift absolute inset-0">
             <picture>
               <source media="(min-width: 768px)" srcSet={desktopSrcSet} sizes="100vw" />
               <img
@@ -209,9 +183,9 @@ export function Hero() {
                 <source src={video.mp4} type="video/mp4" />
               </video>
             ) : null}
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </m.div>
+      </m.div>
 
       {/* ── Light & legibility ────────────────────────────────────────── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
@@ -226,16 +200,16 @@ export function Hero() {
         {/* vignette */}
         <div className="absolute inset-0 shadow-[inset_0_0_180px_40px_rgba(10,11,9,0.55)]" />
         {/* deepen as the next section arrives */}
-        <motion.div className="absolute inset-0 bg-ink" style={{ opacity: reduce ? 0 : veil }} />
+        <m.div className="absolute inset-0 bg-ink" style={{ opacity: reduce ? 0 : veil }} />
       </div>
       <div aria-hidden className="grain pointer-events-none absolute inset-0 -z-10" />
 
       {/* ── Copy ──────────────────────────────────────────────────────── */}
-      <motion.div
+      <m.div
         className="container-x relative flex flex-1 flex-col justify-end pt-36 pb-28 sm:pb-32 lg:pb-40"
         style={{ y: reduce ? 0 : copyY, opacity: copyOpacity }}
       >
-        <motion.div style={{ x: copyPX, y: copyPY }} className="max-w-[64rem]">
+        <m.div style={{ x: copyPX, y: copyPY }} className="max-w-[64rem]">
           <p className="eyebrow hero-fade flex items-center gap-4 text-ivory/85" style={line(0)}>
             <span aria-hidden className="h-px w-10 bg-sakura" />
             Restaurant japonais · Crissier
@@ -255,10 +229,7 @@ export function Hero() {
             </span>
           </h1>
 
-          <p
-            className="lede hero-fade mt-7 max-w-[30rem] text-ivory/85 lg:mt-9"
-            style={line(2)}
-          >
+          <p className="lede hero-fade mt-7 max-w-[30rem] text-ivory/85 lg:mt-9" style={line(2)}>
             Sushis, teppanyaki et instants à partager, dans une atmosphère singulière à Crissier.
           </p>
 
@@ -276,8 +247,8 @@ export function Hero() {
               Découvrir la carte
             </ButtonLink>
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       {/* ── Practical strip ───────────────────────────────────────────── */}
       <div className="hero-fade absolute inset-x-0 bottom-0 z-10" style={line(5)}>

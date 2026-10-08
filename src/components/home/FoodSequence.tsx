@@ -58,7 +58,12 @@ function Caption({ feature, size }: { feature: Feature; size: "lg" | "sm" }) {
         {item.name}
       </h3>
       {details ? (
-        <p className={cx("mt-3 text-muted", size === "lg" ? "lede max-w-[26rem]" : "text-[0.9375rem]")}>
+        <p
+          className={cx(
+            "mt-3 text-muted",
+            size === "lg" ? "lede max-w-[26rem]" : "text-[0.9375rem]",
+          )}
+        >
           {details}
         </p>
       ) : null}
@@ -73,7 +78,10 @@ function Caption({ feature, size }: { feature: Feature; size: "lg" | "sm" }) {
           size === "lg" ? "text-[2.25rem] leading-none" : "text-[1.625rem] leading-none",
         )}
       >
-        <span className="font-sans text-[0.6875rem] font-semibold tracking-[0.14em] text-muted" aria-hidden>
+        <span
+          className="font-sans text-[0.6875rem] font-semibold tracking-[0.14em] text-muted"
+          aria-hidden
+        >
           CHF
         </span>
         <Price item={item} />
@@ -134,7 +142,9 @@ export function FoodSequence() {
               <Reveal
                 distance={16}
                 className={cx(
-                  i % 2 === 0 ? "lg:col-span-5 lg:col-start-8" : "lg:order-1 lg:col-span-5 lg:col-start-1",
+                  i % 2 === 0
+                    ? "lg:col-span-5 lg:col-start-8"
+                    : "lg:order-1 lg:col-span-5 lg:col-start-1",
                 )}
               >
                 <Caption feature={feature} size="lg" />

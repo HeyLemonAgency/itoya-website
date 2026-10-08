@@ -16,7 +16,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/reservation" },
 };
 
-const checklist = ["La date", "L’heure, midi ou soir", "Le nombre de personnes", "Votre nom et votre téléphone"];
+const checklist = [
+  "La date",
+  "L’heure, midi ou soir",
+  "Le nombre de personnes",
+  "Votre nom et votre téléphone",
+];
 
 export default function ReservationPage() {
   return (
@@ -90,7 +95,8 @@ export default function ReservationPage() {
               </p>
               <h2 className="display-md mt-6 text-ink">Écrivez-nous.</h2>
               <p className="mt-4 text-muted">
-                Le bouton ouvre votre messagerie avec un modèle à compléter. Pensez à indiquer&nbsp;:
+                Le bouton ouvre votre messagerie avec un modèle à compléter. Pensez à
+                indiquer&nbsp;:
               </p>
               <ul className="mt-5 space-y-2 text-ink">
                 {checklist.map((item) => (
@@ -138,11 +144,16 @@ export default function ReservationPage() {
                     {f.title} · {f.rounds} × {f.dishesPerRound} plats
                   </p>
                   <p className="mt-2 text-muted tabular">
-                    {f.prices.map((p) => `CHF ${formatPrice(p.amount)} ${p.label.toLowerCase()}`).join(" · ")}
+                    {f.prices
+                      .map((p) => `CHF ${formatPrice(p.amount)} ${p.label.toLowerCase()}`)
+                      .join(" · ")}
                   </p>
                   <span className="mt-4 inline-flex items-center gap-2 text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-ink">
                     Détails
-                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    <ArrowRight
+                      size={16}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
                   </span>
                 </Link>
               </Reveal>

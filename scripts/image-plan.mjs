@@ -27,9 +27,9 @@ export const sources = {
   teppanBoeuf: "394bef_c7eaefda8ba54cf59faa9e5c7cd196f5~mv2.png", // N°100
   teppanStJacques: "394bef_61bebb7edac44f9da93426f6ae2594e0~mv2.png", // N°108
   tempura: "394bef_d8447f18ed7147be995d7221cddf597d~mv2.png", // N°29, 777×741
-  udonOlives: "394bef_5a4debe02188490eaeb1f6a6eb096290~mv2.png", // N°121
   chawanmushi: "394bef_4ea472b20def44acb58f432c54a9c188~mv2.png", // N°25
   coupeItoya: "394bef_dea06ee2d22b4a5da754172dce35d6e5~mv2.png", // Coupe de glace Itoya
+  bento7: "394bef_563e96af29e641ecba3d77cbbdd65b85~mv2.png", // Bento 7
   nigiriEbi: "394bef_bcb069de827a4837bd4e9935df2b84a8~mv2.png", // N°53
   nigiriOmelette: "394bef_cecb8c0360114cb298ad0fae81212e02~mv2.png", // N°58
   gunkanThonCuit: "394bef_3f2e143e0f3f4fe48fd7bec4a26eb88f~mv2.png", // N°31
@@ -49,20 +49,44 @@ export const outputs = [
   { out: "hero-canopy-desktop.jpg", from: "canopyNight", width: 2048, grade: "night" },
   // Phone: the night frame is too small for a sharp portrait crop, so phones get
   // the high-resolution canopy photo, cropped above the guests' heads.
-  { out: "hero-canopy-mobile.jpg", from: "canopyRoom", crop: { left: 980, top: 0, width: 1226, height: 1840 }, width: 1226 },
+  {
+    out: "hero-canopy-mobile.jpg",
+    from: "canopyRoom",
+    crop: { left: 980, top: 0, width: 1226, height: 1840 },
+    width: 1226,
+  },
 
   // Homepage intro — looking up into the blossoms (guests excluded).
-  { out: "intro-canopy.jpg", from: "canopyRoom", crop: { left: 340, top: 0, width: 1440, height: 1800 }, width: 1440 },
-  { out: "intro-sign.jpg", from: "lobbySign", crop: { left: 1080, top: 0, width: 968, height: 1152 }, width: 968 },
+  {
+    out: "intro-canopy.jpg",
+    from: "canopyRoom",
+    crop: { left: 340, top: 0, width: 1440, height: 1800 },
+    width: 1440,
+  },
+  {
+    out: "intro-sign.jpg",
+    from: "lobbySign",
+    crop: { left: 1080, top: 0, width: 968, height: 1152 },
+    width: 968,
+  },
 
   // Room — wide canopy over the lattice (stops above the guests' heads).
-  { out: "room-canopy-wide.jpg", from: "canopyRoom", crop: { left: 0, top: 0, width: 3264, height: 1760 }, width: 2400 },
-  { out: "room-wide.jpg", from: "roomWide", crop: { left: 0, top: 220, width: 3264, height: 2040 }, width: 2400 },
+  {
+    out: "room-canopy-wide.jpg",
+    from: "canopyRoom",
+    crop: { left: 0, top: 0, width: 3264, height: 1760 },
+    width: 2400,
+  },
+  {
+    out: "room-wide.jpg",
+    from: "roomWide",
+    crop: { left: 0, top: 220, width: 3264, height: 2040 },
+    width: 2400,
+  },
   { out: "room-noren.jpg", from: "noren", width: 1200 },
   { out: "room-private.jpg", from: "privateRoom", width: 1200 },
   { out: "room-private-long.jpg", from: "privateRoomLong", width: 1200 },
   { out: "room-entrance.jpg", from: "entrance", width: 1200 },
-  { out: "room-entrance-wide.jpg", from: "entrance", crop: { left: 0, top: 320, width: 2448, height: 1530 }, width: 2400 },
   { out: "room-sign.jpg", from: "lobbySign", width: 1600 },
   { out: "room-counter.jpg", from: "counter", width: 1200 },
   { out: "detail-kokeshi.jpg", from: "kokeshi", width: 1200 },
@@ -76,9 +100,9 @@ export const outputs = [
     "teppanBoeuf",
     "teppanStJacques",
     "tempura",
-    "udonOlives",
     "chawanmushi",
     "coupeItoya",
+    "bento7",
     "nigiriEbi",
     "nigiriOmelette",
     "gunkanThonCuit",
