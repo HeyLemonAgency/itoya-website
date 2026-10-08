@@ -9,6 +9,7 @@ import {
   PhoneIcon,
   PinIcon,
 } from "@/components/ui/Icons";
+import { BrushReveal } from "@/components/motion/BrushReveal";
 import { Reveal } from "@/components/motion/Reveal";
 
 /** Practical information block, shared by the homepage and /contact. */
@@ -107,8 +108,9 @@ export function Visit() {
       aria-labelledby="visit-title"
       className="on-light relative overflow-hidden bg-ivory py-24 sm:py-28 lg:py-40"
     >
-      <div className="container-x grid gap-16 lg:grid-cols-12 lg:gap-x-10">
-        <div className="lg:col-span-7">
+      <div className="container-x relative grid gap-16 lg:grid-cols-12 lg:gap-x-10">
+        <BrushReveal className="pointer-events-none absolute -top-10 left-[calc(var(--gutter)-0.75rem)] w-[min(94vw,40rem)] text-sakura/24 sm:-top-14 lg:-top-20 lg:w-[min(56vw,52rem)]" />
+        <div className="relative lg:col-span-7">
           <Reveal>
             <p className="eyebrow flex items-center gap-4 text-sakura-deep">
               <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
@@ -159,7 +161,7 @@ export function Visit() {
           </Reveal>
         </div>
 
-        <Reveal index={2} className="lg:col-span-4 lg:col-start-9 lg:pt-3">
+        <Reveal index={2} className="relative lg:col-span-4 lg:col-start-9 lg:pt-3">
           <PracticalInfo />
         </Reveal>
       </div>

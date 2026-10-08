@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { Hero } from "@/components/hero/Hero";
-import { Intro } from "@/components/home/Intro";
+import { Opening } from "@/components/hero/Opening";
 import { FoodSequence } from "@/components/home/FoodSequence";
 import { Formulas } from "@/components/home/Formulas";
 import { Room } from "@/components/home/Room";
@@ -13,8 +12,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <Intro />
+      <Opening />
       <FoodSequence />
       <Formulas />
       <Room />

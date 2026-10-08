@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Without JavaScript, reveal animations must never hide content. */}
         <noscript>
-          <style>{`[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}`}</style>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important;clip-path:none!important}.brush-kanji{--brush:0%!important}`}</style>
         </noscript>
       </head>
       <body>

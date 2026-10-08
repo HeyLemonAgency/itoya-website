@@ -4,3 +4,5 @@ public
 docs/sources
 src/content/menu.ts
 package-lock.json
+src/content/menu-images.ts
+scripts/menu-image-sources.json

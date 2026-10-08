@@ -5,8 +5,10 @@ import { useDeferredValue, useEffect, useId, useMemo, useRef, useState } from "r
 import Image from "next/image";
 import type { MenuCategory, MenuItem } from "@/content/types";
 import type { Photo } from "@/content/media";
+import type { DishImage } from "@/content/menu-images";
 import { cx, normalizeSearch } from "@/lib/format";
 import { CloseIcon, SearchIcon } from "@/components/ui/Icons";
+import { DishPreview } from "./DishPreview";
 import { Price, dishMeta } from "./Price";
 
 function haystack(item: MenuItem, section: string, category: string) {
@@ -24,20 +26,52 @@ function haystack(item: MenuItem, section: string, category: string) {
   );
 }
 
-function DishRow({ item }: { item: MenuItem }) {
+const numberStyle = "text-[0.75rem] font-semibold tracking-[0.06em] text-brass-deep tabular";
+
+function DishRow({ item, image }: { item: MenuItem; image?: DishImage }) {
   const meta = dishMeta(item);
+  const number = item.number ? (
+    <>
+      <span className="sr-only">Numéro </span>
+      {item.number}
+    </>
+  ) : null;
   return (
-    <li className="grid grid-cols-[2.75rem_1fr_auto] items-baseline gap-x-3 border-b border-line/80 py-5 sm:grid-cols-[3.25rem_1fr_auto] sm:gap-x-4">
-      <span className="text-[0.75rem] font-semibold tracking-[0.06em] text-brass-deep tabular">
-        {item.number ? (
-          <>
-            <span className="sr-only">Numéro </span>
-            {item.number}
-          </>
+    <li
+      data-dish={image ? item.id : undefined}
+      className="group grid grid-cols-[4rem_1fr_auto] items-start gap-x-4 border-b border-line/80 py-5 desk:grid-cols-[3.25rem_1fr_auto] desk:items-baseline"
+    >
+      <div className="desk:contents">
+        {/* Touch screens: the dish photo leads the row… */}
+        {image ? (
+          // A 128 px file made for this size (scripts/process-menu-images.mjs),
+          // served as is: no srcset markup on 157 rows, no image component.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={image.thumb}
+            alt=""
+            width={64}
+            height={64}
+            loading="lazy"
+            decoding="async"
+            className="block h-16 w-16 object-contain [filter:drop-shadow(0_8px_8px_rgba(58,47,34,0.2))] desk:hidden"
+          />
         ) : null}
-      </span>
+        {/* …desktop keeps the number column (its photo floats on hover). */}
+        <span className={cx(numberStyle, image ? "hidden desk:inline" : "block pt-2 desk:pt-0")}>
+          {number}
+        </span>
+      </div>
       <div className="min-w-0">
-        <h4 className="font-serif text-[1.375rem] font-semibold leading-tight text-ink">
+        {image && number ? (
+          <p className={cx(numberStyle, "mb-1 leading-4 desk:hidden")}>{number}</p>
+        ) : null}
+        <h4
+          className={cx(
+            "font-serif text-[1.375rem] font-semibold leading-tight text-ink",
+            image && "transition-colors duration-200 desk:group-hover:text-sakura-deep",
+          )}
+        >
           {item.name}
           {item.japanese ? (
             <span lang="ja" className="jp ml-2 text-[1rem] text-muted">
@@ -78,7 +112,14 @@ function DishRow({ item }: { item: MenuItem }) {
           </p>
         ) : null}
       </div>
-      <Price item={item} className="text-right font-serif text-[1.375rem] font-semibold text-ink" />
+      <Price
+        item={item}
+        className={cx(
+          "text-right font-serif text-[1.375rem] leading-tight font-semibold text-ink",
+          // Line up with the name, below the number line, on touch screens.
+          image && item.number && "touch:pt-5",
+        )}
+      />
     </li>
   );
 }
@@ -86,10 +127,13 @@ function DishRow({ item }: { item: MenuItem }) {
 export function MenuBrowser({
   menu,
   categoryPhotos = {},
+  images = {},
 }: {
   menu: MenuCategory[];
   /** Optional dish photo shown beside each category title. */
   categoryPhotos?: Record<string, Photo>;
+  /** Optional photo per dish id: thumbnails on touch screens, hover preview on desktop. */
+  images?: Record<string, DishImage>;
 }) {
   const [query, setQuery] = useState("");
   const deferred = useDeferredValue(query);
@@ -97,6 +141,7 @@ export function MenuBrowser({
   const inputId = useId();
   const navRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const indexed = useMemo(
@@ -290,7 +335,8 @@ export function MenuBrowser({
       </p>
 
       {/* ── Menu ─────────────────────────────────────────────────────── */}
-      <div className="container-x pb-24 lg:pb-32">
+      <div ref={listRef} className="container-x pb-24 lg:pb-32">
+        {Object.keys(images).length ? <DishPreview root={listRef} images={images} /> : null}
         <AnimatePresence initial={false}>
           {searching ? (
             <m.p
@@ -371,7 +417,7 @@ export function MenuBrowser({
                   </div>
                   <ul className="mt-2 [&>li]:break-inside-avoid">
                     {section.items.map((item) => (
-                      <DishRow key={item.id} item={item} />
+                      <DishRow key={item.id} item={item} image={images[item.id]} />
                     ))}
                   </ul>
                 </section>

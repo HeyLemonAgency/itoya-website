@@ -2,6 +2,7 @@ import { formulas } from "@/content/formulas";
 import { media } from "@/content/media";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
+import { DishBelt } from "./DishBelt";
 import { FormulaPanel, type PanelDish } from "./FormulaPanel";
 
 /** Dishes that appear in each formula's published list, with menu photos. */
@@ -75,15 +76,21 @@ export function Formulas() {
             </ol>
           </div>
         </div>
+      </div>
 
+      <div className="container-x relative z-10 mt-16 lg:mt-24">
+        <p className="eyebrow flex items-center gap-4 text-[0.6875rem] text-ivory/55">
+          <span aria-hidden className="h-px w-10 bg-ivory/25" />
+          Parmi les plats au choix
+        </p>
+      </div>
+      <DishBelt className="relative z-10 mt-8 lg:mt-10" />
+
+      <div className="container-x relative z-10">
         <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-2 lg:gap-8">
           {formulas.map((formula, i) => (
             <Reveal key={formula.id} index={i} distance={24} className="flex">
-              <FormulaPanel
-                formula={formula}
-                dishes={formulaDishes[formula.id]}
-                className="w-full"
-              />
+              <FormulaPanel formula={formula} className="w-full" />
             </Reveal>
           ))}
         </div>

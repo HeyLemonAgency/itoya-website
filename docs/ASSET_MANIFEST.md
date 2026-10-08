@@ -49,11 +49,27 @@ moderate sizes. They are never stretched into backgrounds.
 | `dish-nigiriEbi.webp` / `dish-nigiriOmelette.webp` / `dish-gunkanThonCuit.webp`       | menu N°53 / N°58 / N°31                | Dishes listed in the lunch formula   | Lunch formula panel                           |
 | `dish-nigiriSaumon.webp` / `dish-temakiCalifornia.webp` / `dish-spicyTunaGunkan.webp` | menu N°51 / N°71 / N°35                | Dishes listed in the evening formula | Evening formula panel, formulas hero          |
 
+## Per-dish photos (official menu)
+
+Every dish photo published on the official menu (`/la-carte`, Wix Restaurants data, snapshot of
+8 October 2026), mapped to its dish by `scripts/build-menu.py` → `scripts/menu-image-sources.json`
+and processed by `scripts/process-menu-images.mjs`:
+
+- **`public/images/menu/<dish-id>.webp`** (157 files, ≤ 640 px, transparent, ~5 MB in total). Used for the homepage
+  dish belt (dishes from the formula lists only) and the desktop hover preview on `/la-carte`, both through
+  `next/image`.
+- **`public/images/menu/thumbs/<dish-id>.webp`** (157 files, ≤ 128 px, ~0.8 MB in total). The 64 px thumbnails in the menu rows on phones and tablets,
+  served as they are.
+- **Excluded (9):** banana split, coupe Danemark, glace citron, glace fraise, glace noix de coco and the four mochi. They look like
+  supplier stock photography. These dishes are listed without a photo.
+- Some platter photos are shot on a black background rather than cut out. They are shown as they are.
+
 ## Brand
 
 | File                                             | Source                                            | Notes                                                                                                                                                                                                                         |
 | ------------------------------------------------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `public/brand/itoya-logo-ivory.svg`, `…-ink.svg` | `394bef_feceee6e…~mv2.jpg` (1080×635 raster logo) | Traced to vector (potrace) at 1.5× from the official raster. Faithful at header sizes; **ask the owners for the original vector artwork**. Lettering: 伊藤屋 / いとうや / ITOYA, as on the restaurant's own logo and signage. |
+| `public/brand/itoya-kanji.svg`                   | Kanji subpaths of the traced logo above           | 伊藤屋 only (the brush lettering of the logo, without いとうや and ITOYA). Used as a mask for the brush reveal in the booking section.                                                                                        |
 | `src/app/icon.png`, `apple-icon.png`             | Generated from the logo                           |                                                                                                                                                                                                                               |
 | `public/images/og-itoya.jpg`                     | Hero image + logo                                 | 1200×630 sharing image.                                                                                                                                                                                                       |
 
@@ -65,7 +81,7 @@ moderate sizes. They are never stretched into backgrounds.
 | `394bef_c45bd8ff…~mv2.jpg` (slate plate and chopsticks, 5760×3840) | Generic, likely stock; it shows no Itoya food or room.                                                                             |
 | `394bef_f63088fa…~mv2.jpg` (tatami room)                           | Soft toys on the tatami and a street view; not flattering for a launch.                                                            |
 | Payment logos (TWINT, Visa/Mastercard, cash, WeChat)               | Payment methods are not confirmed for the new site. Add them only if the owners confirm.                                           |
-| Mochi and scoop dessert images                                     | Look like supplier stock photography.                                                                                              |
+| Mochi and scoop dessert images                                     | Look like supplier stock photography (see the per-dish exclusions above).                                                          |
 
 ## Media wish-list for a shoot
 

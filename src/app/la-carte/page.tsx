@@ -6,6 +6,7 @@ import { ArrowLink, ButtonLink } from "@/components/ui/Button";
 import { MenuBrowser } from "@/components/menu/MenuBrowser";
 import { DishPlate } from "@/components/motion/DishPlate";
 import { categoryPhotos, media } from "@/content/media";
+import { menuImages } from "@/content/menu-images";
 
 export const metadata: Metadata = {
   title: "La carte",
@@ -48,7 +49,7 @@ export default function MenuPage() {
       </PageHero>
 
       <div className="bg-ivory">
-        <MenuBrowser menu={menu} categoryPhotos={categoryPhotos} />
+        <MenuBrowser menu={menu} categoryPhotos={categoryPhotos} images={menuImages} />
         <div className="container-x pb-24 lg:pb-32">
           <p className="max-w-2xl border-t border-line pt-8 text-[0.875rem] text-muted">
             Prix en CHF. Les mentions « Végétarien » et « Végétalien » sont celles indiquées par le

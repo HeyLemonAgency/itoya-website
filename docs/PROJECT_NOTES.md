@@ -19,6 +19,7 @@ Maintenance scripts:
 
 - `npm run fonts` copies the woff2 files from `@fontsource` into `src/app/fonts`. They are already committed; run it only after a font package update.
 - `npm run images` rebuilds `public/images` from `./media-src` using the crop plan in `scripts/image-plan.mjs`. Fetch the originals first with `NODE_USE_ENV_PROXY=1 node scripts/fetch-originals.mjs` (the env var is only needed behind a proxy).
+- `node scripts/process-menu-images.mjs` rebuilds the per-dish photos in `public/images/menu` (and `thumbs/`) and regenerates `src/content/menu-images.ts`. It reads `scripts/menu-image-sources.json`, which `scripts/build-menu.py` writes. Pass `--force` to re-encode from the originals.
 
 The preview is **not indexable**: `robots.txt` disallows everything, every response carries
 `X-Robots-Tag: noindex, nofollow` and pages emit `noindex` meta. At launch set
@@ -41,8 +42,10 @@ Manrope variable, latin subset (~95 KB in total). Every page is statically prere
 | Lunch / evening formulas, dish lists, supplements                    | `src/content/formulas.ts`                                |
 | Every photo (path, size, alt text, crop focus)                       | `src/content/media.ts`                                   |
 | Dishes featured on the homepage                                      | `src/components/home/FoodSequence.tsx` (`leads`, `trio`) |
-| Dishes shown on the formula panels                                   | `src/components/home/Formulas.tsx` (`formulaDishes`)     |
+| Dishes shown on the formula panels (`/formules`)                     | `src/components/home/Formulas.tsx` (`formulaDishes`)     |
+| Dishes on the homepage dish belt                                     | `src/components/home/DishBelt.tsx` (`rows`)              |
 | Dish photo beside each menu category                                 | `src/content/media.ts` (`categoryPhotos`)                |
+| Photo of each dish (menu thumbnails, hover preview, belt)            | `src/content/menu-images.ts` (generated, see above)      |
 
 Prices are numbers in CHF; `price: null` displays « Sur demande ». The menu can be fully re-imported
 from a fresh snapshot with `scripts/build-menu.py` (see the header of that script).
@@ -139,19 +142,30 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
 ## Motion policy
 
 - **Site-wide:** `MotionConfig reducedMotion="user"`, inside `LazyMotion` (`src/components/motion/MotionProvider.tsx`). Motion's feature bundle loads after hydration.
-- **Opening scene:**
-  - Pointer depth (fine pointers only) and the scroll hand-off use Motion values; nothing updates React state per frame.
-  - The slow push into the canopy is a compositor-only CSS animation (`.hero-drift`). It pauses with the visible, keyboard-accessible "Pause" control, when the hero is off screen, or when the tab is hidden, and it is off under reduced motion.
+- **Opening scene (`src/components/hero/Opening.tsx`):**
+  - As the page scrolls, the full-screen night photo closes into a round window (_marumado_) framed by two brass rings, and the welcome text appears beside it. On desktop the photo stays in place for one screen height (a short `position: sticky` stage) while the welcome section scrolls up normally; on phones the window closes while the photo scrolls away as an ordinary block. Scrolling is never intercepted.
+  - Everything is driven by Motion values from `useScroll` (a CSS `clip-path: circle()` and two transforms); nothing updates React state per frame. The geometry is measured with a `ResizeObserver`.
+  - Pointer depth (fine pointers only) uses Motion springs.
+  - The slow push into the canopy is a compositor-only CSS animation (`.hero-drift`).
+  - **Petals:** ten blossom petals (five on phones), pure CSS, falling on the right-hand side, away from the headline and the booking buttons (`src/components/hero/Petals.tsx`).
+  - The drift and the petals pause with the visible, keyboard-accessible "Pause" control, when the hero is off screen, or when the tab is hidden.
+  - **Reduced motion:** no drift, no petals, no window morph; a static round-window photo is shown beside the welcome text instead.
   - The optional film layer (`media.hero.video`) only loads on desktop, never with Save-Data or reduced motion, and falls back to the still image if autoplay is blocked.
 - **Headline entrance** is CSS (`.hero-line`, `.hero-fade`), so the H1 and the booking button never wait for hydration. It is disabled under `prefers-reduced-motion`. It starts partly visible, so Chrome registers the headline as LCP on the first frame.
+- **Dish belt (homepage formulas):** two rails of real dishes from the formula lists slide in opposite directions as the section crosses the screen (`DishBelt.tsx`, scroll-linked `translateX` only). Static under reduced motion. The markup is server-rendered; only the two rails are client components.
+- **Menu photos (`/la-carte`):**
+  - Desktop with a precise pointer: hovering a dish shows its photo floating beside the cursor, leaning slightly with its speed (`DishPreview.tsx`). One delegated listener on the list; the list itself never re-renders. Under reduced motion the photo follows the cursor directly, without springs or lean.
+  - Touch screens and narrow windows: each row starts with a 64 px thumbnail of the dish.
+  - The photos are decorative (`alt=""`); the dish name is always the text.
+- **Brush lettering (booking section):** 伊藤屋, traced from the restaurant's own logo, is drawn from left to right like a stroke of ink when it scrolls into view (`BrushReveal.tsx`, a CSS mask moved by Motion). It is shown complete under reduced motion and without JavaScript. Its tint keeps the eyebrow text above it at ≥ 4.5:1 contrast.
 - **Reveals and interactions:**
   - Section reveals travel 12–24 px, once.
   - Images use a clip-path curtain observed on an unclipped wrapper.
   - Dish plates "set down" once.
   - The round platter turns slightly with scroll; it is a top-down photo, so a 2D turn is honest.
   - The mobile menu and the lightbox animate in and out with `AnimatePresence`.
-- **What the site never does:** scroll hijacking, pinned sequences, a preloader or sound.
-- **Without JavaScript,** a `<noscript>` rule un-hides every `[data-reveal]` element.
+- **What the site never does:** scroll hijacking, long pinned sequences, a preloader or sound.
+- **Without JavaScript,** a `<noscript>` rule un-hides every `[data-reveal]` element and shows the brush lettering complete.
 
 ## Checks performed (8 October 2026, production build)
 
@@ -168,7 +182,7 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
   - Hero pause button: works.
   - Reduced motion: the hero is static and the pause control is hidden.
   - Content: one H1 per page, every image has an alt attribute, and no internal link is broken.
-- **Lighthouse 12, mobile, simulated slow 4G** (final build):
+- **Lighthouse 12, mobile, simulated slow 4G** (build before the opening, belt and menu photos):
   - Accessibility 100 and Best practices 100 on every route.
   - SEO 69 is intentional: the preview is set to `noindex`.
   - Performance: menu 90, formulas 95, venue 90, contact 89, reservation 91. Homepage 76–79 (three runs).
@@ -176,6 +190,12 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
   - The homepage's simulated LCP (4.6 s) is a modelling artifact. The LCP element is the server-rendered headline, but because the local server delivers the JavaScript before the first paint, Lighthouse's simulation assumes the paint waits for it.
 - **Lighthouse with applied DevTools throttling** (slow 4G and 4× CPU): homepage 84 (FCP = LCP = 2.3 s); menu and venue 88–90 (LCP 2.2 s). CLS 0.
 - **Real Chrome LCP with 4× CPU throttling:** 0.48 s on the homepage, equal to first paint.
+- **After the opening / belt / menu-photo pass** (same method):
+  - Accessibility 100 and Best practices 100 on home, menu and formulas.
+  - Homepage 77–82 over three runs (TBT 140–250 ms). Formulas 91. Menu 82–84 (TBT 70–200 ms); the extra hydration of 157 thumbnails in the menu rows costs a few points of simulated LCP.
+  - Unthrottled first paint: 0.2–0.3 s on all three pages. CLS 0.
+  - A first version rendered the belt's 56 photos with `next/image` on the client and pushed the homepage's TBT to ~960 ms. Server-rendering them (`getImageProps`) and giving the menu rows 128 px static thumbnails fixed it.
+  - Interaction checks re-run (menu dialog, search, lightbox, skip link, pause control, reduced motion, headings, alt text, internal links): all pass, no console errors, no horizontal overflow at 1440, 768, 390 and 360 px.
 - **Remaining performance headroom:** the homepage's JavaScript (React, Next and Motion features, about 200 KB gzipped) is the main cost on slow phones.
 
 ## Launch dependencies

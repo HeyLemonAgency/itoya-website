@@ -230,6 +230,7 @@ def main(path):
     menus = json.load(open(path, encoding="utf-8"))
     out = []
     used_ids = set()
+    image_sources = {}
     for menu in menus:
         cat_title = CATEGORY_TITLE.get(menu["name"], menu["name"])
         cat = {"id": slug(cat_title), "title": cat_title,
@@ -286,6 +287,8 @@ def main(path):
                     item["labels"] = labels
                 if it.get("featured"):
                     item["featured"] = True
+                if it.get("image"):
+                    image_sources[iid] = it["image"].rsplit("/", 1)[-1]
                 def norm(x):
                     return re.sub(r"[\s'’]", "", x).lower()
                 if norm(item["name"]) != norm(name) or (
@@ -311,6 +314,8 @@ def main(path):
         "",
     ]
     open("src/content/menu.ts", "w", encoding="utf-8").write("\n".join(lines))
+    # Dish photo per item (Wix media id), consumed by scripts/process-menu-images.mjs
+    json.dump(image_sources, open("scripts/menu-image-sources.json", "w"), indent=1, sort_keys=True)
     n = sum(len(s["items"]) for c in out for s in c["sections"])
     print(f"wrote src/content/menu.ts: {len(out)} categories, {n} items")
 
