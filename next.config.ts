@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
     imageSizes: [96, 160, 256, 384],
     qualities: [60, 70, 75, 80],
   },
+  // Old Wix URLs → new routes, so existing links and bookmarks keep working.
+  async redirects() {
+    return [
+      { source: "/home", destination: "/", permanent: true },
+      { source: "/buffet-midi", destination: "/formules#midi", permanent: true },
+      { source: "/buffet-soir", destination: "/formules#soir", permanent: true },
+      { source: "/galerie", destination: "/le-lieu", permanent: true },
+      { source: "/reservations", destination: "/reservation", permanent: true },
+    ];
+  },
   async headers() {
     if (indexable) return [];
     return [
