@@ -1,0 +1,335 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Itoya — "Sous les fleurs" design tokens
+   Contrast (WCAG 2.x, checked by hand):
+     ivory on ink 15.4:1 · text on ivory 13:1 · muted on ivory 5.8:1
+     sakura on ink 6.9:1 · brass on ink 6.7:1 · sakura-deep on ivory 5.5:1
+     brass-deep on ivory 4.8:1
+   Sakura and brass are never used for body text on ivory.
+   ────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-ink: #141612;
+  --color-ink-soft: #1b1f1b;
+  --color-forest: #232b25;
+  --color-forest-soft: #2c352e;
+  --color-ivory: #f2ebdd;
+  --color-paper: #f7f2e8;
+  --color-parchment: #e7dcc7;
+  --color-sakura: #c99198;
+  --color-sakura-pale: #e6c3c6;
+  --color-sakura-deep: #8c4a55;
+  --color-brass: #b39a72;
+  --color-brass-deep: #7a6440;
+  --color-text: #25251f;
+  --color-muted: #5e5a4f;
+  --color-line: #d6cab2;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --breakpoint-xs: 25rem;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --gutter: clamp(1.25rem, 4.2vw, 4rem);
+    --header-h: 4.75rem;
+    --mobile-bar-h: 0px;
+    color-scheme: light;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    font-feature-settings: "kern", "liga";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Leave room for the fixed mobile booking bar. */
+  @media (max-width: 63.99rem) {
+    :root {
+      --mobile-bar-h: 4.5rem;
+    }
+    body {
+      padding-bottom: calc(var(--mobile-bar-h) + env(safe-area-inset-bottom, 0px));
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-sakura-pale);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-sakura);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-light :focus-visible,
+  .on-light:focus-visible {
+    outline-color: var(--color-sakura-deep);
+  }
+
+  img,
+  video {
+    max-width: 100%;
+  }
+}
+
+/* ── Utilities ───────────────────────────────────────────────────────────── */
+@utility container-x {
+  width: 100%;
+  max-width: 92rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+@utility display-hero {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(3.4rem, 1.2rem + 8.4vw, 10.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+}
+
+@utility display-xl {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.7rem, 1.4rem + 4.6vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+@utility display-lg {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.25rem, 1.4rem + 3vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+
+@utility display-md {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.75rem);
+  line-height: 1.05;
+}
+
+@utility lede {
+  font-size: clamp(1.0625rem, 0.98rem + 0.35vw, 1.3125rem);
+  line-height: 1.6;
+}
+
+/* Prices and menu numbers align nicely in columns. */
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* A fixed, very fine film grain for dark atmospheric surfaces. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ── Hero entrance ───────────────────────────────────────────────────────
+   Runs in CSS from the first paint so the headline and the booking action
+   never wait for JavaScript to hydrate. Motion takes over the scene itself.
+   ───────────────────────────────────────────────────────────────────────── */
+@keyframes itoya-line-rise {
+  from {
+    transform: translate3d(0, 108%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes itoya-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes itoya-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes itoya-scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+.hero-line {
+  display: block;
+  overflow: hidden;
+  /* room for descenders and italic overhang inside the mask */
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+  padding-inline: 0.06em;
+  margin-inline: -0.06em;
+}
+
+.hero-line > span {
+  display: inline-block;
+  animation: itoya-line-rise 0.95s var(--ease-out-quint) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+}
+
+.hero-fade {
+  animation: itoya-fade-up 0.7s var(--ease-out-quint) both;
+  animation-delay: calc(var(--i, 0) * 80ms + 260ms);
+}
+
+.hero-media-in {
+  animation: itoya-fade 1.2s ease-out both;
+}
+
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  animation: itoya-scroll-cue 2.6s var(--ease-in-out-soft) 1.4s infinite;
+}
+
+[data-ambient="paused"] .scroll-cue::after {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-line > span,
+  .hero-fade,
+  .hero-media-in {
+    animation: none;
+  }
+  .scroll-cue::after {
+    animation: none;
+    transform: scaleY(1);
+  }
+}
+
+/* ── Links with a quiet underline ─────────────────────────────────────── */
+.link-quiet {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s var(--ease-out-quint);
+  padding-bottom: 2px;
+}
+
+.link-quiet:hover,
+.link-quiet:focus-visible {
+  background-size: 100% 1px;
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  transition:
+    background-size 0.3s var(--ease-out-quint),
+    color 0.2s;
+}
+
+.link-underline:hover {
+  background-size: 35% 1px;
+}
+
+/* Hide scrollbars on horizontal rails while keeping them scrollable. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Japanese text renders with a system font that supports it. */
+.jp {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+  font-weight: 400;
+}
