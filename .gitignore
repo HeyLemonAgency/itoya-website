@@ -17,3 +17,6 @@ npm-debug.log*
 
 # local media sources (originals are large; optimised copies live in public/)
 /media-src/
+
+# netlify
+.netlify

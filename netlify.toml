@@ -1,0 +1,10 @@
+# Netlify builds this Next.js site with its OpenNext adapter (detected
+# automatically; do not pin @netlify/plugin-nextjs). next/image is served
+# through the Netlify Image CDN.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# The preview stays out of search engines until launch: SITE_INDEXABLE is
+# unset, so next.config.ts sends X-Robots-Tag: noindex on every response.
+# At launch, set SITE_INDEXABLE=true in Netlify's environment variables and redeploy.
