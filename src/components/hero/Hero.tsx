@@ -211,7 +211,7 @@ export function Hero() {
       >
         <m.div style={{ x: copyPX, y: copyPY }} className="max-w-[64rem]">
           <p className="eyebrow hero-fade flex items-center gap-4 text-ivory/85" style={line(0)}>
-            <span aria-hidden className="h-px w-10 bg-sakura" />
+            <span aria-hidden className="hidden h-px w-10 bg-sakura xs:block" />
             Restaurant japonais · Crissier
           </p>
 

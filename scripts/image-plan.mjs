@@ -42,7 +42,7 @@ export const sources = {
  * Outputs. `crop` = { left, top, width, height } in source pixels.
  * `width` = output width (never larger than the crop: no upscaling).
  * `grade` = light colour correction for the night scene (calms the blue LED).
- * `cutout` = keep transparency, trim empty margins, export PNG.
+ * `cutout` = keep transparency, trim empty margins, export WebP with alpha.
  */
 export const outputs = [
   // Hero — night canopy. Desktop: full frame. Phone: 2:3 crop on the large lantern.
@@ -109,5 +109,5 @@ export const outputs = [
     "nigiriSaumon",
     "spicyTunaGunkan",
     "temakiCalifornia",
-  ].map((key) => ({ out: `dish-${key}.png`, from: key, cutout: true })),
+  ].map((key) => ({ out: `dish-${key}.webp`, from: key, cutout: true })),
 ];

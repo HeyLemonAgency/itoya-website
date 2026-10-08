@@ -101,7 +101,7 @@ export function FoodSequence() {
           <div className="lg:col-span-7">
             <Reveal>
               <p className="eyebrow flex items-center gap-4 text-sakura-deep">
-                <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
+                <span aria-hidden className="hidden h-px w-10 bg-sakura-deep/60 xs:block" />
                 Une sélection de notre carte
               </p>
             </Reveal>

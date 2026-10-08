@@ -21,7 +21,9 @@ for (const job of outputs) {
 
   if (job.cutout) {
     img = img.ensureAlpha().trim({ threshold: 1 });
-    const buf = await img.png({ compressionLevel: 9, palette: false }).toBuffer();
+    // High-quality WebP keeps the alpha channel at a fraction of PNG weight;
+    // Next/Image re-encodes it for visitors anyway.
+    const buf = await img.webp({ quality: 92, alphaQuality: 100, effort: 6 }).toBuffer();
     const { width, height } = await sharp(buf).metadata();
     await sharp(buf).toFile(join(outDir, job.out));
     results.push({ out: job.out, width, height });
@@ -37,7 +39,7 @@ for (const job of outputs) {
   }
   img = img
     .sharpen({ sigma: 0.6 })
-    .jpeg({ quality: 86, mozjpeg: true, chromaSubsampling: "4:4:4" });
+    .jpeg({ quality: 84, mozjpeg: true, chromaSubsampling: "4:4:4" });
   const info = await img.toFile(join(outDir, job.out));
   results.push({ out: job.out, width: info.width, height: info.height });
 }
