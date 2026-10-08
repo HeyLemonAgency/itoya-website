@@ -7,7 +7,7 @@ import { useState } from "react";
 import { fullAddress, navigation, site } from "@/content/site";
 import { cx, formatService } from "@/lib/format";
 import { CloseIcon, PhoneIcon, socialIcons } from "@/components/ui/Icons";
-import { Wordmark } from "./Wordmark";
+import { Logo } from "./Logo";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -65,7 +65,7 @@ export function MobileMenu({ pathname }: { pathname: string }) {
                 <Dialog.Title className="sr-only">Menu</Dialog.Title>
                 <div className="container-x flex h-[4.75rem] shrink-0 items-center justify-between">
                   <Link href="/" onClick={() => setOpen(false)} aria-label="Accueil" className="-m-2 p-2">
-                    <Wordmark />
+                    <Logo className="w-[92px]" />
                   </Link>
                   <Dialog.Close asChild>
                     <button

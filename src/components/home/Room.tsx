@@ -6,8 +6,12 @@ import { Reveal } from "@/components/motion/Reveal";
 import { ImageReveal } from "@/components/motion/ImageReveal";
 
 export function Room() {
-  const wide = media.room.wide;
-  const details = media.room.gallery.slice(0, 3);
+  const wide = media.room.canopyWide;
+  const details = [
+    { photo: media.room.noren, caption: "Noren et claustras" },
+    { photo: media.room.privateRoom, caption: "Une des salles privées" },
+    { photo: media.room.counter, caption: "Le comptoir sushi et teppanyaki" },
+  ];
   return (
     <section aria-labelledby="room-title" className="relative bg-ink text-ivory">
       <div className="relative">
@@ -23,8 +27,8 @@ export function Room() {
           />
         </Parallax>
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 via-40% to-ink/20" />
-          <div className="absolute inset-0 bg-[radial-gradient(80%_70%_at_0%_100%,rgba(20,22,18,0.8),transparent_70%)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink from-5% via-ink/60 via-45% to-ink/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/45 via-40% to-transparent to-70%" />
         </div>
         <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
@@ -58,30 +62,34 @@ export function Room() {
         </div>
       </div>
 
-      {details.length ? (
-        <div className="container-x pb-24 lg:pb-32">
-          <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
-            {details.map((photo, i) => (
-              <li key={photo.src} className={i === 2 ? "col-span-2 lg:col-span-1" : undefined}>
+      <div className="container-x pt-6 pb-24 lg:pb-32">
+        <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3 lg:gap-8">
+          {details.map(({ photo, caption }, i) => (
+            <li
+              key={photo.src}
+              className={i === 2 ? "col-span-2 lg:col-span-1 lg:mt-24" : i === 1 ? "lg:mt-12" : undefined}
+            >
+              <figure>
                 <ImageReveal
-                  className={i === 2 ? "aspect-[16/9] lg:aspect-[3/4]" : "aspect-[3/4]"}
+                  className={i === 2 ? "aspect-[16/10] lg:aspect-[3/4]" : "aspect-[3/4]"}
                   delay={i * 0.1}
                 >
                   <Image
                     src={photo.src}
                     alt={photo.alt}
                     fill
-                    sizes="(min-width: 1024px) 30vw, 50vw"
+                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
                     quality={75}
                     className="object-cover"
                     style={{ objectPosition: photo.position }}
                   />
                 </ImageReveal>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+                <figcaption className="mt-3 text-[0.8125rem] text-ivory/60">{caption}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }

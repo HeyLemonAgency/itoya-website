@@ -290,19 +290,34 @@
   }
 }
 
-/* ── Links with a quiet underline ─────────────────────────────────────── */
+/* ── Links with a quiet underline ─────────────────────────────────────
+   Adapted from "Underline Link" by Théo Balick (21st.dev @balick,
+   MIT licence — see docs/PROJECT_NOTES.md): the line draws in from the left
+   on hover or keyboard focus, leaves to the right, follows the text across
+   line breaks and does not animate under reduced motion.
+   ───────────────────────────────────────────────────────────────────────── */
 .link-quiet {
   background-image: linear-gradient(currentColor, currentColor);
   background-size: 0% 1px;
-  background-position: 0 100%;
+  background-position: 100% 100%;
   background-repeat: no-repeat;
-  transition: background-size 0.3s var(--ease-out-quint);
-  padding-bottom: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-bottom: 1px;
+  transition: background-size 0.3s ease-out;
 }
 
 .link-quiet:hover,
 .link-quiet:focus-visible {
   background-size: 100% 1px;
+  background-position: 0% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-quiet,
+  .link-underline {
+    transition: none;
+  }
 }
 
 .link-underline {

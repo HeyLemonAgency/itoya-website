@@ -16,6 +16,7 @@ export function PageHero({
   lede,
   photo,
   children,
+  aside,
   align = "end",
 }: {
   eyebrow: string;
@@ -25,6 +26,8 @@ export function PageHero({
   lede?: ReactNode;
   photo?: Photo;
   children?: ReactNode;
+  /** Decorative element on the right on large screens (e.g. a dish). */
+  aside?: ReactNode;
   align?: "end" | "center";
 }) {
   return (
@@ -48,6 +51,7 @@ export function PageHero({
             style={{ objectPosition: photo.position }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 via-40% to-ink/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/45 via-40% to-transparent to-75%" />
           <div className="absolute inset-0 bg-[radial-gradient(90%_80%_at_0%_100%,rgba(20,22,18,0.85),transparent_75%)]" />
         </div>
       ) : (
@@ -56,6 +60,15 @@ export function PageHero({
           className="absolute inset-0 -z-10 bg-[radial-gradient(60%_80%_at_85%_0%,rgba(201,145,152,0.14),transparent_70%),radial-gradient(50%_60%_at_0%_100%,rgba(179,154,114,0.10),transparent_70%)]"
         />
       )}
+
+      {aside ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 right-[-6%] -z-10 hidden w-[min(46vw,44rem)] -translate-y-[42%] lg:block"
+        >
+          {aside}
+        </div>
+      ) : null}
 
       <div
         className={cx(

@@ -23,7 +23,7 @@ const facts = [
 ];
 
 export function Intro() {
-  const photo = media.intro;
+  const { canopy, sign } = media.intro;
   return (
     <section
       aria-labelledby="intro-title"
@@ -38,8 +38,8 @@ export function Intro() {
             </p>
           </Reveal>
           <Reveal index={1}>
-            <h2 id="intro-title" className="display-xl mt-7 max-w-[13ch] text-ink">
-              Du premier regard à la dernière bouchée.
+            <h2 id="intro-title" className="display-xl mt-7 max-w-[18ch] text-ink">
+              Du premier regard <em className="text-sakura-deep">à la dernière bouchée.</em>
             </h2>
           </Reveal>
           <Reveal index={2}>
@@ -60,23 +60,37 @@ export function Intro() {
           </dl>
         </div>
 
-        <figure className="relative lg:col-span-5 lg:col-start-8">
-          <ImageReveal className="aspect-[4/5] w-full bg-parchment">
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              quality={80}
-              className="object-cover"
-              style={{ objectPosition: photo.position }}
-            />
-          </ImageReveal>
-          <figcaption className="mt-4 flex items-baseline justify-between gap-4 text-[0.8125rem] text-muted">
-            <span>Sashimis · saumon, thon, crevettes, loup de mer</span>
-            <span className="eyebrow text-[0.625rem] text-brass-deep">N°41</span>
-          </figcaption>
-        </figure>
+        <div className="relative lg:col-span-5 lg:col-start-8">
+          <figure>
+            <ImageReveal className="aspect-[4/5] w-full">
+              <Image
+                src={canopy.src}
+                alt={canopy.alt}
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                quality={80}
+                className="object-cover"
+                style={{ objectPosition: canopy.position }}
+              />
+            </ImageReveal>
+            <figcaption className="mt-4 max-w-[19rem] text-[0.8125rem] leading-relaxed text-muted sm:ml-auto sm:text-right">
+              Le plafond de fleurs de cerisier et les lanternes en bambou de la salle principale.
+            </figcaption>
+          </figure>
+          <div className="absolute -bottom-12 -left-6 hidden w-[42%] bg-ivory p-2 shadow-[0_40px_60px_-30px_rgba(20,22,18,0.55)] sm:block lg:-bottom-20 lg:-left-24">
+            <ImageReveal from="top" delay={0.35} className="aspect-[5/6] w-full">
+              <Image
+                src={sign.src}
+                alt={sign.alt}
+                fill
+                sizes="(min-width: 1024px) 18vw, 40vw"
+                quality={78}
+                className="object-cover"
+                style={{ objectPosition: sign.position }}
+              />
+            </ImageReveal>
+          </div>
+        </div>
       </div>
     </section>
   );

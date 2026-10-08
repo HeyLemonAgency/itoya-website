@@ -25,8 +25,8 @@ function haystack(item: MenuItem, section: string, category: string) {
 function DishRow({ item }: { item: MenuItem }) {
   const meta = dishMeta(item);
   return (
-    <li className="grid grid-cols-[2.75rem_1fr_auto] gap-x-3 border-b border-line/80 py-5 sm:grid-cols-[3.25rem_1fr_auto] sm:gap-x-4">
-      <span className="pt-1.5 text-[0.75rem] font-semibold tracking-[0.06em] text-brass-deep tabular">
+    <li className="grid grid-cols-[2.75rem_1fr_auto] items-baseline gap-x-3 border-b border-line/80 py-5 sm:grid-cols-[3.25rem_1fr_auto] sm:gap-x-4">
+      <span className="text-[0.75rem] font-semibold tracking-[0.06em] text-brass-deep tabular">
         {item.number ? (
           <>
             <span className="sr-only">Numéro </span>
@@ -76,7 +76,7 @@ function DishRow({ item }: { item: MenuItem }) {
           </p>
         ) : null}
       </div>
-      <Price item={item} className="pt-1 text-right font-serif text-[1.375rem] font-semibold text-ink" />
+      <Price item={item} className="text-right font-serif text-[1.375rem] font-semibold text-ink" />
     </li>
   );
 }
@@ -87,6 +87,8 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
   const [active, setActive] = useState(menu[0]?.id);
   const inputId = useId();
   const navRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const indexed = useMemo(
     () =>
@@ -105,6 +107,8 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
 
   const termKey = normalizeSearch(deferred).replace(/\s+/g, " ");
   const searching = termKey.length > 0;
+  // On phones the field stays open while it holds a query.
+  const searchShown = searchOpen || query.length > 0;
 
   const filtered = useMemo(() => {
     const terms = termKey.split(" ").filter(Boolean);
@@ -160,50 +164,82 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
     <div className="on-light">
       {/* ── Sticky tools ─────────────────────────────────────────────── */}
       <div className="sticky top-16 z-30 border-b border-line bg-ivory/95 backdrop-blur-md">
-        <div className="container-x flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
-          <nav aria-label="Catégories de la carte" className="-mx-[var(--gutter)] lg:mx-0">
-            <div
-              ref={navRef}
-              className="no-scrollbar flex gap-1 overflow-x-auto px-[var(--gutter)] lg:px-0"
+        <div className="container-x flex flex-col gap-0 py-2 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:py-3">
+          <div className="flex items-center gap-2">
+            <nav aria-label="Catégories de la carte" className="-ml-[var(--gutter)] min-w-0 flex-1 lg:ml-0">
+              <div
+                ref={navRef}
+                className="no-scrollbar flex gap-1 overflow-x-auto pl-[var(--gutter)] [mask-image:linear-gradient(to_right,black_85%,transparent)] lg:pl-0 lg:[mask-image:none]"
+              >
+                {menu.map((category) => {
+                  const isActive = !searching && active === category.id;
+                  return (
+                    <a
+                      key={category.id}
+                      href={`#${category.id}`}
+                      data-cat={category.id}
+                      aria-current={isActive ? "true" : undefined}
+                      onClick={() => setQuery("")}
+                      className={cx(
+                        "relative inline-flex min-h-11 shrink-0 items-center rounded-full px-4 text-[0.75rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-200",
+                        isActive ? "text-ivory" : "text-ink/70 hover:text-ink",
+                      )}
+                    >
+                      {isActive ? (
+                        <motion.span
+                          layoutId="menu-cat"
+                          aria-hidden
+                          className="absolute inset-0 -z-10 rounded-full bg-ink"
+                          transition={{ type: "spring", stiffness: 380, damping: 34 }}
+                        />
+                      ) : null}
+                      {category.title}
+                    </a>
+                  );
+                })}
+              </div>
+            </nav>
+            {/* Phones: search lives behind a button to keep the sticky bar slim. */}
+            <button
+              type="button"
+              onClick={() => {
+                if (searchShown) {
+                  setSearchOpen(false);
+                  setQuery("");
+                } else {
+                  setSearchOpen(true);
+                  requestAnimationFrame(() => inputRef.current?.focus());
+                }
+              }}
+              aria-expanded={searchShown}
+              aria-controls={`${inputId}-panel`}
+              className={cx(
+                "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition-colors lg:hidden",
+                searchShown ? "bg-ink text-ivory ring-ink" : "text-ink ring-line hover:ring-ink",
+              )}
             >
-              {menu.map((category) => {
-                const isActive = !searching && active === category.id;
-                return (
-                  <a
-                    key={category.id}
-                    href={`#${category.id}`}
-                    data-cat={category.id}
-                    aria-current={isActive ? "true" : undefined}
-                    onClick={() => setQuery("")}
-                    className={cx(
-                      "relative inline-flex min-h-11 shrink-0 items-center rounded-full px-4 text-[0.75rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-200",
-                      isActive ? "text-ivory" : "text-ink/70 hover:text-ink",
-                    )}
-                  >
-                    {isActive ? (
-                      <motion.span
-                        layoutId="menu-cat"
-                        aria-hidden
-                        className="absolute inset-0 -z-10 rounded-full bg-ink"
-                        transition={{ type: "spring", stiffness: 380, damping: 34 }}
-                      />
-                    ) : null}
-                    {category.title}
-                  </a>
-                );
-              })}
-            </div>
-          </nav>
+              {searchShown ? <CloseIcon size={18} /> : <SearchIcon size={18} />}
+              <span className="sr-only">{searchShown ? "Fermer la recherche" : "Rechercher un plat"}</span>
+            </button>
+          </div>
 
-          <div role="search" className="relative w-full lg:max-w-sm">
+          <div
+            id={`${inputId}-panel`}
+            role="search"
+            className={cx(
+              "relative w-full lg:block lg:max-w-sm",
+              searchShown ? "block pt-2 pb-1" : "hidden",
+            )}
+          >
             <label htmlFor={inputId} className="sr-only">
               Rechercher un plat
             </label>
             <SearchIcon
               size={18}
-              className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted"
+              className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted max-lg:mt-0.5"
             />
             <input
+              ref={inputRef}
               id={inputId}
               type="search"
               inputMode="search"
@@ -217,8 +253,11 @@ export function MenuBrowser({ menu }: { menu: MenuCategory[] }) {
             {query ? (
               <button
                 type="button"
-                onClick={() => setQuery("")}
-                className="absolute top-1/2 right-1.5 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-muted hover:bg-ink/5 hover:text-ink"
+                onClick={() => {
+                  setQuery("");
+                  inputRef.current?.focus();
+                }}
+                className="absolute top-1/2 right-1.5 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-muted hover:bg-ink/5 hover:text-ink max-lg:mt-0.5"
               >
                 <CloseIcon size={16} />
                 <span className="sr-only">Effacer la recherche</span>

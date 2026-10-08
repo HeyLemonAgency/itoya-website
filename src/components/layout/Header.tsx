@@ -7,7 +7,7 @@ import { useState } from "react";
 import { navigation, site } from "@/content/site";
 import { cx } from "@/lib/format";
 import { PhoneIcon } from "@/components/ui/Icons";
-import { Wordmark } from "./Wordmark";
+import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
 export function Header() {
@@ -27,7 +27,7 @@ export function Header() {
         "fixed inset-x-0 top-0 z-50 text-ivory",
         "transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-out",
         scrolled
-          ? "bg-ink/90 shadow-[0_1px_0_rgba(242,235,221,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-ink/80"
+          ? "bg-ink/[0.97] shadow-[0_1px_0_rgba(242,235,221,0.08)] backdrop-blur-md supports-[backdrop-filter]:bg-ink/[0.92]"
           : "bg-transparent",
       )}
     >
@@ -50,7 +50,13 @@ export function Header() {
           className="relative -m-2 p-2"
           aria-label="Itoya, restaurant japonais — accueil"
         >
-          <Wordmark />
+          <Logo
+            priority
+            className={cx(
+              "transition-[width] duration-500 ease-out",
+              scrolled ? "w-[78px]" : "w-[92px] lg:w-[112px]",
+            )}
+          />
         </Link>
 
         <nav aria-label="Navigation principale" className="hidden lg:block">

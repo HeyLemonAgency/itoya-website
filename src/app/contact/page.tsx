@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { fullAddress, mailtoContact, site } from "@/content/site";
+import { media } from "@/content/media";
 import { PageHero } from "@/components/ui/PageHero";
 import { ButtonLink } from "@/components/ui/Button";
 import { ArrowUpRight, MailIcon, PhoneIcon } from "@/components/ui/Icons";
@@ -58,19 +60,30 @@ export default function ContactPage() {
 
             {/* Understated static location card — no heavy map on page load. */}
             <Reveal index={2}>
-              <div className="grain relative mt-10 overflow-hidden bg-ink p-8 text-ivory sm:p-10">
-                <div
-                  aria-hidden
-                  className="absolute inset-0 bg-[radial-gradient(70%_90%_at_100%_0%,rgba(201,145,152,0.22),transparent_70%)]"
-                />
-                <div className="relative z-10">
-                  <p className="eyebrow text-brass">Crissier · Vaud</p>
-                  <p className="mt-4 font-serif text-[2rem] leading-tight">
+              <figure className="relative mt-10 overflow-hidden bg-ink text-ivory">
+                <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5]">
+                  <Image
+                    src={media.room.entrance.src}
+                    alt={media.room.entrance.alt}
+                    fill
+                    sizes="(min-width: 1024px) 38vw, 100vw"
+                    quality={78}
+                    className="object-cover"
+                    style={{ objectPosition: "50% 30%" }}
+                  />
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 bg-gradient-to-t from-ink via-ink/50 via-35% to-transparent to-60%"
+                  />
+                </div>
+                <figcaption className="absolute inset-x-0 bottom-0 p-7 sm:p-9">
+                  <p className="eyebrow text-brass">L’entrée · Crissier</p>
+                  <p className="mt-3 font-serif text-[1.875rem] leading-tight">
                     {site.address.street}
                     <br />
                     {site.address.postalCode} {site.address.locality}
                   </p>
-                  <ul className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
                     <li>
                       <a
                         href={site.maps.place}
@@ -79,7 +92,7 @@ export default function ContactPage() {
                         className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory/90 hover:text-ivory"
                       >
                         <ArrowUpRight size={16} />
-                        <span className="link-underline">Voir sur Google Maps</span>
+                        <span className="link-underline">Google Maps</span>
                         <span className="sr-only"> (nouvel onglet)</span>
                       </a>
                     </li>
@@ -91,13 +104,13 @@ export default function ContactPage() {
                         className="inline-flex min-h-11 items-center gap-2 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-ivory/90 hover:text-ivory"
                       >
                         <ArrowUpRight size={16} />
-                        <span className="link-underline">Ouvrir dans Plans</span>
-                        <span className="sr-only"> (nouvel onglet)</span>
+                        <span className="link-underline">Plans</span>
+                        <span className="sr-only"> (Apple, nouvel onglet)</span>
                       </a>
                     </li>
                   </ul>
-                </div>
-              </div>
+                </figcaption>
+              </figure>
             </Reveal>
           </div>
 

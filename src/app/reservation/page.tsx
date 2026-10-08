@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { mailtoBooking, site } from "@/content/site";
 import { formulas } from "@/content/formulas";
+import { media } from "@/content/media";
 import { formatPrice, formatService } from "@/lib/format";
 import { PageHero } from "@/components/ui/PageHero";
 import { ButtonLink } from "@/components/ui/Button";
@@ -24,6 +25,7 @@ export default function ReservationPage() {
         eyebrow="Réservation"
         title="Réserver"
         accent="une table."
+        photo={media.hero.desktop}
         lede={
           <p>
             Les réservations se prennent par téléphone. Vous pouvez aussi nous écrire : votre table

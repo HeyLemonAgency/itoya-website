@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 import { cx } from "@/lib/format";
 
@@ -23,8 +23,12 @@ const hidden = {
 
 /**
  * Editorial image reveal: a clip-path curtain plus a slight scale settle.
- * With reduced motion the image appears at once (no wipe, no scale). Without JS the noscript
- * rule in the root layout removes the initial clip so images remain visible.
+ *
+ * The in-view trigger sits on an unclipped wrapper and is passed down with
+ * variants — an element whose own clip-path is fully closed is never reported
+ * as intersecting by the browser, so observing it directly would never fire.
+ * With reduced motion the image appears at once. Without JS the noscript rule
+ * in the root layout removes the initial clip so images remain visible.
  */
 export function ImageReveal({
   children,
@@ -35,25 +39,36 @@ export function ImageReveal({
 }: ImageRevealProps) {
   const reduce = useReducedMotion();
   const Outer = as === "span" ? motion.span : motion.div;
+  const Mid = as === "span" ? motion.span : motion.div;
   const Inner = as === "span" ? motion.span : motion.div;
+
+  const curtain: Variants = {
+    hidden: { clipPath: hidden[from] },
+    shown: {
+      clipPath: "inset(0% 0% 0% 0%)",
+      transition: reduce ? { duration: 0 } : { duration: 1.15, delay, ease: [0.76, 0, 0.24, 1] },
+    },
+  };
+  const settle: Variants = {
+    hidden: { scale: 1.12 },
+    shown: {
+      scale: 1,
+      transition: reduce ? { duration: 0 } : { duration: 1.6, delay, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
   return (
     <Outer
-      data-reveal=""
-      className={cx("relative block overflow-hidden", className)}
-      initial={{ clipPath: hidden[from] }}
-      whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={reduce ? { duration: 0 } : { duration: 1.15, delay, ease: [0.76, 0, 0.24, 1] }}
+      className={cx("relative block", className)}
+      initial="hidden"
+      whileInView="shown"
+      viewport={{ once: true, amount: 0.15 }}
     >
-      <Inner
-        className="absolute inset-0 block"
-        initial={{ scale: 1.12 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1.6, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {children}
-      </Inner>
+      <Mid data-reveal="" variants={curtain} className="absolute inset-0 block overflow-hidden">
+        <Inner variants={settle} className="absolute inset-0 block">
+          {children}
+        </Inner>
+      </Mid>
     </Outer>
   );
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { media } from "@/content/media";
+import { media, venueGallery } from "@/content/media";
 import { site } from "@/content/site";
 import { PageHero } from "@/components/ui/PageHero";
 import { ButtonLink } from "@/components/ui/Button";
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 export default function PlacePage() {
   const { room } = media;
+  const canopy = media.intro.canopy;
   return (
     <>
       <PageHero
@@ -58,15 +59,15 @@ export default function PlacePage() {
             </Reveal>
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
-            <ImageReveal className="aspect-[4/5] w-full bg-parchment">
+            <ImageReveal className="aspect-[4/5] w-full">
               <Image
-                src={room.gallery[0]?.src ?? room.wide.src}
-                alt={room.gallery[0]?.alt ?? room.wide.alt}
+                src={canopy.src}
+                alt={canopy.alt}
                 fill
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 quality={78}
                 className="object-cover"
-                style={{ objectPosition: room.gallery[0]?.position }}
+                style={{ objectPosition: canopy.position }}
               />
             </ImageReveal>
           </div>
@@ -78,13 +79,13 @@ export default function PlacePage() {
         <div className="grid lg:grid-cols-2">
           <Parallax amount={7} className="aspect-[4/5] sm:aspect-[16/10] lg:aspect-auto lg:min-h-[44rem]">
             <Image
-              src={room.tatami.src}
-              alt={room.tatami.alt}
+              src={room.privateRoom.src}
+              alt={room.privateRoom.alt}
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
               quality={78}
               className="object-cover"
-              style={{ objectPosition: room.tatami.position }}
+              style={{ objectPosition: room.privateRoom.position }}
             />
           </Parallax>
           <div className="grain relative flex items-center">
@@ -122,7 +123,7 @@ export default function PlacePage() {
       </section>
 
       {/* ── Gallery ────────────────────────────────────────────────── */}
-      {room.gallery.length > 1 ? (
+      {venueGallery.length > 1 ? (
         <section aria-labelledby="gallery-title" className="on-light bg-paper py-24 lg:py-36">
           <div className="container-x">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -138,7 +139,7 @@ export default function PlacePage() {
                 </p>
               </Reveal>
             </div>
-            <Gallery photos={room.gallery} className="mt-12 lg:mt-16" />
+            <Gallery photos={venueGallery} className="mt-12 lg:mt-16" />
           </div>
         </section>
       ) : null}

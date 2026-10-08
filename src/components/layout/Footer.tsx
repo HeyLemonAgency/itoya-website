@@ -2,6 +2,7 @@ import Link from "next/link";
 import { fullAddress, mailtoContact, navigation, site } from "@/content/site";
 import { formatService } from "@/lib/format";
 import { socialIcons } from "@/components/ui/Icons";
+import { Logo } from "./Logo";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -10,8 +11,8 @@ export function Footer() {
       <div className="container-x relative z-10 pt-20 pb-10 lg:pt-28">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <p className="eyebrow text-brass">Itoya · Crissier</p>
-            <p className="mt-5 max-w-sm font-serif text-[2rem] leading-[1.1] text-ivory/90">
+            <Logo className="w-[132px]" />
+            <p className="mt-8 max-w-sm font-serif text-[2rem] leading-[1.1] text-ivory/90">
               Le Japon, sous les fleurs — midi et soir, tous les jours.
             </p>
             <Link
@@ -74,12 +75,17 @@ export function Footer() {
           </div>
         </div>
 
-        <p
-          aria-hidden
-          className="pointer-events-none mt-20 select-none text-center font-serif text-[clamp(4.5rem,21vw,19rem)] leading-[0.8] tracking-[0.12em] text-ivory/[0.07] lg:mt-24"
-        >
-          ITOYA
-        </p>
+        <div aria-hidden className="pointer-events-none mt-20 flex justify-center opacity-[0.08] lg:mt-24">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/itoya-logo-ivory.svg"
+            alt=""
+            width={1340}
+            height={650}
+            loading="lazy"
+            className="h-auto w-[min(78vw,52rem)] grayscale"
+          />
+        </div>
 
         <div className="mt-8 flex flex-col gap-6 border-t border-ivory/10 pt-8 text-[0.8125rem] text-ivory/55 lg:flex-row lg:items-center lg:justify-between">
           <nav aria-label="Pied de page">

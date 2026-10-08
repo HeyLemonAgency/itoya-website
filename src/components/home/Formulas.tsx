@@ -2,7 +2,21 @@ import { formulas } from "@/content/formulas";
 import { media } from "@/content/media";
 import { ButtonLink } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { FormulaPanel } from "./FormulaPanel";
+import { FormulaPanel, type PanelDish } from "./FormulaPanel";
+
+/** Dishes that appear in each formula's published list, with menu photos. */
+export const formulaDishes: Record<"midi" | "soir", PanelDish[]> = {
+  midi: [
+    { photo: media.dishes.nigiriEbi, label: "Nigiri ebi" },
+    { photo: media.dishes.gunkanThonCuit, label: "Gunkan thon cuit" },
+    { photo: media.dishes.nigiriOmelette, label: "Nigiri omelette" },
+  ],
+  soir: [
+    { photo: media.dishes.nigiriSaumon, label: "Nigiri saumon" },
+    { photo: media.dishes.temakiCalifornia, label: "Temaki California" },
+    { photo: media.dishes.spicyTunaGunkan, label: "Spicy tuna gunkan" },
+  ],
+};
 
 export const tabletSteps = [
   {
@@ -67,7 +81,7 @@ export function Formulas() {
             <Reveal key={formula.id} index={i} distance={24} className="flex">
               <FormulaPanel
                 formula={formula}
-                photo={formula.id === "midi" ? media.formulas.midi : media.formulas.soir}
+                dishes={formulaDishes[formula.id]}
                 className="w-full"
               />
             </Reveal>

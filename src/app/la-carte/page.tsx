@@ -4,6 +4,8 @@ import { menuItemCount } from "@/content/menu-utils";
 import { PageHero } from "@/components/ui/PageHero";
 import { ArrowLink, ButtonLink } from "@/components/ui/Button";
 import { MenuBrowser } from "@/components/menu/MenuBrowser";
+import { DishPlate } from "@/components/motion/DishPlate";
+import { media } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "La carte",
@@ -19,6 +21,15 @@ export default function MenuPage() {
         eyebrow="La carte"
         title="La carte,"
         accent="du nigiri au teppan."
+        aside={
+          <DishPlate
+            photo={media.dishes.plateau9}
+            sizes="46vw"
+            turnWithScroll
+            shadow="none"
+            imageClassName="[filter:drop-shadow(0_40px_50px_rgba(0,0,0,0.55))]"
+          />
+        }
         lede={
           <p>
             Sushis et sashimis, plateaux à partager, spécialités, teppan, udon, bento et desserts :

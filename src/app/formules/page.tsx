@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { formulas } from "@/content/formulas";
-import { media } from "@/content/media";
 import { site } from "@/content/site";
 import { formatPrice } from "@/lib/format";
 import { PageHero } from "@/components/ui/PageHero";
@@ -8,7 +7,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import { PhoneIcon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/motion/Reveal";
 import { FormulaPanel } from "@/components/home/FormulaPanel";
-import { tabletSteps } from "@/components/home/Formulas";
+import { DishPlate } from "@/components/motion/DishPlate";
+import { media } from "@/content/media";
+import { formulaDishes, tabletSteps } from "@/components/home/Formulas";
 
 export const metadata: Metadata = {
   title: "Nos formules",
@@ -24,6 +25,23 @@ export default function FormulasPage() {
         eyebrow="Nos formules"
         title="Midi et soir,"
         accent="le menu dégustation."
+        aside={
+          <div className="mx-auto flex w-[86%] items-end justify-between gap-6">
+            {[media.dishes.nigiriSaumon, media.dishes.temakiCalifornia, media.dishes.spicyTunaGunkan].map(
+              (photo, i) => (
+                <DishPlate
+                  key={photo.src}
+                  photo={photo}
+                  sizes="14vw"
+                  shadow="none"
+                  delay={i * 0.12}
+                  className="w-1/3"
+                  imageClassName="[filter:drop-shadow(0_26px_26px_rgba(0,0,0,0.6))]"
+                />
+              ),
+            )}
+          </div>
+        }
         lede={
           <p>
             Trois tours de plats japonais, commandés sur tablette directement à votre table, à quinze
@@ -60,7 +78,6 @@ export default function FormulasPage() {
 
       {/* ── The two formulas, in detail ────────────────────────────── */}
       {formulas.map((formula, index) => {
-        const photo = formula.id === "midi" ? media.formulas.midi : media.formulas.soir;
         const dishCount = formula.groups.reduce((n, g) => n + g.dishes.length, 0);
         return (
           <section
@@ -74,7 +91,7 @@ export default function FormulasPage() {
                 <div className="lg:sticky lg:top-28">
                   <FormulaPanel
                     formula={formula}
-                    photo={photo}
+                    dishes={formulaDishes[formula.id]}
                     headingLevel={2}
                     className={index % 2 === 0 ? "" : "bg-ink"}
                   />

@@ -220,8 +220,9 @@ export function Hero() {
         {/* top shade for the header */}
         <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/70 to-transparent" />
         {/* reading area: bottom-left on desktop, bottom on phones */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 via-35% to-transparent to-75% md:via-ink/35" />
-        <div className="absolute inset-0 hidden bg-[radial-gradient(85%_80%_at_0%_100%,rgba(20,22,18,0.85),rgba(20,22,18,0.25)_55%,transparent_80%)] md:block" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink from-10% via-ink/80 via-50% to-ink/0 to-[80%] md:from-ink md:from-0% md:via-ink/35 md:via-35% md:to-75%" />
+        <div className="absolute inset-0 hidden bg-gradient-to-r from-ink/80 via-ink/40 via-45% to-transparent to-70% md:block" />
+        <div className="absolute inset-0 hidden bg-[radial-gradient(85%_80%_at_0%_100%,rgba(20,22,18,0.8),rgba(20,22,18,0.2)_55%,transparent_80%)] md:block" />
         {/* vignette */}
         <div className="absolute inset-0 shadow-[inset_0_0_180px_40px_rgba(10,11,9,0.55)]" />
         {/* deepen as the next section arrives */}
@@ -240,7 +241,10 @@ export function Hero() {
             Restaurant japonais · Crissier
           </p>
 
-          <h1 id="hero-title" className="display-hero mt-6 lg:mt-8">
+          <h1
+            id="hero-title"
+            className="display-hero mt-6 [text-shadow:0_2px_30px_rgba(10,11,9,0.35)] lg:mt-8"
+          >
             <span className="hero-line">
               <span style={line(0)}>Le Japon,</span>
             </span>
@@ -259,10 +263,16 @@ export function Hero() {
           </p>
 
           <div className="hero-fade mt-9 flex flex-wrap gap-3 lg:mt-11" style={line(3)}>
-            <ButtonLink href="/reservation" size="lg" variant="ivory">
+            <ButtonLink href="/reservation" size="lg" variant="ivory" className="max-sm:w-full">
               Réserver une table
             </ButtonLink>
-            <ButtonLink href="/la-carte" size="lg" variant="ghost-light" arrow>
+            <ButtonLink
+              href="/la-carte"
+              size="lg"
+              variant="ghost-light"
+              arrow
+              className="max-sm:w-full"
+            >
               Découvrir la carte
             </ButtonLink>
           </div>

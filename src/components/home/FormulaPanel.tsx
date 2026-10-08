@@ -5,18 +5,21 @@ import { cx, formatPrice } from "@/lib/format";
 
 const words = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six"];
 
+export type PanelDish = { photo: Photo; label: string };
+
 /**
  * One tasting formula, presented as an editorial panel rather than a pricing
  * tier: the round structure is the hero, prices and conditions stay legible.
  */
 export function FormulaPanel({
   formula,
-  photo,
+  dishes,
   headingLevel = 3,
   className,
 }: {
   formula: Formula;
-  photo?: Photo;
+  /** A few dishes that are part of this formula, shown as cut-outs. */
+  dishes?: PanelDish[];
   headingLevel?: 2 | 3;
   className?: string;
 }) {
@@ -28,24 +31,35 @@ export function FormulaPanel({
       aria-labelledby={`formula-${formula.id}`}
       className={cx("relative flex flex-col bg-forest text-ivory", className)}
     >
-      {photo ? (
-        <div className="relative aspect-[16/9] overflow-hidden">
-          <Image
-            src={photo.src}
-            alt={photo.alt}
-            fill
-            sizes="(min-width: 1024px) 45vw, 100vw"
-            quality={75}
-            className="object-cover"
-            style={{ objectPosition: photo.position }}
-          />
-          <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-forest via-forest/20 to-transparent" />
-        </div>
+      {dishes?.length ? (
+        <ul
+          aria-label={`Exemples de plats de la formule « ${formula.title} »`}
+          className="grid grid-cols-3 items-end gap-3 border-b border-ivory/10 px-6 pt-8 pb-5 sm:px-10 lg:px-12"
+        >
+          {dishes.map((dish) => (
+            <li key={dish.label} className="flex flex-col items-center text-center">
+              <div className="flex h-24 w-full items-end justify-center sm:h-28">
+                <Image
+                  src={dish.photo.src}
+                  alt=""
+                  width={dish.photo.width}
+                  height={dish.photo.height}
+                  sizes="(min-width: 1024px) 10vw, 28vw"
+                  quality={80}
+                  className="max-h-full w-auto max-w-full object-contain [filter:drop-shadow(0_14px_14px_rgba(0,0,0,0.45))]"
+                />
+              </div>
+              <span className="mt-3 text-[0.75rem] leading-tight text-ivory/65">{dish.label}</span>
+            </li>
+          ))}
+        </ul>
       ) : null}
 
-      <div className={cx("relative flex flex-1 flex-col p-7 sm:p-10 lg:p-12", photo && "-mt-24")}>
-        <p className="eyebrow text-brass">
-          {formula.service} · <span className="tabular">{formula.hours}</span>
+      <div className="relative flex flex-1 flex-col p-7 sm:p-10 lg:p-12">
+        <p className="eyebrow flex flex-wrap gap-x-3 text-brass">
+          <span>Menu dégustation</span>
+          <span aria-hidden>·</span>
+          <span className="tabular whitespace-nowrap">{formula.hours}</span>
         </p>
         <Heading id={`formula-${formula.id}`} className="display-lg mt-4">
           {formula.title}
