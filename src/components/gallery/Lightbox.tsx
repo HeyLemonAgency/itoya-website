@@ -3,67 +3,49 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import Image from "next/image";
 import { AnimatePresence, m } from "motion/react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, type RefObject } from "react";
 import type { Photo } from "@/content/media";
-import { cx } from "@/lib/format";
 import { ChevronLeft, ChevronRight, CloseIcon } from "@/components/ui/Icons";
-import { ImageReveal } from "@/components/motion/ImageReveal";
 
 /**
- * Editorial photo grid + accessible lightbox (Radix Dialog: focus trap,
- * Escape, focus return). Arrow keys and buttons navigate; nothing depends on
- * hover or drag.
+ * Accessible photo lightbox (Radix Dialog: focus trap, Escape, focus return
+ * to the element that opened it). Arrow keys and buttons navigate; nothing
+ * depends on hover or drag. Controlled: `index` is the photo shown, `null`
+ * when closed.
  */
-export function Gallery({ photos, className }: { photos: Photo[]; className?: string }) {
-  const [index, setIndex] = useState<number | null>(null);
+export function Lightbox({
+  photos,
+  index,
+  onIndexChange,
+  returnFocus,
+}: {
+  photos: Photo[];
+  index: number | null;
+  onIndexChange: (index: number | null) => void;
+  /** Element to focus again on close (the one that opened the lightbox). */
+  returnFocus?: RefObject<HTMLElement | null>;
+}) {
   const [direction, setDirection] = useState(0);
   const open = index !== null;
 
   const go = useCallback(
     (delta: number) => {
+      if (index === null) return;
       setDirection(delta);
-      setIndex((i) => (i === null ? i : (i + delta + photos.length) % photos.length));
+      onIndexChange((index + delta + photos.length) % photos.length);
     },
-    [photos.length],
+    [index, onIndexChange, photos.length],
   );
 
   return (
     <>
-      <ul className={cx("columns-2 gap-4 sm:gap-6 lg:columns-3 lg:gap-8", className)}>
-        {photos.map((photo, i) => (
-          <li key={photo.src} className="mb-4 break-inside-avoid sm:mb-6 lg:mb-8">
-            <button
-              type="button"
-              onClick={() => {
-                setDirection(0);
-                setIndex(i);
-              }}
-              className="group relative block w-full cursor-zoom-in overflow-hidden focus-visible:outline-offset-4"
-            >
-              {/* Each photo keeps its own proportions (masonry), so nothing is cropped. */}
-              <span
-                className="block w-full"
-                style={{ aspectRatio: `${photo.width} / ${photo.height}` }}
-              >
-                <ImageReveal as="span" className="h-full w-full" delay={(i % 3) * 0.08}>
-                  <Image
-                    src={photo.src}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 30vw, 50vw"
-                    quality={72}
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                    style={{ objectPosition: photo.position }}
-                  />
-                </ImageReveal>
-              </span>
-              <span className="sr-only">Agrandir : {photo.alt}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <Dialog.Root open={open} onOpenChange={(o) => !o && setIndex(null)}>
+      <Dialog.Root
+        open={open}
+        onOpenChange={(o) => {
+          if (!o) onIndexChange(null);
+          setDirection(0);
+        }}
+      >
         <AnimatePresence>
           {open ? (
             <Dialog.Portal forceMount>
@@ -79,6 +61,11 @@ export function Gallery({ photos, className }: { photos: Photo[]; className?: st
               <Dialog.Content
                 forceMount
                 aria-describedby={undefined}
+                onCloseAutoFocus={(e) => {
+                  if (!returnFocus?.current) return;
+                  e.preventDefault();
+                  returnFocus.current.focus();
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "ArrowRight") go(1);
                   if (e.key === "ArrowLeft") go(-1);

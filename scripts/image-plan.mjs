@@ -19,6 +19,8 @@ export const sources = {
   counter: "394bef_ef36b5089a924a63b90eb70623f5d007~mv2.jpg", // 2448×3264
   kokeshi: "394bef_3c8ed3ce1bfb4e5194d0d0c076abef16~mv2.jpg", // 4032×3024 (rotated)
   doll: "394bef_f555a733443e44b6b3c6ebf1379aee7a~mv2.jpg", // 4032×3024 (rotated)
+  dollRed: "394bef_f52927e3d6e24a088fb60b2e6e13a548~mv2.jpg", // 4032×3024 (rotated)
+  vitrine: "394bef_68fbc263c87b4666b47551fb91424498~mv2.jpg", // 2667×1073, fish display at the counter
   logo: "394bef_feceee6ea7f94ae0b75760eba3bf6293~mv2.jpg", // 1080×635 (traced to SVG by hand)
   // Dishes — transparent cut-outs from the official menu (itoya.ch/la-carte)
   sashimis: "394bef_afacc7ba867949d59d708428719e8dfb~mv2.png", // N°41, 1165×1194
@@ -91,6 +93,8 @@ export const outputs = [
   { out: "room-counter.jpg", from: "counter", width: 1200 },
   { out: "detail-kokeshi.jpg", from: "kokeshi", width: 1200 },
   { out: "detail-doll.jpg", from: "doll", width: 1200 },
+  { out: "detail-doll-red.jpg", from: "dollRed", width: 1200 },
+  { out: "room-vitrine.jpg", from: "vitrine", width: 2000 },
 
   // Dishes (cut-outs).
   ...[

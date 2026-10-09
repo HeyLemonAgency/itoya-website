@@ -188,6 +188,19 @@ export const media = {
       1600,
       "Poupée traditionnelle japonaise exposée dans la salle.",
     ),
+    dollRed: p(
+      "detail-doll-red.jpg",
+      1200,
+      1600,
+      "Poupée traditionnelle japonaise en kimono rouge et orange, exposée au restaurant.",
+    ),
+    vitrine: p(
+      "room-vitrine.jpg",
+      2000,
+      805,
+      "La vitrine du comptoir sushi : filets de saumon, de thon et d’autres poissons sous la lumière.",
+      "60% 50%",
+    ),
   },
 
   share: p(
@@ -210,12 +223,15 @@ export const categoryPhotos: Record<string, Photo> = {
 /** The venue gallery, in reading order. */
 export const venueGallery: Photo[] = [
   media.room.wide,
-  media.room.noren,
-  media.room.counter,
   media.intro.canopy,
-  media.room.sign,
-  media.room.kokeshi,
-  media.room.privateRoomLong,
+  media.room.counter,
+  media.room.vitrine,
+  media.room.noren,
   media.room.entrance,
+  media.room.sign,
+  media.room.privateRoom,
+  media.room.privateRoomLong,
+  media.room.kokeshi,
   media.room.doll,
+  media.room.dollRed,
 ];
