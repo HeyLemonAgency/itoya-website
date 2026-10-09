@@ -35,19 +35,19 @@ Manrope variable, latin subset (~95 KB in total). Every page is statically prere
 
 ## Where to edit content
 
-| What                                                                 | File                                                      |
-| -------------------------------------------------------------------- | --------------------------------------------------------- |
-| Address, phones, email, hours, access, social links, booking channel | `src/content/site.ts`                                     |
-| Full menu (dishes, prices, labels)                                   | `src/content/menu.ts`                                     |
-| Lunch / evening formulas, dish lists, supplements                    | `src/content/formulas.ts`                                 |
-| Every photo (path, size, alt text, crop focus)                       | `src/content/media.ts`                                    |
-| Dishes featured on the homepage                                      | `src/components/home/FoodSequence.tsx` (`leads`, `trio`)  |
-| Dishes shown on the formula panels (`/formules`)                     | `src/components/home/Formulas.tsx` (`formulaDishes`)      |
-| Dishes on the homepage dish belt                                     | `src/components/home/DishBelt.tsx` (`rows`)               |
-| Venue page: panorama points, spaces, floating details                | `src/app/le-lieu/page.tsx` (`spots`, `spaces`, `details`) |
-| Photos in the venue lightbox                                         | `src/content/media.ts` (`venueGallery`)                   |
-| Dish photo beside each menu category                                 | `src/content/media.ts` (`categoryPhotos`)                 |
-| Photo of each dish (menu thumbnails, desktop stage, belt)            | `src/content/menu-images.ts` (generated, see above)       |
+| What                                                                 | File                                                               |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Address, phones, email, hours, access, social links, booking channel | `src/content/site.ts`                                              |
+| Full menu (dishes, prices, labels)                                   | `src/content/menu.ts`                                              |
+| Lunch / evening formulas, dish lists, supplements                    | `src/content/formulas.ts`                                          |
+| Every photo (path, size, alt text, crop focus)                       | `src/content/media.ts`                                             |
+| Dishes featured on the homepage                                      | `src/components/home/FoodSequence.tsx` (`leads`, `trio`)           |
+| Dishes shown on the formula panels (`/formules`)                     | `src/components/home/Formulas.tsx` (`formulaDishes`)               |
+| Dishes on the homepage dish belt                                     | `src/components/home/DishBelt.tsx` (`rows`)                        |
+| Venue page: camera stops, spaces, detail figures, key facts          | `src/app/le-lieu/page.tsx` (`stops`, `spaces`, `figures`, `facts`) |
+| Photos in the venue lightbox                                         | `src/content/media.ts` (`venueGallery`)                            |
+| Dish photo beside each menu category                                 | `src/content/media.ts` (`categoryPhotos`)                          |
+| Photo of each dish (menu thumbnails, desktop stage, belt)            | `src/content/menu-images.ts` (generated, see above)                |
 
 Prices are numbers in CHF; `price: null` displays « Sur demande ». The menu can be fully re-imported
 from a fresh snapshot with `scripts/build-menu.py` (see the header of that script).
@@ -131,15 +131,20 @@ What was adopted:
 
 Venue page (9 October 2026). The catalogue was surveyed again for immersive gallery and scroll
 components (`/community/components/s/gallery.md`, `parallax.md`, `scroll-animation.md`). Code
-downloads are still gated, and GitHub was not reachable from the build environment, so only code
-already reviewed from the authors' MIT repositories was adapted; other patterns were rebuilt:
+downloads are still gated and GitHub was not reachable from the build environment, so patterns were
+rebuilt locally and credited in each file:
 
-| Component                                                   | Origin                                                           | Use                                                                                                                                                                                                                                                      |
-| ----------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Parallax Floating** by Daniel Petho                       | 21st.dev `@danielpetho/parallax-floating`, fancy components, MIT | Adapted as `src/components/motion/ParallaxFloating.tsx` for « Les détails »: elements also drift with the scroll (touch screens get the depth), the loop only runs while something moves, nothing moves under reduced motion. Credit in the file header. |
-| **Spotlight** by ibelick                                    | 21st.dev / motion-primitives `spotlight`, MIT                    | Its spring-follows-the-pointer idea drives the lantern light in `LanternLight.tsx`, which reveals a photo through a mask instead of tinting a card. Credit in the file header.                                                                           |
-| _Text Scroll Read_ (@youcefbnm)                             | 21st.dev, code not downloaded                                    | Pattern rebuilt with Motion in `ScrollRead.tsx`; unread words stay above 3:1 contrast.                                                                                                                                                                   |
-| _Hover Expand_ (@educalvolpz), _Expanding Cards_ (@vaib215) | 21st.dev, code not downloaded                                    | Pattern rebuilt in `Spaces.tsx` with CSS flex transitions, buttons with `aria-expanded`, keyboard and touch support.                                                                                                                                     |
+| Pattern                                | Origin                            | Use                                                                                                                 |
+| -------------------------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| _Scroll Expansion Hero_ (@arunachalam) | 21st.dev, code not downloaded     | `VenueOpening.tsx`: the room seen through a narrow opening that widens to the full screen, the title drawing apart. |
+| _Sticky Scroll Reveal_ (@manuarora700) | 21st.dev, code not downloaded     | `GuidedView.tsx`: a sticky photo beside scrolling chapters, rebuilt as a camera that moves to each detail.          |
+| _Text Scroll Read_ (@youcefbnm)        | 21st.dev, code not downloaded     | `ScrollRead.tsx`; unread words stay above 3:1 contrast.                                                             |
+| **Spotlight** by ibelick               | 21st.dev / motion-primitives, MIT | Its spring-follows-the-pointer idea drives the lantern light in `LanternLight.tsx`.                                 |
+
+A first version of the venue page (noren curtains, a draggable panorama with labelled points, a
+floating collage adapted from Daniel Petho's MIT _Parallax Floating_, CSS shoji screens) was
+judged too gimmicky and replaced by the editorial version above; that code is no longer in the
+project.
 
 Reviewed and not adopted:
 
@@ -182,16 +187,16 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
   - Dish plates "set down" once.
   - The round platter turns slightly with scroll; it is a top-down photo, so a 2D turn is honest.
   - The mobile menu and the lightbox animate in and out with `AnimatePresence`.
-- **Venue page (`/le-lieu`, `src/components/venue/`):**
-  - _Noren:_ three indigo noren carrying 伊 · 藤 · 屋 (the logo's own characters) hang over the night canopy. Scrolling draws the side panels aside and lifts the middle one, while the room settles from a slight zoom. Pointer movement and scroll speed make the fabric sway on a soft spring. One extra screen of sticky stage; the headline is visible from the first frame.
-  - _Scroll read:_ a sentence whose words deepen from warm grey to ink as it is read.
-  - _Panorama:_ the daylight room photo, wider than the screen, travels with the page (no pinning) and can be dragged, swiped or moved with buttons. Five labelled points open captions on hover, focus or tap. A focused point is brought into view and held there.
-  - _Spaces:_ five panels that open out on mouse movement, focus or tap. A panel never opens just because the page scrolled it under a still cursor.
-  - _Shoji:_ two paper screens on a wooden lattice slide open over the private-room photo as it scrolls into view; the room shows through the paper first.
-  - _Details:_ photos float at different depths around the title, following the pointer and the scroll. Each opens the lightbox (all 12 venue photos; focus returns to the photo that opened it).
-  - _Lantern light:_ the night canopy in near darkness, revealed by a warm pool of light that follows the pointer or finger; without a pointer it drifts slowly with the scroll.
-  - Reduced motion: the noren hang drawn aside and the shoji stand open from the first paint (CSS); no zoom, sway, scroll travel, floating or drifting light; the sentence is fully inked. Dragging, buttons, captions, panels and the lightbox still work.
-- **What the site never does:** scroll hijacking, long pinned sequences, a preloader or sound. The only sticky stages are one screen long (home opening, venue noren).
+- **Venue page (`/le-lieu`, `src/components/venue/`):** restrained and editorial: large, carefully cropped photographs, slow eased moves (1.1–1.7 s), thin rules and numbered captions; no labels on photos, no tilts, no drawn props.
+  - _Opening:_ the night canopy seen through a narrow portrait opening that widens to the full screen as the page scrolls, the title's two halves drawing apart, then a short caption. One custom property drives it in CSS (`.venue-opening`). One extra screen of sticky stage; the title is visible from the first frame.
+  - _Scroll read:_ a sentence whose words deepen from warm grey to ink as it is read, and three key facts.
+  - _La salle:_ the room photo stays in place beside five short chapters; as each chapter reaches the reading line, the camera glides (1.6 s) to the canopy, the lanterns, the wooden screens or the round window. One move per chapter, nothing scrubbed.
+  - _Les espaces:_ an index of four spaces beside one large photo; pointing at a name (with a short intent, never because the page scrolled), focusing or tapping it opens its description and draws its photo over the previous one with a curtain. On phones the photo stays at the top while the list scrolls.
+  - _Salles privées:_ the photo opens from its centre, like sliding doors, from a fine brass seam.
+  - _Les détails:_ five numbered figures on an asymmetric grid, revealed by a curtain and drifting very slightly at different speeds; each opens the lightbox (all 12 venue photos, focus returns to the figure).
+  - _Closing:_ the night canopy in near darkness, revealed by a warm pool of lantern light that follows the pointer or finger.
+  - Reduced motion: the opening shows the whole photo with the title over it, the doors stand open, the sentence is fully inked (all from the first paint, in CSS); the camera cuts instead of travelling; no drift or zoom. Every interaction still works.
+- **What the site never does:** scroll hijacking, long pinned sequences, a preloader or sound. The only sticky stages are one screen long (home opening, venue opening); the venue's guided camera keeps its photo in place while ordinary content scrolls beside it.
 - **Without JavaScript,** a `<noscript>` rule un-hides every `[data-reveal]` element and shows the brush lettering complete.
 
 ## Checks performed (8 October 2026, production build)
@@ -217,7 +222,7 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
   - The homepage's simulated LCP (4.6 s) is a modelling artifact. The LCP element is the server-rendered headline, but because the local server delivers the JavaScript before the first paint, Lighthouse's simulation assumes the paint waits for it.
 - **Lighthouse with applied DevTools throttling** (slow 4G and 4× CPU): homepage 84 (FCP = LCP = 2.3 s); menu and venue 88–90 (LCP 2.2 s). CLS 0.
 - **Real Chrome LCP with 4× CPU throttling:** 0.48 s on the homepage, equal to first paint.
-- **Venue page** (same method, 9 October 2026): Accessibility 100, Best practices 100. Performance 86–90 on mobile (TBT 80–390 ms), 99 with the desktop preset (LCP 0.9 s, TBT 0). CLS 0. Checked at 1440, 1024, 768, 390 and 360 px and with reduced motion: no console errors, no horizontal overflow. Keyboard: points of interest, spaces and lightbox (arrows, Escape, focus return) tested.
+- **Venue page, editorial version** (same method, 9 October 2026): Accessibility 100, Best practices 100. Performance 75–89 on mobile over three runs (TBT 40–450 ms), 99 with the desktop preset (LCP 0.9 s, TBT 0). CLS 0. Checked at 1440, 1024, 768, 390 and 360 px and with reduced motion: no console errors, no horizontal overflow. Keyboard: spaces index (focus opens, Tab moves on) and lightbox (arrows, Escape, focus return) tested.
 - **After the opening / belt / menu-photo pass** (same method):
   - Accessibility 100 and Best practices 100 on home, menu and formulas.
   - Homepage 77–82 over three runs (TBT 140–250 ms). Formulas 91. Menu 84–95 over three warm runs (TBT 110–290 ms); one cold run straight after a rebuild scored 68. Menu with the desktop preset: 100 (LCP 0.8 s, TBT 0).

@@ -6,57 +6,52 @@ import { ButtonLink } from "@/components/ui/Button";
 import { PhoneIcon } from "@/components/ui/Icons";
 import { Reveal } from "@/components/motion/Reveal";
 import { ImageReveal } from "@/components/motion/ImageReveal";
-import { NorenHero } from "@/components/venue/NorenHero";
+import { VenueOpening } from "@/components/venue/VenueOpening";
 import { ScrollRead } from "@/components/venue/ScrollRead";
-import { RoomPanorama, type Spot } from "@/components/venue/RoomPanorama";
-import { Spaces, type Space } from "@/components/venue/Spaces";
-import { ShojiReveal } from "@/components/venue/ShojiReveal";
-import { FloatingDetails, type FloatingPhoto } from "@/components/venue/FloatingDetails";
+import { GuidedView, type Stop } from "@/components/venue/GuidedView";
+import { SpacesIndex, type Space } from "@/components/venue/SpacesIndex";
+import { DoorReveal } from "@/components/venue/DoorReveal";
+import { DetailsSpread, type Figure } from "@/components/venue/DetailsSpread";
 import { LanternLight } from "@/components/venue/LanternLight";
 
 export const metadata: Metadata = {
   title: "Le lieu",
   description:
-    "Passez le noren : une salle sous une canopée de fleurs de cerisier, des lanternes en bambou, un comptoir sushi et teppanyaki et trois salles tatami privées. Visitez Itoya, à Crissier.",
+    "Une salle sous une canopée de fleurs de cerisier, des lanternes en bambou, un comptoir sushi et teppanyaki et trois salles tatami privées : visitez Itoya, à Crissier.",
   alternates: { canonical: "/le-lieu" },
 };
 
-/** Points of interest on the room panorama (media.room.wide): what the photo shows. */
-const spots: Spot[] = [
+/** The guided look around media.room.wide: only what the photo shows. */
+const stops: Stop[] = [
+  {
+    id: "salle",
+    title: "La salle",
+    text: "Du bois sombre, une lumière douce et, au plafond, un ciel de fleurs de cerisier.",
+    focus: { x: 50, y: 50, zoom: 1 },
+  },
   {
     id: "canopee",
-    x: 58,
-    y: 20,
     title: "La canopée",
-    text: "Des branches de cerisier en fleurs forment un ciel rose au-dessus des tables.",
+    text: "Des branches de cerisier en fleurs couvrent le plafond et forment un ciel rose au-dessus des tables.",
+    focus: { x: 60, y: 20, zoom: 1.55 },
   },
   {
     id: "lanternes",
-    x: 67,
-    y: 40,
     title: "Les lanternes",
-    text: "Des lanternes en bambou, suspendues parmi les fleurs, éclairent la salle.",
+    text: "Des lanternes en bambou, suspendues parmi les fleurs, diffusent une lumière chaude.",
+    focus: { x: 67, y: 41, zoom: 1.9 },
   },
   {
     id: "claustras",
-    x: 37,
-    y: 56,
     title: "Les claustras",
-    text: "Des cloisons de bois ajouré aux motifs géométriques dessinent la salle.",
+    text: "Des cloisons de bois ajouré aux motifs géométriques dessinent la salle et séparent les tables.",
+    focus: { x: 36, y: 57, zoom: 1.75 },
   },
   {
     id: "fenetre",
-    x: 7,
-    y: 69,
     title: "La fenêtre ronde",
     text: "Une ouverture ronde, cerclée de lumière bleue, encadre une peinture.",
-  },
-  {
-    id: "tables",
-    x: 76,
-    y: 79,
-    title: "Les tables",
-    text: "Tables en bois et banquettes, séparées par des cloisons basses.",
+    focus: { x: 8, y: 70, zoom: 1.9 },
   },
 ];
 
@@ -74,12 +69,6 @@ const spaces: Space[] = [
     photo: media.room.counter,
   },
   {
-    id: "vitrine",
-    title: "La vitrine",
-    text: "Saumon, thon et autres poissons, en vitrine au comptoir sushi.",
-    photo: media.room.vitrine,
-  },
-  {
     id: "noren",
     title: "Les noren",
     text: "Des rideaux noren illustrés et des cloisons ajourées séparent les espaces de la salle.",
@@ -90,186 +79,186 @@ const spaces: Space[] = [
     title: "L’enseigne",
     text: "伊藤屋 · いとうや · ITOYA : l’enseigne en relief, éclairée de bleu.",
     photo: media.room.sign,
+    position: "55% 50%",
   },
 ];
 
-const details: FloatingPhoto[] = [
+const figures: Figure[] = [
   {
     photo: media.room.kokeshi,
-    depth: 1.4,
-    tilt: -3,
-    className: "left-[4%] top-[6%] w-[30vw] md:left-[5%] md:w-[15vw]",
+    caption: "Kokeshi en bois",
+    aspect: "aspect-[4/5]",
+    className: "col-span-4 lg:col-span-5",
   },
   {
     photo: media.room.dollRed,
-    depth: 0.7,
-    tilt: 2,
-    className: "left-[29%] top-[4%] w-[10vw]",
-    wide: true,
-  },
-  {
-    photo: media.room.sign,
-    depth: 1.9,
-    tilt: 2.5,
-    className: "right-[4%] top-[8%] w-[32vw] md:right-[5%] md:w-[17vw]",
+    caption: "Poupée en kimono",
+    aspect: "aspect-[3/4]",
+    className: "col-span-2 self-end lg:col-span-3 lg:col-start-7 lg:mt-[18vh] lg:self-start",
+    drift: 36,
   },
   {
     photo: media.intro.canopy,
-    depth: 0.9,
-    tilt: -2,
-    className: "right-[27%] top-[3%] w-[9.5vw]",
-    wide: true,
+    caption: "Lanternes en bambou",
+    aspect: "aspect-[3/4]",
+    className: "col-span-3 lg:col-span-3 lg:col-start-10 lg:mt-[4vh]",
+    drift: 18,
   },
   {
     photo: media.room.doll,
-    depth: 2.8,
-    tilt: 3,
-    className: "left-[6%] bottom-[7%] w-[28vw] md:left-[15%] md:bottom-[8%] md:w-[12vw]",
+    caption: "Poupée traditionnelle",
+    aspect: "aspect-[3/4]",
+    className: "col-span-3 mt-16 lg:col-span-3 lg:col-start-2 lg:mt-[8vh]",
+    drift: 28,
   },
   {
     photo: media.room.vitrine,
-    depth: 3.2,
-    tilt: -2,
-    className: "right-[5%] bottom-[9%] w-[48vw] md:right-[11%] md:bottom-[9%] md:w-[23vw]",
-  },
-  {
-    photo: media.room.noren,
-    depth: 2.2,
-    tilt: 2,
-    className: "left-[2%] top-[42%] w-[10vw]",
-    wide: true,
-  },
-  {
-    photo: media.room.entrance,
-    depth: 1.6,
-    tilt: -3,
-    className: "right-[2%] top-[44%] w-[10.5vw]",
-    wide: true,
+    caption: "La vitrine du comptoir sushi",
+    aspect: "aspect-[5/2]",
+    className: "col-span-6 lg:col-span-7 lg:col-start-6 lg:mt-[16vh]",
+    drift: 12,
   },
 ];
+
+const facts = [
+  { label: "La salle", value: "Sous une canopée de cerisiers" },
+  { label: "Le comptoir", value: "Sushi et teppanyaki" },
+  { label: "Les salons", value: "Trois salles tatami privées" },
+];
+
+function Eyebrow({ children, tone = "dark" }: { children: string; tone?: "dark" | "light" }) {
+  return (
+    <p
+      className={`eyebrow flex items-center gap-4 ${tone === "dark" ? "text-sakura-deep" : "text-sakura"}`}
+    >
+      <span
+        aria-hidden
+        className={`h-px w-10 ${tone === "dark" ? "bg-sakura-deep/60" : "bg-sakura/70"}`}
+      />
+      {children}
+    </p>
+  );
+}
 
 export default function PlacePage() {
   const { room } = media;
   return (
     <>
-      {/* ── I. Passer le noren ─────────────────────────────────────── */}
-      <NorenHero>
-        <p className="eyebrow flex items-center gap-4 text-sakura">
-          <span aria-hidden className="h-px w-10 bg-sakura/70" />
-          Le lieu · Crissier
-        </p>
-        <h1
-          id="venue-title"
-          className="display-hero mt-6 max-w-[11ch] [text-shadow:0_2px_30px_rgba(0,0,0,0.45)]"
-        >
-          Prenez place <em className="text-sakura-pale">sous les fleurs.</em>
-        </h1>
-        <p className="lede mt-6 max-w-[34rem] text-ivory/85">
-          Au Japon, on écarte le noren pour entrer. Derrière celui d’Itoya, une salle sous une
-          canopée de fleurs de cerisier.
-        </p>
-      </NorenHero>
+      {/* ── I. L’ouverture ─────────────────────────────────────────── */}
+      <VenueOpening
+        eyebrow="Le lieu · Crissier"
+        before="Prenez place"
+        after="sous les fleurs."
+        caption={
+          <p className="lede max-w-[32rem] text-ivory/90 [text-shadow:0_1px_20px_rgba(0,0,0,0.5)]">
+            Une salle sous les fleurs de cerisier, un comptoir sushi et teppanyaki, trois salles
+            tatami : bienvenue chez Itoya, à Crissier.
+          </p>
+        }
+      />
 
-      {/* ── II. La salle ───────────────────────────────────────────── */}
-      <section aria-labelledby="room-title" className="on-light bg-ivory pb-24 lg:pb-36">
-        <div className="container-x py-28 lg:py-44">
+      {/* ── II. Le décor ───────────────────────────────────────────── */}
+      <section aria-label="Le décor" className="on-light bg-ivory pt-28 pb-8 lg:pt-44">
+        <div className="container-x">
           <ScrollRead
             text="Une *canopée de cerisiers en fleurs,* la lumière des *lanternes en bambou,* le bois sombre des *claustras* : chez Itoya, le décor fait partie du repas."
-            className="mx-auto max-w-[24ch] text-center font-serif text-[clamp(2rem,1.2rem+3.4vw,4.5rem)] leading-[1.12] text-ink"
+            className="mx-auto max-w-[24ch] text-center font-serif text-[clamp(2rem,1.2rem+3.4vw,4.5rem)] leading-[1.12]"
           />
+          <dl className="mx-auto mt-20 grid max-w-5xl gap-8 border-t border-line pt-8 sm:grid-cols-3 lg:mt-28">
+            {facts.map((fact, i) => (
+              <Reveal key={fact.label} index={i}>
+                <dt className="text-[0.6875rem] font-semibold tracking-[0.18em] text-brass-deep uppercase">
+                  {fact.label}
+                </dt>
+                <dd className="mt-3 font-serif text-[1.5rem] leading-snug text-ink">
+                  {fact.value}
+                </dd>
+              </Reveal>
+            ))}
+          </dl>
         </div>
+      </section>
 
-        <div className="container-x grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
+      {/* ── III. La salle, du regard ───────────────────────────────── */}
+      <section
+        aria-labelledby="room-title"
+        className="on-light bg-ivory pt-24 pb-24 lg:pt-36 lg:pb-36"
+      >
+        <div className="container-x">
+          <Reveal>
+            <Eyebrow>La salle</Eyebrow>
+          </Reveal>
+          <Reveal index={1}>
+            <h2 id="room-title" className="display-xl mt-7 max-w-[13ch] text-ink">
+              Les yeux levés vers les fleurs.
+            </h2>
+          </Reveal>
+          <div className="mt-12 lg:mt-4">
+            <GuidedView photo={room.wide} stops={stops} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── IV. Les espaces ────────────────────────────────────────── */}
+      <section
+        aria-labelledby="spaces-title"
+        className="grain relative bg-ink py-24 text-ivory lg:py-36"
+      >
+        <div className="container-x relative z-10">
+          <div className="mb-14 lg:mb-20">
             <Reveal>
-              <p className="eyebrow flex items-center gap-4 text-sakura-deep">
-                <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
-                La salle
-              </p>
+              <Eyebrow tone="light">Au fil de la visite</Eyebrow>
             </Reveal>
             <Reveal index={1}>
-              <h2 id="room-title" className="display-xl mt-7 max-w-[13ch] text-ink">
-                Les yeux levés vers les fleurs.
+              <h2 id="spaces-title" className="display-xl mt-7 max-w-[14ch]">
+                De l’entrée <em className="text-sakura-pale">au comptoir.</em>
               </h2>
             </Reveal>
           </div>
-        </div>
-        <RoomPanorama photo={room.wide} spots={spots} className="mt-12 lg:mt-16" />
-      </section>
-
-      {/* ── III. Au fil de la visite ───────────────────────────────── */}
-      <section aria-labelledby="spaces-title" className="on-light bg-paper py-24 lg:py-36">
-        <div className="container-x">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <p className="eyebrow flex items-center gap-4 text-sakura-deep">
-                  <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
-                  Au fil de la visite
-                </p>
-              </Reveal>
-              <Reveal index={1}>
-                <h2 id="spaces-title" className="display-xl mt-7 max-w-[13ch] text-ink">
-                  De l’entrée au comptoir.
-                </h2>
-              </Reveal>
-            </div>
-            <Reveal index={2} className="lg:col-span-4 lg:col-start-9">
-              <p className="text-muted">Survolez ou touchez chaque espace pour l’ouvrir.</p>
-            </Reveal>
-          </div>
-          <Reveal index={1} distance={24}>
-            <Spaces spaces={spaces} className="mt-12 lg:mt-16" />
-          </Reveal>
+          <SpacesIndex spaces={spaces} />
         </div>
       </section>
 
-      {/* ── IV. Salles privées ─────────────────────────────────────── */}
-      <section
-        aria-labelledby="tatami-title"
-        className="grain relative bg-ink py-24 text-ivory lg:py-36"
-      >
-        <div className="container-x relative z-10 grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-x-10">
-          <ShojiReveal
+      {/* ── V. Salles privées ──────────────────────────────────────── */}
+      <section aria-labelledby="tatami-title" className="on-light bg-paper py-24 lg:py-36">
+        <div className="container-x grid gap-14 lg:grid-cols-12 lg:items-center lg:gap-x-10">
+          <DoorReveal
             photo={room.privateRoom}
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="aspect-[4/5] lg:col-span-6"
           />
           <div className="lg:col-span-5 lg:col-start-8">
             <Reveal>
-              <p className="eyebrow flex items-center gap-4 text-sakura">
-                <span aria-hidden className="h-px w-10 bg-sakura/70" />
-                Salles privées
-              </p>
+              <Eyebrow>Salles privées</Eyebrow>
             </Reveal>
             <Reveal index={1}>
-              <h2 id="tatami-title" className="display-xl mt-7 max-w-[12ch]">
-                Trois salles <em className="text-sakura-pale">tatami.</em>
+              <h2 id="tatami-title" className="display-xl mt-7 max-w-[12ch] text-ink">
+                Trois salles <em className="text-sakura-deep">tatami.</em>
               </h2>
             </Reveal>
             <Reveal index={2}>
-              <p className="lede mt-7 max-w-[30rem] text-ivory/80">
+              <p className="lede mt-7 max-w-[30rem] text-muted">
                 Pour un repas plus au calme, Itoya dispose de trois salles tatami privées.
                 Renseignements et disponibilités par téléphone.
               </p>
             </Reveal>
             <Reveal index={3}>
               <div className="mt-10 flex flex-wrap gap-3">
-                <ButtonLink href={site.phone.href} variant="ivory" icon={<PhoneIcon size={16} />}>
+                <ButtonLink href={site.phone.href} variant="ink" icon={<PhoneIcon size={16} />}>
                   {site.phone.display}
                 </ButtonLink>
-                <ButtonLink href="/reservation" variant="ghost-light" arrow>
+                <ButtonLink href="/reservation" variant="ghost-dark" arrow>
                   Réserver
                 </ButtonLink>
               </div>
             </Reveal>
-            <ImageReveal className="mt-14 hidden aspect-[16/10] w-full sm:block" delay={0.2}>
+            <ImageReveal className="mt-14 hidden aspect-[16/10] w-full sm:block" delay={0.15}>
               <Image
                 src={room.privateRoomLong.src}
                 alt={room.privateRoomLong.alt}
                 fill
                 sizes="(min-width: 1024px) 36vw, 90vw"
-                quality={74}
+                quality={76}
                 className="object-cover"
                 style={{ objectPosition: "50% 60%" }}
               />
@@ -278,35 +267,34 @@ export default function PlacePage() {
         </div>
       </section>
 
-      {/* ── V. Les détails ─────────────────────────────────────────── */}
-      <section
-        aria-labelledby="details-title"
-        className="on-light relative h-[clamp(44rem,118svh,64rem)] overflow-hidden bg-ivory"
-      >
-        <FloatingDetails items={details} photos={venueGallery}>
-          <p className="eyebrow flex items-center gap-4 text-sakura-deep">
-            <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
-            Les détails
-            <span aria-hidden className="h-px w-10 bg-sakura-deep/60" />
-          </p>
-          <h2 id="details-title" className="display-xl mt-7 max-w-[12ch] text-ink">
-            Un détail à chaque regard.
-          </h2>
-          <p className="lede mt-6 max-w-[26rem] text-muted">
-            Kokeshi en bois, poupées traditionnelles, enseigne en relief, rideaux noren : la salle
-            se découvre peu à peu.
-          </p>
-        </FloatingDetails>
+      {/* ── VI. Les détails ────────────────────────────────────────── */}
+      <section aria-labelledby="details-title" className="on-light bg-ivory py-24 lg:py-36">
+        <div className="container-x">
+          <DetailsSpread
+            figures={figures}
+            photos={venueGallery}
+            heading={
+              <>
+                <Reveal>
+                  <Eyebrow>Les détails</Eyebrow>
+                </Reveal>
+                <Reveal index={1}>
+                  <h2 id="details-title" className="display-xl mt-7 max-w-[13ch] text-ink">
+                    Un détail à chaque regard.
+                  </h2>
+                </Reveal>
+              </>
+            }
+          />
+        </div>
       </section>
 
-      {/* ── VI. À la lumière des lanternes ─────────────────────────── */}
+      {/* ── VII. À la lumière des lanternes ────────────────────────── */}
       <LanternLight photo={media.hero.desktop}>
         <div className="container-x flex flex-col gap-10 pb-16 lg:flex-row lg:items-end lg:justify-between lg:pb-24">
           <div>
             <Reveal>
-              <p className="eyebrow flex items-center gap-4 text-sakura">
-                <span aria-hidden className="h-px w-10 bg-sakura/70" />À la lumière des lanternes
-              </p>
+              <Eyebrow tone="light">À la lumière des lanternes</Eyebrow>
             </Reveal>
             <Reveal index={1}>
               <h2
