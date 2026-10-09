@@ -8,7 +8,7 @@ import type { Photo } from "@/content/media";
 import type { DishImage } from "@/content/menu-images";
 import { cx, normalizeSearch } from "@/lib/format";
 import { CloseIcon, SearchIcon } from "@/components/ui/Icons";
-import { DishPreview } from "./DishPreview";
+import { DishStage } from "./DishStage";
 import { Price, dishMeta } from "./Price";
 
 function haystack(item: MenuItem, section: string, category: string) {
@@ -39,7 +39,10 @@ function DishRow({ item, image }: { item: MenuItem; image?: DishImage }) {
   return (
     <li
       data-dish={image ? item.id : undefined}
-      className="group grid grid-cols-[4rem_1fr_auto] items-start gap-x-4 border-b border-line/80 py-5 desk:grid-cols-[3.25rem_1fr_auto] desk:items-baseline"
+      className={cx(
+        "grid grid-cols-[4rem_1fr_auto] items-start gap-x-4 border-b border-line/80 py-5 desk:grid-cols-[3.25rem_1fr_auto] desk:items-baseline",
+        image && "dish-row",
+      )}
     >
       <div className="desk:contents">
         {/* Touch screens: the dish photo leads the row… */}
@@ -54,11 +57,22 @@ function DishRow({ item, image }: { item: MenuItem; image?: DishImage }) {
             height={64}
             loading="lazy"
             decoding="async"
-            className="block h-16 w-16 object-contain [filter:drop-shadow(0_8px_8px_rgba(58,47,34,0.2))] desk:hidden"
+            className={cx(
+              "block h-16 w-16 desk:hidden",
+              image.cutout
+                ? "object-contain [filter:drop-shadow(0_8px_8px_rgba(58,47,34,0.2))]"
+                : "rounded-full object-cover",
+            )}
           />
         ) : null}
-        {/* …desktop keeps the number column (its photo floats on hover). */}
-        <span className={cx(numberStyle, image ? "hidden desk:inline" : "block pt-2 desk:pt-0")}>
+        {/* …desktop keeps the number column (its photo shows in the stage). */}
+        <span
+          className={cx(
+            numberStyle,
+            "dish-number",
+            image ? "hidden desk:inline" : "block pt-2 desk:pt-0",
+          )}
+        >
           {number}
         </span>
       </div>
@@ -66,12 +80,7 @@ function DishRow({ item, image }: { item: MenuItem; image?: DishImage }) {
         {image && number ? (
           <p className={cx(numberStyle, "mb-1 leading-4 desk:hidden")}>{number}</p>
         ) : null}
-        <h4
-          className={cx(
-            "font-serif text-[1.375rem] font-semibold leading-tight text-ink",
-            image && "transition-colors duration-200 desk:group-hover:text-sakura-deep",
-          )}
-        >
+        <h4 className="dish-name font-serif text-[1.375rem] font-semibold leading-tight text-ink">
           {item.name}
           {item.japanese ? (
             <span lang="ja" className="jp ml-2 text-[1rem] text-muted">
@@ -132,7 +141,7 @@ export function MenuBrowser({
   menu: MenuCategory[];
   /** Optional dish photo shown beside each category title. */
   categoryPhotos?: Record<string, Photo>;
-  /** Optional photo per dish id: thumbnails on touch screens, hover preview on desktop. */
+  /** Optional photo per dish id: thumbnails on touch screens, the stage on desktop. */
   images?: Record<string, DishImage>;
 }) {
   const [query, setQuery] = useState("");
@@ -185,6 +194,22 @@ export function MenuBrowser({
     (n, c) => n + c.sections.reduce((m, s) => m + s.items.length, 0),
     0,
   );
+
+  // Desktop stage: each category's signature dish (first « À l'affiche » with a
+  // photo, else the first photo), or the first result while searching.
+  const hasImages = Object.keys(images).length > 0;
+  const leads = useMemo(() => {
+    const map: Record<string, string | undefined> = {};
+    for (const category of menu) {
+      const withPhoto = category.sections.flatMap((s) => s.items).filter((i) => images[i.id]);
+      map[category.id] = (withPhoto.find((i) => i.featured) ?? withPhoto[0])?.id;
+    }
+    return map;
+  }, [menu, images]);
+  const firstResult = filtered
+    .flatMap((c) => c.sections.flatMap((s) => s.items))
+    .find((i) => images[i.id])?.id;
+  const stageFallback = searching ? firstResult : active ? leads[active] : undefined;
 
   // Scroll-spy: highlight the category currently being read.
   useEffect(() => {
@@ -335,96 +360,116 @@ export function MenuBrowser({
       </p>
 
       {/* ── Menu ─────────────────────────────────────────────────────── */}
-      <div ref={listRef} className="container-x pb-24 lg:pb-32">
-        {Object.keys(images).length ? <DishPreview root={listRef} images={images} /> : null}
-        <AnimatePresence initial={false}>
-          {searching ? (
-            <m.p
-              key="results"
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="pt-8 text-[0.9375rem] text-muted"
-            >
-              {resultCount === 0 ? (
-                <>
-                  Aucun plat ne correspond à « {query.trim()} ».{" "}
-                  <button
-                    type="button"
-                    onClick={() => setQuery("")}
-                    className="link-underline text-ink"
-                  >
-                    Afficher toute la carte
-                  </button>
-                </>
-              ) : (
-                <>
-                  {resultCount} plat{resultCount > 1 ? "s" : ""} pour « {query.trim()} »
-                </>
-              )}
-            </m.p>
-          ) : null}
-        </AnimatePresence>
-
-        {filtered.map((category) => (
-          <section
-            key={category.id}
-            id={category.id}
-            aria-labelledby={`${category.id}-title`}
-            className="scroll-mt-48 pt-16 lg:scroll-mt-40 lg:pt-24"
-          >
-            <header className="grid grid-cols-[1fr_auto] items-end gap-x-6 gap-y-3 border-b border-ink pb-6 lg:grid-cols-12">
-              <div className="lg:col-span-6">
-                <h2 id={`${category.id}-title`} className="display-lg text-ink">
-                  {category.title}
-                </h2>
-                <p className="mt-3 max-w-md text-muted lg:hidden">{category.intro}</p>
-              </div>
-              <p className="hidden max-w-sm text-right text-muted lg:col-span-4 lg:col-start-7 lg:block lg:justify-self-end">
-                {category.intro}
-              </p>
-              {categoryPhotos[category.id] ? (
-                <Image
-                  src={categoryPhotos[category.id].src}
-                  alt=""
-                  width={categoryPhotos[category.id].width}
-                  height={categoryPhotos[category.id].height}
-                  sizes="(min-width: 1024px) 180px, 120px"
-                  quality={80}
-                  className="-mb-2 h-auto max-h-28 w-28 object-contain [filter:drop-shadow(0_16px_16px_rgba(58,47,34,0.22))] lg:col-span-2 lg:col-start-11 lg:max-h-36 lg:w-40 lg:justify-self-end"
-                />
-              ) : null}
-            </header>
-
-            <div className="mt-4 lg:columns-2 lg:gap-x-16">
-              {category.sections.map((section) => (
-                <section
-                  key={section.id}
-                  id={`${category.id}-${section.id}`}
-                  aria-labelledby={`${category.id}-${section.id}-title`}
-                  className={cx("pt-10", category.sections.length > 1 && "break-inside-avoid")}
-                >
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h3
-                      id={`${category.id}-${section.id}-title`}
-                      className="eyebrow text-[0.8125rem] text-sakura-deep"
+      <div
+        ref={listRef}
+        className={cx(
+          "container-x pb-24 lg:pb-32",
+          hasImages && "desk:grid desk:grid-cols-12 desk:gap-x-12 xl:desk:gap-x-20",
+        )}
+      >
+        <div className={cx(hasImages && "desk:col-span-7")}>
+          <AnimatePresence initial={false}>
+            {searching ? (
+              <m.p
+                key="results"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="pt-8 text-[0.9375rem] text-muted"
+              >
+                {resultCount === 0 ? (
+                  <>
+                    Aucun plat ne correspond à « {query.trim()} ».{" "}
+                    <button
+                      type="button"
+                      onClick={() => setQuery("")}
+                      className="link-underline text-ink"
                     >
-                      {section.title}
-                    </h3>
-                    {section.note ? (
-                      <p className="text-[0.8125rem] text-muted">{section.note}</p>
-                    ) : null}
-                  </div>
-                  <ul className="mt-2 [&>li]:break-inside-avoid">
-                    {section.items.map((item) => (
-                      <DishRow key={item.id} item={item} image={images[item.id]} />
-                    ))}
-                  </ul>
-                </section>
-              ))}
-            </div>
-          </section>
-        ))}
+                      Afficher toute la carte
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {resultCount} plat{resultCount > 1 ? "s" : ""} pour « {query.trim()} »
+                  </>
+                )}
+              </m.p>
+            ) : null}
+          </AnimatePresence>
+
+          {filtered.map((category) => (
+            <section
+              key={category.id}
+              id={category.id}
+              aria-labelledby={`${category.id}-title`}
+              className="scroll-mt-48 pt-16 lg:scroll-mt-40 lg:pt-24"
+            >
+              <header className="grid grid-cols-[1fr_auto] items-end gap-x-6 gap-y-3 border-b border-ink pb-6 lg:grid-cols-12">
+                <div className="lg:col-span-6">
+                  <h2 id={`${category.id}-title`} className="display-lg text-ink">
+                    {category.title}
+                  </h2>
+                  <p className="mt-3 max-w-md text-muted lg:hidden">{category.intro}</p>
+                </div>
+                <p className="hidden max-w-sm text-right text-muted lg:col-span-4 lg:col-start-7 lg:block lg:justify-self-end desk:col-span-6">
+                  {category.intro}
+                </p>
+                {categoryPhotos[category.id] ? (
+                  <Image
+                    src={categoryPhotos[category.id].src}
+                    alt=""
+                    width={categoryPhotos[category.id].width}
+                    height={categoryPhotos[category.id].height}
+                    sizes="(min-width: 1024px) 180px, 120px"
+                    quality={80}
+                    className={cx(
+                      "-mb-2 h-auto max-h-28 w-28 object-contain [filter:drop-shadow(0_16px_16px_rgba(58,47,34,0.22))] lg:col-span-2 lg:col-start-11 lg:max-h-36 lg:w-40 lg:justify-self-end",
+                      hasImages && "desk:hidden",
+                    )}
+                  />
+                ) : null}
+              </header>
+
+              <div className={cx("mt-4 lg:columns-2 lg:gap-x-16", hasImages && "desk:columns-1")}>
+                {category.sections.map((section) => (
+                  <section
+                    key={section.id}
+                    id={`${category.id}-${section.id}`}
+                    aria-labelledby={`${category.id}-${section.id}-title`}
+                    className={cx("pt-10", category.sections.length > 1 && "break-inside-avoid")}
+                  >
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h3
+                        id={`${category.id}-${section.id}-title`}
+                        className="eyebrow text-[0.8125rem] text-sakura-deep"
+                      >
+                        {section.title}
+                      </h3>
+                      {section.note ? (
+                        <p className="text-[0.8125rem] text-muted">{section.note}</p>
+                      ) : null}
+                    </div>
+                    <ul className="mt-2 [&>li]:break-inside-avoid">
+                      {section.items.map((item) => (
+                        <DishRow key={item.id} item={item} image={images[item.id]} />
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+
+        {hasImages ? (
+          <DishStage
+            root={listRef}
+            menu={menu}
+            images={images}
+            fallback={stageFallback}
+            className="hidden desk:col-span-5 desk:block"
+          />
+        ) : null}
       </div>
     </div>
   );

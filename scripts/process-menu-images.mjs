@@ -59,6 +59,10 @@ for (const [id, media] of Object.entries(sources).sort()) {
     writeFileSync(out, buf);
   }
   const { width, height } = await sharp(buf).metadata();
+  // Most photos are cut-outs; a few are full-frame shots on a dark backdrop.
+  const alpha = await sharp(buf).ensureAlpha().extractChannel(3).raw().toBuffer();
+  const clear = alpha.reduce((n, a) => n + (a < 64 ? 1 : 0), 0);
+  const cutout = clear / (width * height) > 0.04;
   // 64 px rows at 2× density.
   await sharp(buf)
     .resize({ width: 128, height: 128, fit: "inside" })
@@ -69,6 +73,7 @@ for (const [id, media] of Object.entries(sources).sort()) {
     width,
     height,
     thumb: `/images/menu/thumbs/${id}.webp`,
+    cutout,
   };
 }
 
@@ -81,6 +86,8 @@ export type DishImage = {
   height: number;
   /** 128 px version for the 64 px menu rows (served as is). */
   thumb: string;
+  /** Transparent cut-out (true) or a full-frame photo (false). */
+  cutout: boolean;
 };
 
 export const menuImages: Record<string, DishImage> = ${JSON.stringify(entries, null, 2)};

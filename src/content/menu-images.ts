@@ -7,6 +7,8 @@ export type DishImage = {
   height: number;
   /** 128 px version for the 64 px menu rows (served as is). */
   thumb: string;
+  /** Transparent cut-out (true) or a full-frame photo (false). */
+  cutout: boolean;
 };
 
 export const menuImages: Record<string, DishImage> = {
@@ -14,942 +16,1099 @@ export const menuImages: Record<string, DishImage> = {
     "src": "/images/menu/bateau-du-coeur.webp",
     "width": 500,
     "height": 410,
-    "thumb": "/images/menu/thumbs/bateau-du-coeur.webp"
+    "thumb": "/images/menu/thumbs/bateau-du-coeur.webp",
+    "cutout": true
   },
   "bateau-royal-specialites-sushi-maki": {
     "src": "/images/menu/bateau-royal-specialites-sushi-maki.webp",
     "width": 500,
     "height": 500,
-    "thumb": "/images/menu/thumbs/bateau-royal-specialites-sushi-maki.webp"
+    "thumb": "/images/menu/thumbs/bateau-royal-specialites-sushi-maki.webp",
+    "cutout": true
   },
   "beignet-dananas": {
     "src": "/images/menu/beignet-dananas.webp",
     "width": 491,
     "height": 238,
-    "thumb": "/images/menu/thumbs/beignet-dananas.webp"
+    "thumb": "/images/menu/thumbs/beignet-dananas.webp",
+    "cutout": true
   },
   "beignet-de-banane": {
     "src": "/images/menu/beignet-de-banane.webp",
     "width": 475,
     "height": 269,
-    "thumb": "/images/menu/thumbs/beignet-de-banane.webp"
+    "thumb": "/images/menu/thumbs/beignet-de-banane.webp",
+    "cutout": true
   },
   "bento-1": {
     "src": "/images/menu/bento-1.webp",
     "width": 500,
     "height": 345,
-    "thumb": "/images/menu/thumbs/bento-1.webp"
+    "thumb": "/images/menu/thumbs/bento-1.webp",
+    "cutout": true
   },
   "bento-10-vegetarien": {
     "src": "/images/menu/bento-10-vegetarien.webp",
     "width": 500,
     "height": 423,
-    "thumb": "/images/menu/thumbs/bento-10-vegetarien.webp"
+    "thumb": "/images/menu/thumbs/bento-10-vegetarien.webp",
+    "cutout": false
   },
   "bento-11-tempura": {
     "src": "/images/menu/bento-11-tempura.webp",
     "width": 500,
     "height": 426,
-    "thumb": "/images/menu/thumbs/bento-11-tempura.webp"
+    "thumb": "/images/menu/thumbs/bento-11-tempura.webp",
+    "cutout": false
   },
   "bento-12-porc-frit": {
     "src": "/images/menu/bento-12-porc-frit.webp",
     "width": 500,
     "height": 425,
-    "thumb": "/images/menu/thumbs/bento-12-porc-frit.webp"
+    "thumb": "/images/menu/thumbs/bento-12-porc-frit.webp",
+    "cutout": false
   },
   "bento-13-udon-poulet": {
     "src": "/images/menu/bento-13-udon-poulet.webp",
     "width": 500,
     "height": 433,
-    "thumb": "/images/menu/thumbs/bento-13-udon-poulet.webp"
+    "thumb": "/images/menu/thumbs/bento-13-udon-poulet.webp",
+    "cutout": false
   },
   "bento-14-poulet-frit": {
     "src": "/images/menu/bento-14-poulet-frit.webp",
     "width": 500,
     "height": 409,
-    "thumb": "/images/menu/thumbs/bento-14-poulet-frit.webp"
+    "thumb": "/images/menu/thumbs/bento-14-poulet-frit.webp",
+    "cutout": false
   },
   "bento-15-canard-laque": {
     "src": "/images/menu/bento-15-canard-laque.webp",
     "width": 500,
     "height": 452,
-    "thumb": "/images/menu/thumbs/bento-15-canard-laque.webp"
+    "thumb": "/images/menu/thumbs/bento-15-canard-laque.webp",
+    "cutout": false
   },
   "bento-16-poulet-croustillant": {
     "src": "/images/menu/bento-16-poulet-croustillant.webp",
     "width": 640,
     "height": 507,
-    "thumb": "/images/menu/thumbs/bento-16-poulet-croustillant.webp"
+    "thumb": "/images/menu/thumbs/bento-16-poulet-croustillant.webp",
+    "cutout": true
   },
   "bento-2": {
     "src": "/images/menu/bento-2.webp",
     "width": 500,
     "height": 358,
-    "thumb": "/images/menu/thumbs/bento-2.webp"
+    "thumb": "/images/menu/thumbs/bento-2.webp",
+    "cutout": true
   },
   "bento-3": {
     "src": "/images/menu/bento-3.webp",
     "width": 500,
     "height": 341,
-    "thumb": "/images/menu/thumbs/bento-3.webp"
+    "thumb": "/images/menu/thumbs/bento-3.webp",
+    "cutout": true
   },
   "bento-4": {
     "src": "/images/menu/bento-4.webp",
     "width": 500,
     "height": 341,
-    "thumb": "/images/menu/thumbs/bento-4.webp"
+    "thumb": "/images/menu/thumbs/bento-4.webp",
+    "cutout": true
   },
   "bento-5": {
     "src": "/images/menu/bento-5.webp",
     "width": 500,
     "height": 328,
-    "thumb": "/images/menu/thumbs/bento-5.webp"
+    "thumb": "/images/menu/thumbs/bento-5.webp",
+    "cutout": true
   },
   "bento-6": {
     "src": "/images/menu/bento-6.webp",
     "width": 500,
     "height": 328,
-    "thumb": "/images/menu/thumbs/bento-6.webp"
+    "thumb": "/images/menu/thumbs/bento-6.webp",
+    "cutout": true
   },
   "bento-7": {
     "src": "/images/menu/bento-7.webp",
     "width": 500,
     "height": 332,
-    "thumb": "/images/menu/thumbs/bento-7.webp"
+    "thumb": "/images/menu/thumbs/bento-7.webp",
+    "cutout": true
   },
   "bento-8": {
     "src": "/images/menu/bento-8.webp",
     "width": 500,
     "height": 340,
-    "thumb": "/images/menu/thumbs/bento-8.webp"
+    "thumb": "/images/menu/thumbs/bento-8.webp",
+    "cutout": true
   },
   "bento-9": {
     "src": "/images/menu/bento-9.webp",
     "width": 500,
     "height": 348,
-    "thumb": "/images/menu/thumbs/bento-9.webp"
+    "thumb": "/images/menu/thumbs/bento-9.webp",
+    "cutout": true
   },
   "box-anguille": {
     "src": "/images/menu/box-anguille.webp",
     "width": 403,
     "height": 401,
-    "thumb": "/images/menu/thumbs/box-anguille.webp"
+    "thumb": "/images/menu/thumbs/box-anguille.webp",
+    "cutout": true
   },
   "box-porc-frit-sauce-curry": {
     "src": "/images/menu/box-porc-frit-sauce-curry.webp",
     "width": 500,
     "height": 391,
-    "thumb": "/images/menu/thumbs/box-porc-frit-sauce-curry.webp"
+    "thumb": "/images/menu/thumbs/box-porc-frit-sauce-curry.webp",
+    "cutout": true
   },
   "box-poulet-teriyaki": {
     "src": "/images/menu/box-poulet-teriyaki.webp",
     "width": 439,
     "height": 415,
-    "thumb": "/images/menu/thumbs/box-poulet-teriyaki.webp"
+    "thumb": "/images/menu/thumbs/box-poulet-teriyaki.webp",
+    "cutout": true
   },
   "box-tempura-mixte": {
     "src": "/images/menu/box-tempura-mixte.webp",
     "width": 499,
     "height": 401,
-    "thumb": "/images/menu/thumbs/box-tempura-mixte.webp"
+    "thumb": "/images/menu/thumbs/box-tempura-mixte.webp",
+    "cutout": true
   },
   "coupe-colonel": {
     "src": "/images/menu/coupe-colonel.webp",
     "width": 178,
     "height": 500,
-    "thumb": "/images/menu/thumbs/coupe-colonel.webp"
+    "thumb": "/images/menu/thumbs/coupe-colonel.webp",
+    "cutout": true
   },
   "coupe-de-glace-itoya": {
     "src": "/images/menu/coupe-de-glace-itoya.webp",
     "width": 341,
     "height": 500,
-    "thumb": "/images/menu/thumbs/coupe-de-glace-itoya.webp"
+    "thumb": "/images/menu/thumbs/coupe-de-glace-itoya.webp",
+    "cutout": true
   },
   "coupe-de-litchis": {
     "src": "/images/menu/coupe-de-litchis.webp",
     "width": 400,
     "height": 500,
-    "thumb": "/images/menu/thumbs/coupe-de-litchis.webp"
+    "thumb": "/images/menu/thumbs/coupe-de-litchis.webp",
+    "cutout": true
   },
   "croquettes-a-la-banane": {
     "src": "/images/menu/croquettes-a-la-banane.webp",
     "width": 437,
     "height": 188,
-    "thumb": "/images/menu/thumbs/croquettes-a-la-banane.webp"
+    "thumb": "/images/menu/thumbs/croquettes-a-la-banane.webp",
+    "cutout": true
   },
   "croquettes-au-chocolat": {
     "src": "/images/menu/croquettes-au-chocolat.webp",
     "width": 440,
     "height": 213,
-    "thumb": "/images/menu/thumbs/croquettes-au-chocolat.webp"
+    "thumb": "/images/menu/thumbs/croquettes-au-chocolat.webp",
+    "cutout": true
   },
   "glace-au-the-vert-maison": {
     "src": "/images/menu/glace-au-the-vert-maison.webp",
     "width": 493,
     "height": 362,
-    "thumb": "/images/menu/thumbs/glace-au-the-vert-maison.webp"
+    "thumb": "/images/menu/thumbs/glace-au-the-vert-maison.webp",
+    "cutout": true
   },
   "n1": {
     "src": "/images/menu/n1.webp",
     "width": 497,
     "height": 383,
-    "thumb": "/images/menu/thumbs/n1.webp"
+    "thumb": "/images/menu/thumbs/n1.webp",
+    "cutout": true
   },
   "n100": {
     "src": "/images/menu/n100.webp",
     "width": 500,
     "height": 382,
-    "thumb": "/images/menu/thumbs/n100.webp"
+    "thumb": "/images/menu/thumbs/n100.webp",
+    "cutout": true
   },
   "n101": {
     "src": "/images/menu/n101.webp",
     "width": 496,
     "height": 375,
-    "thumb": "/images/menu/thumbs/n101.webp"
+    "thumb": "/images/menu/thumbs/n101.webp",
+    "cutout": true
   },
   "n102": {
     "src": "/images/menu/n102.webp",
     "width": 499,
     "height": 382,
-    "thumb": "/images/menu/thumbs/n102.webp"
+    "thumb": "/images/menu/thumbs/n102.webp",
+    "cutout": true
   },
   "n103": {
     "src": "/images/menu/n103.webp",
     "width": 500,
     "height": 409,
-    "thumb": "/images/menu/thumbs/n103.webp"
+    "thumb": "/images/menu/thumbs/n103.webp",
+    "cutout": true
   },
   "n104": {
     "src": "/images/menu/n104.webp",
     "width": 500,
     "height": 349,
-    "thumb": "/images/menu/thumbs/n104.webp"
+    "thumb": "/images/menu/thumbs/n104.webp",
+    "cutout": true
   },
   "n105": {
     "src": "/images/menu/n105.webp",
     "width": 498,
     "height": 414,
-    "thumb": "/images/menu/thumbs/n105.webp"
+    "thumb": "/images/menu/thumbs/n105.webp",
+    "cutout": true
   },
   "n106": {
     "src": "/images/menu/n106.webp",
     "width": 500,
     "height": 292,
-    "thumb": "/images/menu/thumbs/n106.webp"
+    "thumb": "/images/menu/thumbs/n106.webp",
+    "cutout": true
   },
   "n107": {
     "src": "/images/menu/n107.webp",
     "width": 499,
     "height": 405,
-    "thumb": "/images/menu/thumbs/n107.webp"
+    "thumb": "/images/menu/thumbs/n107.webp",
+    "cutout": true
   },
   "n108": {
     "src": "/images/menu/n108.webp",
     "width": 500,
     "height": 417,
-    "thumb": "/images/menu/thumbs/n108.webp"
+    "thumb": "/images/menu/thumbs/n108.webp",
+    "cutout": true
   },
   "n109": {
     "src": "/images/menu/n109.webp",
     "width": 500,
     "height": 326,
-    "thumb": "/images/menu/thumbs/n109.webp"
+    "thumb": "/images/menu/thumbs/n109.webp",
+    "cutout": true
   },
   "n11": {
     "src": "/images/menu/n11.webp",
     "width": 499,
     "height": 389,
-    "thumb": "/images/menu/thumbs/n11.webp"
+    "thumb": "/images/menu/thumbs/n11.webp",
+    "cutout": true
   },
   "n12": {
     "src": "/images/menu/n12.webp",
     "width": 499,
     "height": 267,
-    "thumb": "/images/menu/thumbs/n12.webp"
+    "thumb": "/images/menu/thumbs/n12.webp",
+    "cutout": true
   },
   "n120": {
     "src": "/images/menu/n120.webp",
     "width": 497,
     "height": 365,
-    "thumb": "/images/menu/thumbs/n120.webp"
+    "thumb": "/images/menu/thumbs/n120.webp",
+    "cutout": true
   },
   "n121": {
     "src": "/images/menu/n121.webp",
     "width": 499,
     "height": 373,
-    "thumb": "/images/menu/thumbs/n121.webp"
+    "thumb": "/images/menu/thumbs/n121.webp",
+    "cutout": true
   },
   "n122": {
     "src": "/images/menu/n122.webp",
     "width": 500,
     "height": 374,
-    "thumb": "/images/menu/thumbs/n122.webp"
+    "thumb": "/images/menu/thumbs/n122.webp",
+    "cutout": true
   },
   "n123": {
     "src": "/images/menu/n123.webp",
     "width": 499,
     "height": 368,
-    "thumb": "/images/menu/thumbs/n123.webp"
+    "thumb": "/images/menu/thumbs/n123.webp",
+    "cutout": true
   },
   "n124": {
     "src": "/images/menu/n124.webp",
     "width": 499,
     "height": 372,
-    "thumb": "/images/menu/thumbs/n124.webp"
+    "thumb": "/images/menu/thumbs/n124.webp",
+    "cutout": true
   },
   "n125": {
     "src": "/images/menu/n125.webp",
     "width": 499,
     "height": 409,
-    "thumb": "/images/menu/thumbs/n125.webp"
+    "thumb": "/images/menu/thumbs/n125.webp",
+    "cutout": true
   },
   "n126": {
     "src": "/images/menu/n126.webp",
     "width": 499,
     "height": 387,
-    "thumb": "/images/menu/thumbs/n126.webp"
+    "thumb": "/images/menu/thumbs/n126.webp",
+    "cutout": true
   },
   "n127": {
     "src": "/images/menu/n127.webp",
     "width": 497,
     "height": 368,
-    "thumb": "/images/menu/thumbs/n127.webp"
+    "thumb": "/images/menu/thumbs/n127.webp",
+    "cutout": true
   },
   "n128": {
     "src": "/images/menu/n128.webp",
     "width": 500,
     "height": 399,
-    "thumb": "/images/menu/thumbs/n128.webp"
+    "thumb": "/images/menu/thumbs/n128.webp",
+    "cutout": true
   },
   "n129": {
     "src": "/images/menu/n129.webp",
     "width": 500,
     "height": 436,
-    "thumb": "/images/menu/thumbs/n129.webp"
+    "thumb": "/images/menu/thumbs/n129.webp",
+    "cutout": true
   },
   "n130": {
     "src": "/images/menu/n130.webp",
     "width": 500,
     "height": 343,
-    "thumb": "/images/menu/thumbs/n130.webp"
+    "thumb": "/images/menu/thumbs/n130.webp",
+    "cutout": true
   },
   "n131": {
     "src": "/images/menu/n131.webp",
     "width": 499,
     "height": 440,
-    "thumb": "/images/menu/thumbs/n131.webp"
+    "thumb": "/images/menu/thumbs/n131.webp",
+    "cutout": true
   },
   "n132": {
     "src": "/images/menu/n132.webp",
     "width": 500,
     "height": 396,
-    "thumb": "/images/menu/thumbs/n132.webp"
+    "thumb": "/images/menu/thumbs/n132.webp",
+    "cutout": true
   },
   "n133": {
     "src": "/images/menu/n133.webp",
     "width": 495,
     "height": 387,
-    "thumb": "/images/menu/thumbs/n133.webp"
+    "thumb": "/images/menu/thumbs/n133.webp",
+    "cutout": true
   },
   "n134": {
     "src": "/images/menu/n134.webp",
     "width": 499,
     "height": 388,
-    "thumb": "/images/menu/thumbs/n134.webp"
+    "thumb": "/images/menu/thumbs/n134.webp",
+    "cutout": true
   },
   "n135": {
     "src": "/images/menu/n135.webp",
     "width": 499,
     "height": 354,
-    "thumb": "/images/menu/thumbs/n135.webp"
+    "thumb": "/images/menu/thumbs/n135.webp",
+    "cutout": true
   },
   "n136": {
     "src": "/images/menu/n136.webp",
     "width": 500,
     "height": 401,
-    "thumb": "/images/menu/thumbs/n136.webp"
+    "thumb": "/images/menu/thumbs/n136.webp",
+    "cutout": true
   },
   "n14": {
     "src": "/images/menu/n14.webp",
     "width": 640,
     "height": 529,
-    "thumb": "/images/menu/thumbs/n14.webp"
+    "thumb": "/images/menu/thumbs/n14.webp",
+    "cutout": true
   },
   "n15": {
     "src": "/images/menu/n15.webp",
     "width": 640,
     "height": 505,
-    "thumb": "/images/menu/thumbs/n15.webp"
+    "thumb": "/images/menu/thumbs/n15.webp",
+    "cutout": true
   },
   "n16": {
     "src": "/images/menu/n16.webp",
     "width": 569,
     "height": 583,
-    "thumb": "/images/menu/thumbs/n16.webp"
+    "thumb": "/images/menu/thumbs/n16.webp",
+    "cutout": true
   },
   "n17": {
     "src": "/images/menu/n17.webp",
     "width": 569,
     "height": 562,
-    "thumb": "/images/menu/thumbs/n17.webp"
+    "thumb": "/images/menu/thumbs/n17.webp",
+    "cutout": true
   },
   "n19": {
     "src": "/images/menu/n19.webp",
     "width": 640,
     "height": 588,
-    "thumb": "/images/menu/thumbs/n19.webp"
+    "thumb": "/images/menu/thumbs/n19.webp",
+    "cutout": true
   },
   "n2": {
     "src": "/images/menu/n2.webp",
     "width": 498,
     "height": 392,
-    "thumb": "/images/menu/thumbs/n2.webp"
+    "thumb": "/images/menu/thumbs/n2.webp",
+    "cutout": true
   },
   "n20": {
     "src": "/images/menu/n20.webp",
     "width": 640,
     "height": 588,
-    "thumb": "/images/menu/thumbs/n20.webp"
+    "thumb": "/images/menu/thumbs/n20.webp",
+    "cutout": true
   },
   "n22": {
     "src": "/images/menu/n22.webp",
     "width": 499,
     "height": 227,
-    "thumb": "/images/menu/thumbs/n22.webp"
+    "thumb": "/images/menu/thumbs/n22.webp",
+    "cutout": true
   },
   "n23": {
     "src": "/images/menu/n23.webp",
     "width": 499,
     "height": 299,
-    "thumb": "/images/menu/thumbs/n23.webp"
+    "thumb": "/images/menu/thumbs/n23.webp",
+    "cutout": true
   },
   "n24": {
     "src": "/images/menu/n24.webp",
     "width": 500,
     "height": 337,
-    "thumb": "/images/menu/thumbs/n24.webp"
+    "thumb": "/images/menu/thumbs/n24.webp",
+    "cutout": true
   },
   "n25": {
     "src": "/images/menu/n25.webp",
     "width": 500,
     "height": 351,
-    "thumb": "/images/menu/thumbs/n25.webp"
+    "thumb": "/images/menu/thumbs/n25.webp",
+    "cutout": true
   },
   "n26": {
     "src": "/images/menu/n26.webp",
     "width": 499,
     "height": 332,
-    "thumb": "/images/menu/thumbs/n26.webp"
+    "thumb": "/images/menu/thumbs/n26.webp",
+    "cutout": true
   },
   "n27": {
     "src": "/images/menu/n27.webp",
     "width": 499,
     "height": 274,
-    "thumb": "/images/menu/thumbs/n27.webp"
+    "thumb": "/images/menu/thumbs/n27.webp",
+    "cutout": true
   },
   "n28": {
     "src": "/images/menu/n28.webp",
     "width": 640,
     "height": 633,
-    "thumb": "/images/menu/thumbs/n28.webp"
+    "thumb": "/images/menu/thumbs/n28.webp",
+    "cutout": true
   },
   "n29": {
     "src": "/images/menu/n29.webp",
     "width": 640,
     "height": 612,
-    "thumb": "/images/menu/thumbs/n29.webp"
+    "thumb": "/images/menu/thumbs/n29.webp",
+    "cutout": true
   },
   "n3": {
     "src": "/images/menu/n3.webp",
     "width": 499,
     "height": 370,
-    "thumb": "/images/menu/thumbs/n3.webp"
+    "thumb": "/images/menu/thumbs/n3.webp",
+    "cutout": true
   },
   "n30": {
     "src": "/images/menu/n30.webp",
     "width": 640,
     "height": 628,
-    "thumb": "/images/menu/thumbs/n30.webp"
+    "thumb": "/images/menu/thumbs/n30.webp",
+    "cutout": true
   },
   "n31": {
     "src": "/images/menu/n31.webp",
     "width": 500,
     "height": 345,
-    "thumb": "/images/menu/thumbs/n31.webp"
+    "thumb": "/images/menu/thumbs/n31.webp",
+    "cutout": true
   },
   "n32": {
     "src": "/images/menu/n32.webp",
     "width": 470,
     "height": 362,
-    "thumb": "/images/menu/thumbs/n32.webp"
+    "thumb": "/images/menu/thumbs/n32.webp",
+    "cutout": true
   },
   "n33": {
     "src": "/images/menu/n33.webp",
     "width": 474,
     "height": 322,
-    "thumb": "/images/menu/thumbs/n33.webp"
+    "thumb": "/images/menu/thumbs/n33.webp",
+    "cutout": true
   },
   "n34": {
     "src": "/images/menu/n34.webp",
     "width": 500,
     "height": 353,
-    "thumb": "/images/menu/thumbs/n34.webp"
+    "thumb": "/images/menu/thumbs/n34.webp",
+    "cutout": true
   },
   "n35": {
     "src": "/images/menu/n35.webp",
     "width": 497,
     "height": 367,
-    "thumb": "/images/menu/thumbs/n35.webp"
+    "thumb": "/images/menu/thumbs/n35.webp",
+    "cutout": true
   },
   "n36": {
     "src": "/images/menu/n36.webp",
     "width": 499,
     "height": 326,
-    "thumb": "/images/menu/thumbs/n36.webp"
+    "thumb": "/images/menu/thumbs/n36.webp",
+    "cutout": true
   },
   "n37": {
     "src": "/images/menu/n37.webp",
     "width": 499,
     "height": 295,
-    "thumb": "/images/menu/thumbs/n37.webp"
+    "thumb": "/images/menu/thumbs/n37.webp",
+    "cutout": true
   },
   "n38": {
     "src": "/images/menu/n38.webp",
     "width": 495,
     "height": 319,
-    "thumb": "/images/menu/thumbs/n38.webp"
+    "thumb": "/images/menu/thumbs/n38.webp",
+    "cutout": true
   },
   "n4": {
     "src": "/images/menu/n4.webp",
     "width": 500,
     "height": 379,
-    "thumb": "/images/menu/thumbs/n4.webp"
+    "thumb": "/images/menu/thumbs/n4.webp",
+    "cutout": true
   },
   "n41": {
     "src": "/images/menu/n41.webp",
     "width": 624,
     "height": 640,
-    "thumb": "/images/menu/thumbs/n41.webp"
+    "thumb": "/images/menu/thumbs/n41.webp",
+    "cutout": true
   },
   "n43": {
     "src": "/images/menu/n43.webp",
     "width": 293,
     "height": 497,
-    "thumb": "/images/menu/thumbs/n43.webp"
+    "thumb": "/images/menu/thumbs/n43.webp",
+    "cutout": true
   },
   "n44": {
     "src": "/images/menu/n44.webp",
     "width": 322,
     "height": 500,
-    "thumb": "/images/menu/thumbs/n44.webp"
+    "thumb": "/images/menu/thumbs/n44.webp",
+    "cutout": true
   },
   "n45": {
     "src": "/images/menu/n45.webp",
     "width": 500,
     "height": 308,
-    "thumb": "/images/menu/thumbs/n45.webp"
+    "thumb": "/images/menu/thumbs/n45.webp",
+    "cutout": true
   },
   "n46": {
     "src": "/images/menu/n46.webp",
     "width": 500,
     "height": 269,
-    "thumb": "/images/menu/thumbs/n46.webp"
+    "thumb": "/images/menu/thumbs/n46.webp",
+    "cutout": true
   },
   "n5": {
     "src": "/images/menu/n5.webp",
     "width": 499,
     "height": 424,
-    "thumb": "/images/menu/thumbs/n5.webp"
+    "thumb": "/images/menu/thumbs/n5.webp",
+    "cutout": true
   },
   "n51": {
     "src": "/images/menu/n51.webp",
     "width": 495,
     "height": 256,
-    "thumb": "/images/menu/thumbs/n51.webp"
+    "thumb": "/images/menu/thumbs/n51.webp",
+    "cutout": true
   },
   "n52": {
     "src": "/images/menu/n52.webp",
     "width": 493,
     "height": 331,
-    "thumb": "/images/menu/thumbs/n52.webp"
+    "thumb": "/images/menu/thumbs/n52.webp",
+    "cutout": true
   },
   "n53": {
     "src": "/images/menu/n53.webp",
     "width": 597,
     "height": 237,
-    "thumb": "/images/menu/thumbs/n53.webp"
+    "thumb": "/images/menu/thumbs/n53.webp",
+    "cutout": true
   },
   "n54": {
     "src": "/images/menu/n54.webp",
     "width": 500,
     "height": 247,
-    "thumb": "/images/menu/thumbs/n54.webp"
+    "thumb": "/images/menu/thumbs/n54.webp",
+    "cutout": true
   },
   "n55": {
     "src": "/images/menu/n55.webp",
     "width": 493,
     "height": 250,
-    "thumb": "/images/menu/thumbs/n55.webp"
+    "thumb": "/images/menu/thumbs/n55.webp",
+    "cutout": true
   },
   "n56": {
     "src": "/images/menu/n56.webp",
     "width": 492,
     "height": 221,
-    "thumb": "/images/menu/thumbs/n56.webp"
+    "thumb": "/images/menu/thumbs/n56.webp",
+    "cutout": true
   },
   "n57": {
     "src": "/images/menu/n57.webp",
     "width": 496,
     "height": 211,
-    "thumb": "/images/menu/thumbs/n57.webp"
+    "thumb": "/images/menu/thumbs/n57.webp",
+    "cutout": true
   },
   "n58": {
     "src": "/images/menu/n58.webp",
     "width": 489,
     "height": 215,
-    "thumb": "/images/menu/thumbs/n58.webp"
+    "thumb": "/images/menu/thumbs/n58.webp",
+    "cutout": true
   },
   "n59": {
     "src": "/images/menu/n59.webp",
     "width": 499,
     "height": 208,
-    "thumb": "/images/menu/thumbs/n59.webp"
+    "thumb": "/images/menu/thumbs/n59.webp",
+    "cutout": true
   },
   "n6": {
     "src": "/images/menu/n6.webp",
     "width": 500,
     "height": 383,
-    "thumb": "/images/menu/thumbs/n6.webp"
+    "thumb": "/images/menu/thumbs/n6.webp",
+    "cutout": true
   },
   "n61": {
     "src": "/images/menu/n61.webp",
     "width": 500,
     "height": 138,
-    "thumb": "/images/menu/thumbs/n61.webp"
+    "thumb": "/images/menu/thumbs/n61.webp",
+    "cutout": true
   },
   "n62": {
     "src": "/images/menu/n62.webp",
     "width": 499,
     "height": 127,
-    "thumb": "/images/menu/thumbs/n62.webp"
+    "thumb": "/images/menu/thumbs/n62.webp",
+    "cutout": true
   },
   "n63": {
     "src": "/images/menu/n63.webp",
     "width": 500,
     "height": 135,
-    "thumb": "/images/menu/thumbs/n63.webp"
+    "thumb": "/images/menu/thumbs/n63.webp",
+    "cutout": true
   },
   "n64": {
     "src": "/images/menu/n64.webp",
     "width": 499,
     "height": 139,
-    "thumb": "/images/menu/thumbs/n64.webp"
+    "thumb": "/images/menu/thumbs/n64.webp",
+    "cutout": true
   },
   "n65": {
     "src": "/images/menu/n65.webp",
     "width": 499,
     "height": 141,
-    "thumb": "/images/menu/thumbs/n65.webp"
+    "thumb": "/images/menu/thumbs/n65.webp",
+    "cutout": true
   },
   "n66": {
     "src": "/images/menu/n66.webp",
     "width": 499,
     "height": 130,
-    "thumb": "/images/menu/thumbs/n66.webp"
+    "thumb": "/images/menu/thumbs/n66.webp",
+    "cutout": true
   },
   "n67": {
     "src": "/images/menu/n67.webp",
     "width": 499,
     "height": 134,
-    "thumb": "/images/menu/thumbs/n67.webp"
+    "thumb": "/images/menu/thumbs/n67.webp",
+    "cutout": true
   },
   "n68": {
     "src": "/images/menu/n68.webp",
     "width": 500,
     "height": 134,
-    "thumb": "/images/menu/thumbs/n68.webp"
+    "thumb": "/images/menu/thumbs/n68.webp",
+    "cutout": true
   },
   "n69": {
     "src": "/images/menu/n69.webp",
     "width": 500,
     "height": 131,
-    "thumb": "/images/menu/thumbs/n69.webp"
+    "thumb": "/images/menu/thumbs/n69.webp",
+    "cutout": true
   },
   "n7": {
     "src": "/images/menu/n7.webp",
     "width": 498,
     "height": 365,
-    "thumb": "/images/menu/thumbs/n7.webp"
+    "thumb": "/images/menu/thumbs/n7.webp",
+    "cutout": true
   },
   "n70": {
     "src": "/images/menu/n70.webp",
     "width": 500,
     "height": 128,
-    "thumb": "/images/menu/thumbs/n70.webp"
+    "thumb": "/images/menu/thumbs/n70.webp",
+    "cutout": true
   },
   "n71": {
     "src": "/images/menu/n71.webp",
     "width": 500,
     "height": 498,
-    "thumb": "/images/menu/thumbs/n71.webp"
+    "thumb": "/images/menu/thumbs/n71.webp",
+    "cutout": true
   },
   "n72": {
     "src": "/images/menu/n72.webp",
     "width": 499,
     "height": 494,
-    "thumb": "/images/menu/thumbs/n72.webp"
+    "thumb": "/images/menu/thumbs/n72.webp",
+    "cutout": true
   },
   "n73": {
     "src": "/images/menu/n73.webp",
     "width": 498,
     "height": 500,
-    "thumb": "/images/menu/thumbs/n73.webp"
+    "thumb": "/images/menu/thumbs/n73.webp",
+    "cutout": true
   },
   "n74": {
     "src": "/images/menu/n74.webp",
     "width": 498,
     "height": 497,
-    "thumb": "/images/menu/thumbs/n74.webp"
+    "thumb": "/images/menu/thumbs/n74.webp",
+    "cutout": true
   },
   "n75": {
     "src": "/images/menu/n75.webp",
     "width": 499,
     "height": 500,
-    "thumb": "/images/menu/thumbs/n75.webp"
+    "thumb": "/images/menu/thumbs/n75.webp",
+    "cutout": true
   },
   "n76": {
     "src": "/images/menu/n76.webp",
     "width": 500,
     "height": 500,
-    "thumb": "/images/menu/thumbs/n76.webp"
+    "thumb": "/images/menu/thumbs/n76.webp",
+    "cutout": true
   },
   "n77": {
     "src": "/images/menu/n77.webp",
     "width": 500,
     "height": 494,
-    "thumb": "/images/menu/thumbs/n77.webp"
+    "thumb": "/images/menu/thumbs/n77.webp",
+    "cutout": true
   },
   "n8": {
     "src": "/images/menu/n8.webp",
     "width": 499,
     "height": 396,
-    "thumb": "/images/menu/thumbs/n8.webp"
+    "thumb": "/images/menu/thumbs/n8.webp",
+    "cutout": true
   },
   "n80": {
     "src": "/images/menu/n80.webp",
     "width": 500,
     "height": 239,
-    "thumb": "/images/menu/thumbs/n80.webp"
+    "thumb": "/images/menu/thumbs/n80.webp",
+    "cutout": true
   },
   "n81": {
     "src": "/images/menu/n81.webp",
     "width": 499,
     "height": 241,
-    "thumb": "/images/menu/thumbs/n81.webp"
+    "thumb": "/images/menu/thumbs/n81.webp",
+    "cutout": true
   },
   "n82": {
     "src": "/images/menu/n82.webp",
     "width": 500,
     "height": 328,
-    "thumb": "/images/menu/thumbs/n82.webp"
+    "thumb": "/images/menu/thumbs/n82.webp",
+    "cutout": true
   },
   "n83": {
     "src": "/images/menu/n83.webp",
     "width": 500,
     "height": 268,
-    "thumb": "/images/menu/thumbs/n83.webp"
+    "thumb": "/images/menu/thumbs/n83.webp",
+    "cutout": true
   },
   "n84": {
     "src": "/images/menu/n84.webp",
     "width": 500,
     "height": 227,
-    "thumb": "/images/menu/thumbs/n84.webp"
+    "thumb": "/images/menu/thumbs/n84.webp",
+    "cutout": true
   },
   "n85": {
     "src": "/images/menu/n85.webp",
     "width": 500,
     "height": 223,
-    "thumb": "/images/menu/thumbs/n85.webp"
+    "thumb": "/images/menu/thumbs/n85.webp",
+    "cutout": true
   },
   "n86": {
     "src": "/images/menu/n86.webp",
     "width": 500,
     "height": 246,
-    "thumb": "/images/menu/thumbs/n86.webp"
+    "thumb": "/images/menu/thumbs/n86.webp",
+    "cutout": true
   },
   "n87": {
     "src": "/images/menu/n87.webp",
     "width": 500,
     "height": 290,
-    "thumb": "/images/menu/thumbs/n87.webp"
+    "thumb": "/images/menu/thumbs/n87.webp",
+    "cutout": true
   },
   "n89": {
     "src": "/images/menu/n89.webp",
     "width": 500,
     "height": 244,
-    "thumb": "/images/menu/thumbs/n89.webp"
+    "thumb": "/images/menu/thumbs/n89.webp",
+    "cutout": true
   },
   "n9": {
     "src": "/images/menu/n9.webp",
     "width": 499,
     "height": 377,
-    "thumb": "/images/menu/thumbs/n9.webp"
+    "thumb": "/images/menu/thumbs/n9.webp",
+    "cutout": true
   },
   "n90": {
     "src": "/images/menu/n90.webp",
     "width": 500,
     "height": 229,
-    "thumb": "/images/menu/thumbs/n90.webp"
+    "thumb": "/images/menu/thumbs/n90.webp",
+    "cutout": true
   },
   "n91": {
     "src": "/images/menu/n91.webp",
     "width": 500,
     "height": 436,
-    "thumb": "/images/menu/thumbs/n91.webp"
+    "thumb": "/images/menu/thumbs/n91.webp",
+    "cutout": true
   },
   "n92": {
     "src": "/images/menu/n92.webp",
     "width": 500,
     "height": 500,
-    "thumb": "/images/menu/thumbs/n92.webp"
+    "thumb": "/images/menu/thumbs/n92.webp",
+    "cutout": true
   },
   "n93": {
     "src": "/images/menu/n93.webp",
     "width": 500,
     "height": 444,
-    "thumb": "/images/menu/thumbs/n93.webp"
+    "thumb": "/images/menu/thumbs/n93.webp",
+    "cutout": true
   },
   "n95": {
     "src": "/images/menu/n95.webp",
     "width": 494,
     "height": 306,
-    "thumb": "/images/menu/thumbs/n95.webp"
+    "thumb": "/images/menu/thumbs/n95.webp",
+    "cutout": true
   },
   "n96": {
     "src": "/images/menu/n96.webp",
     "width": 500,
     "height": 400,
-    "thumb": "/images/menu/thumbs/n96.webp"
+    "thumb": "/images/menu/thumbs/n96.webp",
+    "cutout": true
   },
   "nc92": {
     "src": "/images/menu/nc92.webp",
     "width": 500,
     "height": 408,
-    "thumb": "/images/menu/thumbs/nc92.webp"
+    "thumb": "/images/menu/thumbs/nc92.webp",
+    "cutout": true
   },
   "nc97": {
     "src": "/images/menu/nc97.webp",
     "width": 500,
     "height": 436,
-    "thumb": "/images/menu/thumbs/nc97.webp"
+    "thumb": "/images/menu/thumbs/nc97.webp",
+    "cutout": true
   },
   "ne15": {
     "src": "/images/menu/ne15.webp",
     "width": 500,
     "height": 469,
-    "thumb": "/images/menu/thumbs/ne15.webp"
+    "thumb": "/images/menu/thumbs/ne15.webp",
+    "cutout": true
   },
   "ne16": {
     "src": "/images/menu/ne16.webp",
     "width": 436,
     "height": 244,
-    "thumb": "/images/menu/thumbs/ne16.webp"
+    "thumb": "/images/menu/thumbs/ne16.webp",
+    "cutout": true
   },
   "ne17": {
     "src": "/images/menu/ne17.webp",
     "width": 500,
     "height": 454,
-    "thumb": "/images/menu/thumbs/ne17.webp"
+    "thumb": "/images/menu/thumbs/ne17.webp",
+    "cutout": true
   },
   "nj31": {
     "src": "/images/menu/nj31.webp",
     "width": 500,
     "height": 233,
-    "thumb": "/images/menu/thumbs/nj31.webp"
+    "thumb": "/images/menu/thumbs/nj31.webp",
+    "cutout": true
   },
   "nj60": {
     "src": "/images/menu/nj60.webp",
     "width": 500,
     "height": 214,
-    "thumb": "/images/menu/thumbs/nj60.webp"
+    "thumb": "/images/menu/thumbs/nj60.webp",
+    "cutout": true
   },
   "nj99": {
     "src": "/images/menu/nj99.webp",
     "width": 500,
     "height": 330,
-    "thumb": "/images/menu/thumbs/nj99.webp"
+    "thumb": "/images/menu/thumbs/nj99.webp",
+    "cutout": true
   },
   "plateau-1": {
     "src": "/images/menu/plateau-1.webp",
     "width": 499,
     "height": 335,
-    "thumb": "/images/menu/thumbs/plateau-1.webp"
+    "thumb": "/images/menu/thumbs/plateau-1.webp",
+    "cutout": false
   },
   "plateau-10-bateau-sushi-maki-sashimis": {
     "src": "/images/menu/plateau-10-bateau-sushi-maki-sashimis.webp",
     "width": 497,
     "height": 336,
-    "thumb": "/images/menu/thumbs/plateau-10-bateau-sushi-maki-sashimis.webp"
+    "thumb": "/images/menu/thumbs/plateau-10-bateau-sushi-maki-sashimis.webp",
+    "cutout": true
   },
   "plateau-11-tete-a-tete": {
     "src": "/images/menu/plateau-11-tete-a-tete.webp",
     "width": 499,
     "height": 456,
-    "thumb": "/images/menu/thumbs/plateau-11-tete-a-tete.webp"
+    "thumb": "/images/menu/thumbs/plateau-11-tete-a-tete.webp",
+    "cutout": true
   },
   "plateau-2": {
     "src": "/images/menu/plateau-2.webp",
     "width": 499,
     "height": 330,
-    "thumb": "/images/menu/thumbs/plateau-2.webp"
+    "thumb": "/images/menu/thumbs/plateau-2.webp",
+    "cutout": false
   },
   "plateau-3": {
     "src": "/images/menu/plateau-3.webp",
     "width": 500,
     "height": 335,
-    "thumb": "/images/menu/thumbs/plateau-3.webp"
+    "thumb": "/images/menu/thumbs/plateau-3.webp",
+    "cutout": true
   },
   "plateau-4": {
     "src": "/images/menu/plateau-4.webp",
     "width": 497,
     "height": 329,
-    "thumb": "/images/menu/thumbs/plateau-4.webp"
+    "thumb": "/images/menu/thumbs/plateau-4.webp",
+    "cutout": false
   },
   "plateau-5": {
     "src": "/images/menu/plateau-5.webp",
     "width": 498,
     "height": 241,
-    "thumb": "/images/menu/thumbs/plateau-5.webp"
+    "thumb": "/images/menu/thumbs/plateau-5.webp",
+    "cutout": true
   },
   "plateau-6": {
     "src": "/images/menu/plateau-6.webp",
     "width": 500,
     "height": 337,
-    "thumb": "/images/menu/thumbs/plateau-6.webp"
+    "thumb": "/images/menu/thumbs/plateau-6.webp",
+    "cutout": true
   },
   "plateau-7": {
     "src": "/images/menu/plateau-7.webp",
     "width": 500,
     "height": 331,
-    "thumb": "/images/menu/thumbs/plateau-7.webp"
+    "thumb": "/images/menu/thumbs/plateau-7.webp",
+    "cutout": true
   },
   "plateau-8-pont-damour": {
     "src": "/images/menu/plateau-8-pont-damour.webp",
     "width": 500,
     "height": 275,
-    "thumb": "/images/menu/thumbs/plateau-8-pont-damour.webp"
+    "thumb": "/images/menu/thumbs/plateau-8-pont-damour.webp",
+    "cutout": true
   },
   "plateau-9-sushi-maki-mixtes": {
     "src": "/images/menu/plateau-9-sushi-maki-mixtes.webp",
     "width": 640,
     "height": 640,
-    "thumb": "/images/menu/thumbs/plateau-9-sushi-maki-mixtes.webp"
+    "thumb": "/images/menu/thumbs/plateau-9-sushi-maki-mixtes.webp",
+    "cutout": true
   },
   "sashimi-mixte": {
     "src": "/images/menu/sashimi-mixte.webp",
     "width": 496,
     "height": 452,
-    "thumb": "/images/menu/thumbs/sashimi-mixte.webp"
+    "thumb": "/images/menu/thumbs/sashimi-mixte.webp",
+    "cutout": true
   }
 };

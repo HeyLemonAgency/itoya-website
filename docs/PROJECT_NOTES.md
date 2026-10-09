@@ -45,7 +45,7 @@ Manrope variable, latin subset (~95 KB in total). Every page is statically prere
 | Dishes shown on the formula panels (`/formules`)                     | `src/components/home/Formulas.tsx` (`formulaDishes`)     |
 | Dishes on the homepage dish belt                                     | `src/components/home/DishBelt.tsx` (`rows`)              |
 | Dish photo beside each menu category                                 | `src/content/media.ts` (`categoryPhotos`)                |
-| Photo of each dish (menu thumbnails, hover preview, belt)            | `src/content/menu-images.ts` (generated, see above)      |
+| Photo of each dish (menu thumbnails, desktop stage, belt)            | `src/content/menu-images.ts` (generated, see above)      |
 
 Prices are numbers in CHF; `price: null` displays « Sur demande ». The menu can be fully re-imported
 from a fresh snapshot with `scripts/build-menu.py` (see the header of that script).
@@ -154,9 +154,11 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
 - **Headline entrance** is CSS (`.hero-line`, `.hero-fade`), so the H1 and the booking button never wait for hydration. It is disabled under `prefers-reduced-motion`. It starts partly visible, so Chrome registers the headline as LCP on the first frame.
 - **Dish belt (homepage formulas):** two rails of real dishes from the formula lists slide in opposite directions as the section crosses the screen (`DishBelt.tsx`, scroll-linked `translateX` only). Static under reduced motion. The markup is server-rendered; only the two rails are client components.
 - **Menu photos (`/la-carte`):**
-  - Desktop with a precise pointer: hovering a dish shows its photo floating beside the cursor, leaning slightly with its speed (`DishPreview.tsx`). One delegated listener on the list; the list itself never re-renders. Under reduced motion the photo follows the cursor directly, without springs or lean.
-  - Touch screens and narrow windows: each row starts with a 64 px thumbnail of the dish.
-  - The photos are decorative (`alt=""`); the dish name is always the text.
+  - Desktop with a precise pointer: a sticky round window beside the list (`DishStage.tsx`), echoing the opening, shows the dish the pointer rests on, with its card (number, section, name, description, price) below. Cut-outs sit in the window and may overlap its brass rim; the nine full-frame photos fill it.
+  - It changes calmly: a 90 ms hover intent (sweeping across rows does not flick through each one), no reaction to rows sliding under a still cursor while scrolling, and every photo is loaded and decoded before the swap. Scrolling into a new category shows that category's signature dish (its first « À l'affiche » dish with a photo); a search shows the first result. The row on show is marked in the list with a sakura name and a thin line in the margin.
+  - The list itself never re-renders for this (one delegated listener; the marked row is a scoped CSS rule). Under reduced motion the dishes simply cross-fade.
+  - Touch screens and narrow windows: each row starts with a 64 px thumbnail of the dish (full-frame photos cropped round).
+  - The photos are decorative (`alt=""`, the stage is `aria-hidden`); every dish's name, description and price are in the list.
 - **Brush lettering (booking section):** 伊藤屋, traced from the restaurant's own logo, is drawn from left to right like a stroke of ink when it scrolls into view (`BrushReveal.tsx`, a CSS mask moved by Motion). It is shown complete under reduced motion and without JavaScript. Its tint keeps the eyebrow text above it at ≥ 4.5:1 contrast.
 - **Reveals and interactions:**
   - Section reveals travel 12–24 px, once.
@@ -192,7 +194,7 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
 - **Real Chrome LCP with 4× CPU throttling:** 0.48 s on the homepage, equal to first paint.
 - **After the opening / belt / menu-photo pass** (same method):
   - Accessibility 100 and Best practices 100 on home, menu and formulas.
-  - Homepage 77–82 over three runs (TBT 140–250 ms). Formulas 91. Menu 82–84 (TBT 70–200 ms); the extra hydration of 157 thumbnails in the menu rows costs a few points of simulated LCP.
+  - Homepage 77–82 over three runs (TBT 140–250 ms). Formulas 91. Menu 84–95 over three warm runs (TBT 110–290 ms); one cold run straight after a rebuild scored 68. Menu with the desktop preset: 100 (LCP 0.8 s, TBT 0).
   - Unthrottled first paint: 0.2–0.3 s on all three pages. CLS 0.
   - A first version rendered the belt's 56 photos with `next/image` on the client and pushed the homepage's TBT to ~960 ms. Server-rendering them (`getImageProps`) and giving the menu rows 128 px static thumbnails fixed it.
   - Interaction checks re-run (menu dialog, search, lightbox, skip link, pause control, reduced motion, headings, alt text, internal links): all pass, no console errors, no horizontal overflow at 1440, 768, 390 and 360 px.

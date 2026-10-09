@@ -56,13 +56,13 @@ Every dish photo published on the official menu (`/la-carte`, Wix Restaurants da
 and processed by `scripts/process-menu-images.mjs`:
 
 - **`public/images/menu/<dish-id>.webp`** (157 files, ≤ 640 px, transparent, ~5 MB in total). Used for the homepage
-  dish belt (dishes from the formula lists only) and the desktop hover preview on `/la-carte`, both through
+  dish belt (dishes from the formula lists only) and the desktop dish stage on `/la-carte`, both through
   `next/image`.
 - **`public/images/menu/thumbs/<dish-id>.webp`** (157 files, ≤ 128 px, ~0.8 MB in total). The 64 px thumbnails in the menu rows on phones and tablets,
   served as they are.
 - **Excluded (9):** banana split, coupe Danemark, glace citron, glace fraise, glace noix de coco and the four mochi. They look like
   supplier stock photography. These dishes are listed without a photo.
-- Some platter photos are shot on a black background rather than cut out. They are shown as they are.
+- Nine photos (bentos 10–15, plateaux 1, 2 and 4) are full-frame shots on a dark backdrop rather than cut-outs (`cutout: false`). They fill the round window on desktop and are cropped round in the phone thumbnails.
 
 ## Brand
 

@@ -496,3 +496,34 @@
    over where there is a precise pointer and room for it (see MenuBrowser). */
 @custom-variant desk (@media (min-width: 64rem) and (hover: hover) and (pointer: fine));
 @custom-variant touch (@media not all and (min-width: 64rem) and (hover: hover) and (pointer: fine));
+
+/* Desktop menu: the row whose dish is on show in the stage (DishStage marks it
+   with a scoped rule) gets a sakura name and a thin line in the margin. */
+@media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+  .dish-row {
+    position: relative;
+  }
+  .dish-row::before {
+    content: "";
+    position: absolute;
+    top: 1.125rem;
+    left: -1.5rem;
+    width: 1px;
+    height: 2rem;
+    background: var(--color-sakura-deep);
+    transform: scaleY(0);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .dish-row .dish-name,
+  .dish-row .dish-number {
+    transition: color 0.3s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dish-row::before,
+  .dish-row .dish-name,
+  .dish-row .dish-number {
+    transition: none;
+  }
+}
