@@ -168,7 +168,7 @@ Instead, the mobile menu and the lightbox are built locally on **Radix Dialog**,
   - Everything is driven by Motion values from `useScroll` (a CSS `clip-path: circle()` and two transforms); nothing updates React state per frame. The geometry is measured with a `ResizeObserver`.
   - Pointer depth (fine pointers only) uses Motion springs.
   - The slow push into the canopy is a compositor-only CSS animation (`.hero-drift`).
-  - **Petals:** ten blossom petals (five on phones), pure CSS, falling on the right-hand side, away from the headline and the booking buttons (`src/components/hero/Petals.tsx`).
+  - **Petals:** ten cherry blossom petals (five on phones), two of them whole five-petal flowers, tumbling down the right-hand side, away from the headline and the booking buttons. Pure CSS (`src/components/hero/Petals.tsx`); the artwork is drawn for the site in `public/images/petals/` (two petal shapes with the small notch at the tip, pink at the base fading to white, and one flower).
   - The drift and the petals pause with the visible, keyboard-accessible "Pause" control, when the hero is off screen, or when the tab is hidden.
   - **Reduced motion:** no drift, no petals, no window morph; a static round-window photo is shown beside the welcome text instead.
   - The optional film layer (`media.hero.video`) only loads on desktop, never with Save-Data or reduced motion, and falls back to the still image if autoplay is blocked.

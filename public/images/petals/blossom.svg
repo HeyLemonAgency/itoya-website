@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-50 -50 100 100">
+  <defs>
+    <radialGradient id="p" cx="0" cy="0" r="46" gradientUnits="userSpaceOnUse">
+      <stop offset=".08" stop-color="#df7f97"/>
+      <stop offset=".34" stop-color="#f3bfcc"/>
+      <stop offset=".75" stop-color="#fbe4ea"/>
+      <stop offset="1" stop-color="#fff8fa"/>
+    </radialGradient>
+    <path id="q" d="M0-4.6C-2.6-8-7.2-13.6-10.2-20.4-12.8-26.4-13.6-32.4-12-37-10.6-41.2-7.4-43.6-4-43.6-2.4-43.6-1-43-.1-42L0-40.6.1-42C1-43 2.4-43.6 4-43.6 7.4-43.6 10.6-41.2 12-37c1.6 4.6.8 10.6-1.8 16.6C7.2-13.6 2.6-8 0-4.6Z"/>
+  </defs>
+  <g fill="url(#p)">
+    <use href="#q"/>
+    <use href="#q" transform="rotate(72)"/>
+    <use href="#q" transform="rotate(144)"/>
+    <use href="#q" transform="rotate(216)"/>
+    <use href="#q" transform="rotate(288)"/>
+  </g>
+  <circle r="5" fill="#cf6a85" opacity=".5"/>
+  <g stroke="#c45f7b" stroke-width=".8" stroke-linecap="round" opacity=".9">
+    <path d="M0 0 2 -11.5M0 0 -3.5 -11M0 0 9 -7M0 0 -9.8 -5.5M0 0 10.8 2.5M0 0 -10.6 4M0 0 5.5 10M0 0 -4.5 10.5M0 0 1 11.6M0 0 7 -9.6M0 0 -7.6 8"/>
+  </g>
+  <g fill="#ecc160">
+    <circle cx="2" cy="-11.5" r="1.25"/><circle cx="-3.5" cy="-11" r="1.25"/><circle cx="9" cy="-7" r="1.25"/>
+    <circle cx="-9.8" cy="-5.5" r="1.25"/><circle cx="10.8" cy="2.5" r="1.25"/><circle cx="-10.6" cy="4" r="1.25"/>
+    <circle cx="5.5" cy="10" r="1.25"/><circle cx="-4.5" cy="10.5" r="1.25"/><circle cx="1" cy="11.6" r="1.25"/>
+    <circle cx="7" cy="-9.6" r="1.25"/><circle cx="-7.6" cy="8" r="1.25"/>
+  </g>
+</svg>
